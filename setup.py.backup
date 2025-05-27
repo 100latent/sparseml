@@ -83,14 +83,14 @@ _pytorch_vision_deps = _pytorch_deps + [
     "opencv-python<=4.6.0.66",
 ]
 _transformers_deps = _pytorch_deps + [
-    "transformers<4.41",
+    "transformers>=4.51.3",
     "datasets<2.19",
     "dvc",
     "scikit-learn",
     "seqeval",
     "einops",
     "evaluate>=0.4.1",
-    "accelerate>=0.20.3",
+    "accelerate>=0.24.0",
     "safetensors>=0.4.1",
     "compressed-tensors" if is_release else "compressed-tensors-nightly",
 ]
