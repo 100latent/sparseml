@@ -1,41 +1,22 @@
 [build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
 
 [project]
 name = "sparseml"
-dynamic = ["version"]
+version = "1.8.1.20241127"  # Update this manually or via script
 authors = [
-    {name = "Neuralmagic, Inc.", email = "support@neuralmagic.com"}
+    {name = "Neuralmagic, Inc.", email = "support@neuralmagic.com"},
+    {name = "100latent", email = "support@100latent.com"}
 ]
 description = "Libraries for applying sparsification recipes to neural networks with a few lines of code, enabling faster and smaller models"
 readme = "README.md"
 license = {text = "Apache-2.0"}
 requires-python = ">=3.8.0,<3.12"
-keywords = [
-    "inference", "machine learning", "neural network", "computer vision", "nlp", "cv",
-    "deep learning", "torch", "pytorch", "tensorflow", "keras", "sparsity", "pruning",
-    "deep learning libraries", "onnx", "quantization", "automl"
-]
-classifiers = [
-    "Development Status :: 5 - Production/Stable",
-    "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3 :: Only",
-    "Intended Audience :: Developers",
-    "Intended Audience :: Education",
-    "Intended Audience :: Information Technology",
-    "Intended Audience :: Science/Research",
-    "License :: OSI Approved :: Apache Software License",
-    "Operating System :: POSIX :: Linux",
-    "Topic :: Scientific/Engineering",
-    "Topic :: Scientific/Engineering :: Artificial Intelligence",
-    "Topic :: Scientific/Engineering :: Mathematics",
-    "Topic :: Software Development",
-    "Topic :: Software Development :: Libraries :: Python Modules",
-]
 
 dependencies = [
-    "sparsezoo>=1.7.0",  # Note: Use sparsezoo-nightly for nightly builds
+    # Base dependencies
+    "sparsezoo>=1.7.0",
     "pyyaml>=5.0.0",
     "numpy>=1.17.0,<2.0",
     "matplotlib>=3.0.0",
@@ -54,88 +35,24 @@ dependencies = [
     "GPUtil>=1.4.0",
     "protobuf>=3.12.2,<=3.20.3",
     "click>=7.1.2,!=8.0.0",
+    
+    # PyTorch dependencies (from transformers deps)
+    "torch>=1.7.0",
+    "gputils",
+    
+    # Transformers dependencies
+    "transformers<4.41",
+    "datasets<2.19",
+    "dvc",
+    "seqeval",
+    "einops",
+    "evaluate>=0.4.1",
+    "accelerate>=0.20.3",
+    "safetensors>=0.4.1",
+    "compressed-tensors",  # Use compressed-tensors-nightly for nightly builds
 ]
 
 [project.optional-dependencies]
-clip = ["open_clip_torch==2.20.0"]
-deepsparse = ["deepsparse>=1.7.0"]  # Note: Use deepsparse-nightly for nightly builds
-deepsparse-ent = ["deepsparse-ent>=1.7.0"]
-onnxruntime = ["onnxruntime>=1.0.0"]
-torch = [
-    "torch>=1.7.0",
-    "gputils",
-]
-torch_all = [
-    "torch>=1.7.0",
-    "gputils",
-    "torchvision>=0.3.0,<0.17",
-    "torchaudio<=2.0.1",
-]
-torchvision = [
-    "torch>=1.7.0",
-    "gputils",
-    "torchvision>=0.3.0,<0.17",
-    "opencv-python<=4.6.0.66",
-]
-transformers = [
-    "torch>=1.7.0",
-    "gputils",
-    "transformers<4.41",
-    "datasets<2.19",
-    "dvc",
-    "scikit-learn",
-    "seqeval",
-    "einops",
-    "evaluate>=0.4.1",
-    "accelerate>=0.20.3",
-    "safetensors>=0.4.1",
-    "compressed-tensors",  # Note: Use compressed-tensors-nightly for nightly builds
-]
-llm = [
-    "torch>=1.7.0",
-    "gputils",
-    "transformers<4.41",
-    "datasets<2.19",
-    "dvc",
-    "scikit-learn",
-    "seqeval",
-    "einops",
-    "evaluate>=0.4.1",
-    "accelerate>=0.20.3",
-    "safetensors>=0.4.1",
-    "compressed-tensors",  # Note: Use compressed-tensors-nightly for nightly builds
-    "sentencepiece",
-]
-yolov5 = [
-    "torch>=1.7.0",
-    "gputils",
-    "torchvision>=0.3.0,<0.17",
-    "opencv-python<=4.6.0.66",
-    "nm-yolov5",  # Note: Use nm-yolov5-nightly for nightly builds, version handled dynamically
-]
-notebook = [
-    "jupyter>=1.0.0",
-    "ipywidgets>=7.0.0",
-]
-tf_v1 = [
-    "tensorflow<2.0.0",
-    "tensorboard<2.0.0",
-    "tf2onnx>=1.0.0,<1.6",
-]
-tf_v1_gpu = [
-    "tensorflow-gpu<2.0.0",
-    "tensorboard<2.0.0",
-    "tf2onnx>=1.0.0,<1.6",
-]
-tf_keras = [
-    "tensorflow~=2.2.0",
-    "keras2onnx>=1.0.0",
-]
-openpifpaf = ["openpifpaf==0.13.6"]
-ultralytics = [
-    "ultralytics==8.0.124",
-    "torch>=1.7.0",
-]
 dev = [
     "beautifulsoup4==4.9.3",
     "black==22.12.0",
@@ -147,9 +64,9 @@ dev = [
     "pytest-rerunfailures>=13.0",
     "tensorboard>=1.0,<2.9",
     "tensorboardX>=1.0",
-    "evaluate>=0.4.1",
     "parameterized",
 ]
+
 docs = [
     "m2r2>=0.2.7",
     "mistune<3,>=2.0.3",
@@ -164,106 +81,26 @@ docs = [
     "docutils<0.17",
 ]
 
+# Additional extras if you want to install them separately
+llm = ["sentencepiece"]
+torchvision = [
+    "torchvision>=0.3.0,<0.17",
+    "opencv-python<=4.6.0.66",
+]
+onnxruntime = ["onnxruntime>=1.0.0"]
+deepsparse = ["deepsparse>=1.7.0"]
+
 [project.urls]
 Homepage = "https://github.com/neuralmagic/sparseml"
 Repository = "https://github.com/neuralmagic/sparseml"
 
-[project.scripts]
-# Export
-"sparseml.export" = "sparseml.export.export:main"
+[tool.setuptools]
+package-dir = {"" = "src"}
 
-# Sparsification
-"sparseml.framework" = "sparseml.framework.info:_main"
-"sparseml.sparsification" = "sparseml.sparsification.info:_main"
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["sparseml", "sparseml.*"]
 
-# Transformers - NLP tasks
-"sparseml.transformers.masked_language_modeling" = "sparseml.transformers.masked_language_modeling:main"
-"sparseml.transformers.train.masked_language_modeling" = "sparseml.transformers.masked_language_modeling:main"
-"sparseml.transformers.question_answering" = "sparseml.transformers.question_answering:main"
-"sparseml.transformers.train.question_answering" = "sparseml.transformers.question_answering:main"
-"sparseml.transformers.text_classification" = "sparseml.transformers.text_classification:main"
-"sparseml.transformers.train.text_classification" = "sparseml.transformers.text_classification:main"
-"sparseml.transformers.token_classification" = "sparseml.transformers.token_classification:main"
-"sparseml.transformers.train.token_classification" = "sparseml.transformers.token_classification:main"
-
-# Transformers - Export
-"sparseml.transformers.export_onnx" = "sparseml.transformers.export:main"
-"sparseml.transformers.export_onnx_refactor" = "sparseml.transformers.sparsification.obcq.export:main"
-
-# Transformers - Text Generation
-"sparseml.transformers.text_generation.apply" = "sparseml.transformers.finetune.text_generation:apply"
-"sparseml.transformers.text_generation.compress" = "sparseml.transformers.finetune.text_generation:apply"
-"sparseml.transformers.text_generation.train" = "sparseml.transformers.finetune.text_generation:train"
-"sparseml.transformers.text_generation.finetune" = "sparseml.transformers.finetune.text_generation:train"
-"sparseml.transformers.text_generation.eval" = "sparseml.transformers.finetune.text_generation:eval"
-"sparseml.transformers.text_generation.oneshot" = "sparseml.transformers.finetune.text_generation:oneshot"
-
-# Image Classification
-"sparseml.image_classification.export_onnx" = "sparseml.pytorch.torchvision.export_onnx:main"
-"sparseml.image_classification.train" = "sparseml.pytorch.torchvision.train:cli"
-"sparseml.pytorch.image_classification.export_onnx" = "sparseml.pytorch.image_classification.export:main"
-"sparseml.pytorch.image_classification.train" = "sparseml.pytorch.image_classification.train:main"
-"sparseml.pytorch.image_classification.lr_analysis" = "sparseml.pytorch.image_classification.lr_analysis:main"
-"sparseml.pytorch.image_classification.pr_sensitivity" = "sparseml.pytorch.image_classification.pr_sensitivity:main"
-
-# Object Detection - YOLOv5
-"sparseml.yolov5.export_onnx" = "sparseml.yolov5.scripts:export"
-"sparseml.yolov5.train" = "sparseml.yolov5.scripts:train"
-"sparseml.yolov5.validation" = "sparseml.yolov5.scripts:val"
-
-# Instance Segmentation - YOLACT
-"sparseml.yolact.export_onnx" = "sparseml.yolact.scripts:export"
-"sparseml.yolact.train" = "sparseml.yolact.scripts:train"
-"sparseml.yolact.validation" = "sparseml.yolact.scripts:val"
-"sparseml.yolact.download" = "sparseml.yolact.scripts:download"
-
-# Recipe Template
-"sparseml.recipe_template" = "sparseml.pytorch.recipe_template.cli:main"
-
-# Pose Detection - OpenPifPaf
-"sparseml.openpifpaf.train" = "sparseml.openpifpaf.train:main"
-"sparseml.openpifpaf.export_onnx" = "sparseml.openpifpaf.export:main"
-
-# Ultralytics (YOLOv8)
-"sparseml.ultralytics.train" = "sparseml.yolov8.train:main"
-"sparseml.ultralytics.val" = "sparseml.yolov8.val:main"
-"sparseml.ultralytics.export_onnx" = "sparseml.yolov8.export:main"
-
-# Evaluation
-"sparseml.evaluate" = "sparseml.evaluation.cli:main"
-
-[tool.hatch.version]
-path = "src/sparseml/version.py"
-
-[tool.hatch.build.targets.sdist]
-include = [
-    "/src",
-    "/utils",
-    "/README.md",
-    "/LICENSE",
-]
-
-[tool.hatch.build.targets.wheel]
-packages = ["src/sparseml"]
-
-# UV-specific settings for development
-[tool.uv]
-dev-dependencies = [
-    "beautifulsoup4==4.9.3",
-    "black==22.12.0",
-    "flake8==3.9.2",
-    "isort==5.8.0",
-    "wheel>=0.36.2",
-    "pytest>=6.0.0",
-    "pytest-mock>=3.6.0",
-    "pytest-rerunfailures>=13.0",
-    "tensorboard>=1.0,<2.9",
-    "tensorboardX>=1.0",
-    "evaluate>=0.4.1",
-    "parameterized",
-]
-
-# Tool configurations
 [tool.black]
 line-length = 88
 target-version = ['py38', 'py39', 'py310', 'py311']
@@ -271,20 +108,3 @@ target-version = ['py38', 'py39', 'py310', 'py311']
 [tool.isort]
 profile = "black"
 line_length = 88
-
-[tool.pytest.ini_options]
-minversion = "6.0"
-testpaths = ["tests"]
-
-[tool.black]
-line-length = 88
-target-version = ['py36']
-
-[tool.pytest.ini_options]
-tmp_path_retention_policy = "none"
-markers = [
-    "integration: integration tests",
-    "unit: unit tests",
-    "custom: custom integration tests",
-    "smoke: smoke tests"
-]
