@@ -33,10 +33,15 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 import datasets
 import numpy as np
 import transformers
-from datasets import ClassLabel, load_dataset, load_metric
-from datasets.arrow_dataset import Dataset
-from datasets.dataset_dict import DatasetDict, IterableDatasetDict
-from datasets.iterable_dataset import IterableDataset
+from datasets import (
+    ClassLabel,
+    Dataset,
+    DatasetDict,
+    IterableDataset,
+    IterableDatasetDict,
+    load_dataset,
+    load_metric,
+)
 from torch.nn import Module
 from transformers import (
     AutoConfig,

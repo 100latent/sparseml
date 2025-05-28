@@ -41,7 +41,7 @@ dependencies = [
     
     # Transformers dependencies
     "transformers>=4.51.3",
-    "datasets<2.19",
+    "datasets>=3.3.0",
     "dvc",
     "seqeval",
     "einops",
