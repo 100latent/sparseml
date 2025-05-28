@@ -76,3 +76,26 @@ def test_create_pruning_param_scorer(expected_class, score_type):
     fake_params = _make_fake_params(5, (25, 25))
     scorer = create_pruning_param_scorer(fake_params, score_type)
     assert isinstance(scorer, expected_class)
+
+
+def test_score_parameters_handles_list_scores(monkeypatch):
+    monkeypatch.setattr(torch.distributed, "is_initialized", lambda: True)
+    monkeypatch.setattr(torch.distributed, "get_rank", lambda: 0)
+    monkeypatch.setattr(torch.distributed, "get_world_size", lambda group=None: 1)
+    monkeypatch.setattr(torch.distributed, "new_group", lambda backend=None, timeout=None: None)
+
+    def fake_gather(tensor, gather_list=None, group=None, dst=0):
+        if gather_list is not None:
+            gather_list[0] = tensor
+
+    monkeypatch.setattr(torch.distributed, "gather", fake_gather)
+    monkeypatch.setattr(torch.distributed, "broadcast_object_list", lambda val, src=0, group=None: None)
+    monkeypatch.setattr(torch.distributed, "destroy_process_group", lambda group=None: None)
+
+    params = _make_fake_params(2, (2, 2))
+    scorer = MovementPruningParamsScorer(params)
+    scorer._movement_scores = [[0.0 for _ in range(p.numel())] for p in params]
+
+    scores = scorer.score_parameters()
+    assert len(scores) == len(params)
+    assert all(isinstance(s, torch.Tensor) for s in scores)

@@ -200,13 +200,20 @@ class MovementPruningParamsScorer(PruningParamsGradScorer):
         """
         :return: List of Tensors the same shapes as the given Parameters where
             each Parameter's elements are scored by their weight times the direction
-            of their gradient.
+            of their gradient. If the underlying movement scores are lists, they
+            will be converted to tensors automatically.
         """
         if not self._is_ddp:
             return self._movement_scores
 
         # move all movement scores to one device and combine
-        scores_flat = torch.cat([s.view(-1).to("cpu") for s in self._movement_scores])
+        scores_flat = torch.cat(
+            [torch.as_tensor(s).view(-1).to("cpu") for s in self._movement_scores]
+        )
+
+        # ensure scores_flat is a tensor in case scores were corrupted
+        if not isinstance(scores_flat, torch.Tensor):
+            scores_flat = torch.as_tensor(scores_flat)
         if self._is_main_proc:
             gather_list = [
                 torch.zeros_like(scores_flat) for _ in range(dist.get_world_size())
