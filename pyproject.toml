@@ -12,7 +12,7 @@ authors = [
 description = "Libraries for applying sparsification recipes to neural networks with a few lines of code, enabling faster and smaller models"
 readme = "README.md"
 license = {text = "Apache-2.0"}
-requires-python = "==3.10"
+requires-python = ">=3.10,<3.11"
 
 dependencies = [
     # Base dependencies
