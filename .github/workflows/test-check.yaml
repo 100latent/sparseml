@@ -238,7 +238,7 @@ jobs:
       - name: "Clean sparsezoo directory"
         run: rm -r sparsezoo/
       - name: "⚙️ Install dependencies"
-        run: pip3 install .[dev,torchvision,onnxruntime] torch==1.9.1
+        run: pip3 install .[dev,torchvision,onnxruntime] torch
       - name: "🔬 Running onnx tests"
         run: make test TARGETS=onnx
   transformers-tests:
