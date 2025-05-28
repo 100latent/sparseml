@@ -16,6 +16,8 @@
 Functionality for storing and setting the version info for SparseML
 """
 
+from importlib import metadata as importlib_metadata
+
 version_base = "1.8.1"
 __version__ = version_base
 is_release = False  # change to True to set the generated version as a release version
@@ -50,7 +52,10 @@ __all__ = [
     "version_build",
     "version_major_minor",
 ]
-__version__ = _generate_version(is_release, is_dev, version_base, dev_number)
+try:
+    __version__ = importlib_metadata.version("sparseml")
+except importlib_metadata.PackageNotFoundError:
+    __version__ = _generate_version(is_release, is_dev, version_base, dev_number)
 
 version = __version__
 version_major, version_minor, version_bug, version_build = version.split(".") + (
