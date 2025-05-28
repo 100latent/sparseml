@@ -14,7 +14,7 @@
 from copy import deepcopy
 from typing import Dict, List, Union
 
-from datasets.dataset_dict import Dataset, DatasetDict
+from datasets import Dataset, DatasetDict
 
 from sparseml.transformers.finetune.data import TextGenerationDataset
 from sparseml.transformers.utils.preprocessing_functions import (
