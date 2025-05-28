@@ -58,8 +58,10 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: 3.10
+      - name: Install uv
+        run: pip install uv
       - name: "⚙️ Install sparsezoo dependencies"
-        run: pip3 install -U pip && pip3 install setuptools sparsezoo/
+        run: uv pip install setuptools sparsezoo/
       - name: "Clean sparsezoo directory"
         run: rm -r sparsezoo/
       - uses: actions/checkout@v4
@@ -68,11 +70,11 @@ jobs:
           path: "compressed-tensors"
           ref: ${{needs.test-setup.outputs.branch}}
       - name: "⚙️ Install compressed-tensors dependencies"
-        run: pip3 install -U pip && pip3 install setuptools compressed-tensors/
+        run: uv pip install setuptools compressed-tensors/
       - name: "Clean compressed-tensors directory"
         run: rm -r compressed-tensors/
       - name: "⚙️ Install dependencies"
-        run: pip3 install .[dev,torchvision,deepsparse,onnxruntime,transformers,yolov5]
+        run: uv sync --extra dev --extra torchvision --extra deepsparse --extra onnxruntime --extra transformers --extra yolov5
       - name: "🔬 Running integrations tests (cadence: pre-commit}})"
-        run: make testinteg TARGETS=$TRANSFORMERS,$YOLOV5,$IMAGE_CLASSIFICATION
+        run: uv run make testinteg TARGETS=$TRANSFORMERS,$YOLOV5,$IMAGE_CLASSIFICATION
 

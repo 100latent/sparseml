@@ -35,6 +35,8 @@ jobs:
     - uses: actions/setup-python@v4
       with:
         python-version: ${{ inputs.python }}
+    - name: Install uv
+      run: pip install uv
 
     - name: Checkout code
       uses: actions/checkout@v3
@@ -47,8 +49,7 @@ jobs:
     
     - name: Set Env
       run: |
-        pip3 install virtualenv
-        virtualenv venv
+        uv venv venv
         source venv/bin/activate
 
     - name: Build PyPi Wheel
