@@ -95,11 +95,11 @@ docsupdate:
 
 # creates wheel file
 build:
-	uv build sdist bdist_wheel $(BUILD_ARGS)
+	uv build sdist bdist_wheel $(BUILD_ARGS);
 
 # clean package
 clean:
-	uv clean
-        rm -fr .pytest_cache;
+	uv clean;
+	rm -fr .pytest_cache;
 	rm -fr docs/_build docs/build;
 	find $(CHECKDIRS) | grep -E "(__pycache__|\.pyc|\.pyo)" | xargs rm -fr;
