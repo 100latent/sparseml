@@ -95,8 +95,7 @@ with. If not provided, computation will be done on the CPU.
 
 ## Tutorials
 
-Tutorials for using M-FAC with SparseML are provided in the [tutorials](https://github.com/neuralmagic/sparseml/blob/main/research/mfac/tutorials)
-directory.  Currently there are tutorials available for
+Tutorials for using M-FAC with SparseML are provided in the directory.  Currently there are tutorials available for
 [one-shot](https://github.com/neuralmagic/sparseml/blob/main/research/mfac/tutorials/one_shot_pruning_with_mfac.md)
 and [gradual](https://github.com/neuralmagic/sparseml/blob/main/research/mfac/tutorials/gradual_pruning_with_mfac.md)
 pruning with M-FAC.
