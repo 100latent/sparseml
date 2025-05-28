@@ -18,13 +18,15 @@ on:
         type: string
         required: true
 
-jobs:
-  test-wheel-and-publish:
-    runs-on: ${{ inputs.build-label }}
-    steps:
-    - uses: actions/setup-python@v4
-      with:
-        python-version: ${{ inputs.python }}
+  jobs:
+    test-wheel-and-publish:
+      runs-on: ${{ inputs.build-label }}
+      steps:
+      - uses: actions/setup-python@v4
+        with:
+          python-version: ${{ inputs.python }}
+      - name: Install uv
+        run: pip install uv
 
     - name: Login to s3
       uses: aws-actions/configure-aws-credentials@v2
@@ -46,18 +48,18 @@ jobs:
       run: |
           echo "FILENAME=$(echo dist_s3/*.whl)" >> $GITHUB_ENV
 
-    - name: Install whl
-      run: |
-          pip3 install $FILENAME[dev,onnxruntime,torch,torchvision,transformers]
+      - name: Install whl
+        run: |
+            uv pip install $FILENAME[dev,onnxruntime,torch,torchvision,transformers]
 
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Remove src files and run tests
-      run: |
-            pwd
-            rm -rf src
-            make test
+      - name: Remove src files and run tests
+        run: |
+              pwd
+              rm -rf src
+              uv run make test
 
     - name: Make directory for wheel
       run: |
