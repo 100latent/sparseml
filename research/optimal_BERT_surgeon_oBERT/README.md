@@ -96,8 +96,8 @@ In the following Table (Table 2. from the paper) we provide links for the best p
 **Note (models v2)**: these results will be presented in the upcoming updated version of the paper.
 
 Upstream pruned oBERT models:
-- 90% unstructured [model](https://huggingface.co/neuralmagic/oBERT-12-upstream-pruned-unstructured-90-v2), [recipe](https://github.com/neuralmagic/sparseml/tree/main/research/optimal_BERT_surgeon_oBERT/recipes/3epochs_unstructured90_mlm.yaml), [script](https://github.com/neuralmagic/sparseml/tree/main/research/optimal_BERT_surgeon_oBERT/scripts/3epochs_gradual_pruning_mlm.sh)
-- 97% unstructured [model](https://huggingface.co/neuralmagic/oBERT-12-upstream-pruned-unstructured-97-v2), [script](https://github.com/neuralmagic/sparseml/tree/main/research/optimal_BERT_surgeon_oBERT/scripts/3epochs_gradual_pruning_mlm.sh)
+- 90% unstructured [model](https://huggingface.co/neuralmagic/oBERT-12-upstream-pruned-unstructured-90-v2), [recipe](https://github.com/neuralmagic/sparseml/tree/main/research/optimal_BERT_surgeon_oBERT/recipes/3epochs_unstructured90_mlm.yaml),
+- 97% unstructured [model](https://huggingface.co/neuralmagic/oBERT-12-upstream-pruned-unstructured-97-v2),
 
 when fine-tuned on a downstream task with fixed masks (i.e. sparse-transfer):
 
