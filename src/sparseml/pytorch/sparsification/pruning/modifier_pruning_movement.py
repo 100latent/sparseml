@@ -30,7 +30,6 @@ from sparseml.pytorch.sparsification.pruning.modifier_pruning_magnitude import (
 )
 from sparseml.pytorch.sparsification.pruning.scorer import PruningParamsGradScorer
 
-
 __all__ = [
     "MovementPruningModifier",
     "MovementPruningParamsScorer",
@@ -154,17 +153,16 @@ class MovementPruningParamsScorer(PruningParamsGradScorer):
             return self._movement_scores
 
         # move all movement scores to one device and combine
-        scores_flat = [score.view(-1).to("cpu") for score in self._movement_scores]
+        scores_flat = torch.cat([s.view(-1).to("cpu") for s in self._movement_scores])
         if self._is_main_proc:
             gather_list = [
                 torch.zeros_like(scores_flat) for _ in range(dist.get_world_size())
             ]
-            dist.gather(
-                scores_flat, gather_list=gather_list, group=self._dist_group, dst=0
-            )
-            total_scores_flat = torch.sum(torch.stack(gather_list), dim=0)
         else:
-            dist.gather(scores_flat, group=self._dist_group, dst=0)
+            gather_list = None
+        dist.gather(scores_flat, gather_list=gather_list, group=self._dist_group, dst=0)
+        if self._is_main_proc:
+            total_scores_flat = torch.sum(torch.stack(gather_list), dim=0)
 
         # broadcast total scores to all devices
         total_scores_flat = self._broadcast_list_from_main(
