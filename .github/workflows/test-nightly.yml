@@ -19,7 +19,9 @@ jobs:
           path: "compressed-tensors"
           ref: ${{needs.test-setup.outputs.branch}}
       - name: Install uv
-        run: pip install uv
+        run: |
+          pip install uv
+          uv sync
       - name: "⚙️ Install compressed-tensors dependencies"
         run: uv pip install setuptools compressed-tensors/
       - name: "Clean compressed-tensors directory"
