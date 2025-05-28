@@ -30,6 +30,7 @@ from sparseml.pytorch.sparsification.pruning.modifier_pruning_magnitude import (
 )
 from sparseml.pytorch.sparsification.pruning.scorer import PruningParamsGradScorer
 
+
 __all__ = [
     "MovementPruningModifier",
     "MovementPruningParamsScorer",
