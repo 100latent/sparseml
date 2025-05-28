@@ -12,7 +12,7 @@ authors = [
 description = "Libraries for applying sparsification recipes to neural networks with a few lines of code, enabling faster and smaller models"
 readme = "README.md"
 license = {text = "Apache-2.0"}
-requires-python = ">=3.8.0,<3.12"
+requires-python = "==3.10"
 
 dependencies = [
     # Base dependencies
@@ -28,8 +28,7 @@ dependencies = [
     "pydantic>=2.0.0,<2.8.0",
     "requests>=2.0.0",
     "scikit-learn>=0.24.2",
-    "scipy<1.9.2,>=1.8; python_version <= '3.9'",
-    "scipy>=1.0.0; python_version > '3.9'",
+    "scipy>=1.0.0",
     "tqdm>=4.0.0",
     "toposort>=1.0",
     "GPUtil>=1.4.0",
