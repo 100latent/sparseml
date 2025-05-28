@@ -77,6 +77,8 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: '3.10'
+      - name: Install uv
+        run: pip install uv
       - uses: actions/checkout@v4
       - uses: actions/checkout@v4
         with:
@@ -84,13 +86,13 @@ jobs:
           path: "sparsezoo"
           ref: ${{needs.test-setup.outputs.branch}}
       - name: "⚙️ Install sparsezoo dependencies"
-        run: pip3 install -U pip && pip3 install setuptools sparsezoo/
+        run: uv pip install setuptools sparsezoo/
       - name: "Clean sparsezoo directory"
         run: rm -r sparsezoo/
       - name: "⚙️ Install dependencies"
-        run: pip3 install .[dev,onnxruntime]
+        run: uv sync --extra dev --extra onnxruntime
       - name: "🔬 Running base tests"
-        run: make test
+        run: uv run make test
   deepsparse-tests:
     runs-on: ubuntu-22.04
     env:
@@ -101,6 +103,8 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: '3.10'
+      - name: Install uv
+        run: pip install uv
       - uses: actions/checkout@v4
       - uses: actions/checkout@v4
         with:
@@ -108,13 +112,13 @@ jobs:
           path: "sparsezoo"
           ref: ${{needs.test-setup.outputs.branch}}
       - name: "⚙️ Install sparsezoo dependencies"
-        run: pip3 install -U pip && pip3 install setuptools sparsezoo/
+        run: uv pip install setuptools sparsezoo/
       - name: "Clean sparsezoo directory"
         run: rm -r sparsezoo/
       - name: "⚙️ Install dependencies"
-        run: pip3 install .[dev,deepsparse,onnxruntime]
+        run: uv sync --extra dev --extra deepsparse --extra onnxruntime
       - name: "🔬 Running deepsparse tests"
-        run: make test TARGETS=deepsparse
+        run: uv run make test TARGETS=deepsparse
   onnx-tests:
     runs-on: ubuntu-22.04
     env:
@@ -125,6 +129,8 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: '3.10'
+      - name: Install uv
+        run: pip install uv
       - uses: actions/checkout@v4
       - uses: actions/checkout@v4
         with:
@@ -132,13 +138,13 @@ jobs:
           path: "sparsezoo"
           ref: ${{needs.test-setup.outputs.branch}}
       - name: "⚙️ Install sparsezoo dependencies"
-        run: pip3 install -U pip && pip3 install setuptools sparsezoo/
+        run: uv pip install setuptools sparsezoo/
       - name: "Clean sparsezoo directory"
         run: rm -r sparsezoo/
       - name: "⚙️ Install dependencies"
-        run: pip3 install .[dev,torchvision,onnxruntime]
+        run: uv sync --extra dev --extra torchvision --extra onnxruntime
       - name: "🔬 Running onnx tests"
-        run: make test TARGETS=onnx
+        run: uv run make test TARGETS=onnx
   pytorch-tests:
     runs-on: k8s-eng-gpu-64G-v100-32G
     env:
@@ -154,6 +160,8 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: '3.10'
+      - name: Install uv
+        run: pip install uv
       - uses: actions/checkout@v4
       - uses: actions/checkout@v4
         with:
@@ -161,7 +169,7 @@ jobs:
           path: "sparsezoo"
           ref: ${{needs.test-setup.outputs.branch}}
       - name: "⚙️ Install sparsezoo dependencies"
-        run: pip3 install -U pip && pip3 install setuptools sparsezoo/
+        run: uv pip install setuptools sparsezoo/
       - name: "Clean sparsezoo directory"
         run: rm -r sparsezoo/
       - uses: actions/checkout@v4
@@ -171,13 +179,13 @@ jobs:
           path: "compressed-tensors"
           ref: ${{needs.test-setup.outputs.branch}}
       - name: "⚙️ Install compressed-tensors dependencies"
-        run: pip3 install -U pip && pip3 install setuptools compressed-tensors/
+        run: uv pip install setuptools compressed-tensors/
       - name: "Clean compressed-tensors directory"
         run: rm -r compressed-tensors/
       - name: "⚙️ Install dependencies"
-        run: pip3 install .[dev,torchvision,onnxruntime,transformers]
+        run: uv sync --extra dev --extra torchvision --extra onnxruntime --extra transformers
       - name: "🔬 Running pytorch tests"
-        run: make test TARGETS=pytorch
+        run: uv run make test TARGETS=pytorch
   compat-pytorch-1_9-pytorch-tests:
     runs-on: k8s-eng-gpu-64G-v100-32G
     env:
@@ -193,6 +201,8 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: '3.10'
+      - name: Install uv
+        run: pip install uv
       - uses: actions/checkout@v4
       - uses: actions/checkout@v4
         with:
@@ -200,7 +210,7 @@ jobs:
           path: "sparsezoo"
           ref: ${{needs.test-setup.outputs.branch}}
       - name: "⚙️ Install sparsezoo dependencies"
-        run: pip3 install -U pip && pip3 install setuptools sparsezoo/
+        run: uv pip install setuptools sparsezoo/
       - name: "Clean sparsezoo directory"
         run: rm -r sparsezoo/
       - uses: actions/checkout@v4
@@ -210,13 +220,13 @@ jobs:
           path: "compressed-tensors"
           ref: ${{needs.test-setup.outputs.branch}}
       - name: "⚙️ Install compressed-tensors dependencies"
-        run: pip3 install -U pip && pip3 install setuptools compressed-tensors/
+        run: uv pip install setuptools compressed-tensors/
       - name: "Clean compressed-tensors directory"
         run: rm -r compressed-tensors/
       - name: "⚙️ Install dependencies"
-        run: pip3 install .[dev,torchvision,onnxruntime,transformers]
+        run: uv sync --extra dev --extra torchvision --extra onnxruntime --extra transformers
       - name: "🔬 Running pytorch tests"
-        run: make test TARGETS=pytorch
+        run: uv run make test TARGETS=pytorch
   compat-pytorch-1_9-onnx-tests:
     runs-on: ubuntu-22.04
     env:
@@ -227,6 +237,8 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: '3.10'
+      - name: Install uv
+        run: pip install uv
       - uses: actions/checkout@v4
       - uses: actions/checkout@v4
         with:
@@ -234,13 +246,13 @@ jobs:
           path: "sparsezoo"
           ref: ${{needs.test-setup.outputs.branch}}
       - name: "⚙️ Install sparsezoo dependencies"
-        run: pip3 install -U pip && pip3 install setuptools sparsezoo/
+        run: uv pip install setuptools sparsezoo/
       - name: "Clean sparsezoo directory"
         run: rm -r sparsezoo/
       - name: "⚙️ Install dependencies"
-        run: pip3 install .[dev,torchvision,onnxruntime] torch==1.9.1
+        run: uv sync --extra dev --extra torchvision --extra onnxruntime && uv pip install torch==1.9.1
       - name: "🔬 Running onnx tests"
-        run: make test TARGETS=onnx
+        run: uv run make test TARGETS=onnx
   transformers-tests:
     runs-on: k8s-eng-gpu-64G-v100-32G
     env:
@@ -256,6 +268,8 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: '3.10'
+      - name: Install uv
+        run: pip install uv
       - uses: actions/checkout@v4
       - uses: actions/checkout@v4
         with:
@@ -263,7 +277,7 @@ jobs:
           path: "sparsezoo"
           ref: ${{needs.test-setup.outputs.branch}}
       - name: "⚙️ Install sparsezoo dependencies"
-        run: pip3 install -U pip && pip3 install setuptools sparsezoo/
+        run: uv pip install setuptools sparsezoo/
       - name: "Clean sparsezoo directory"
         run: rm -r sparsezoo/
       - uses: actions/checkout@v2
@@ -272,13 +286,13 @@ jobs:
           path: "compressed-tensors"
           ref: ${{needs.test-setup.outputs.branch}}
       - name: "⚙️ Install compressed-tensors dependencies"
-        run: pip3 install -U pip && pip3 install setuptools compressed-tensors/
+        run: uv pip install setuptools compressed-tensors/
       - name: "Clean compressed-tensors directory"
         run: rm -r compressed-tensors/
       - name: "⚙️ Install dependencies"
-        run: pip3 install .[dev,torch,transformers,onnxruntime]
+        run: uv sync --extra dev --extra torch --extra transformers --extra onnxruntime
       - name: "🔬 Running transformers tests"
-        run: make test TARGETS=transformers
+        run: uv run make test TARGETS=transformers
   export-tests:
     runs-on: ubuntu-22.04
     env:
@@ -289,6 +303,8 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: '3.10'
+      - name: Install uv
+        run: pip install uv
       - uses: actions/checkout@v4
       - uses: actions/checkout@v4
         with:
@@ -296,7 +312,7 @@ jobs:
           path: "sparsezoo"
           ref: ${{needs.test-setup.outputs.branch}}
       - name: "⚙️ Install sparsezoo dependencies"
-        run: pip3 install -U pip && pip3 install setuptools sparsezoo/
+        run: uv pip install setuptools sparsezoo/
       - name: "Clean sparsezoo directory"
         run: rm -r sparsezoo/
       - uses: actions/checkout@v2
@@ -305,11 +321,11 @@ jobs:
           path: "compressed-tensors"
           ref: ${{needs.test-setup.outputs.branch}}
       - name: "⚙️ Install compressed-tensors dependencies"
-        run: pip3 install -U pip && pip3 install setuptools compressed-tensors/
+        run: uv pip install setuptools compressed-tensors/
       - name: "Clean compressed-tensors directory"
         run: rm -r compressed-tensors/
       - name: "⚙️ Install dependencies"
-        run: pip3 install .[dev,torch,transformers,torchvision,onnxruntime]
+        run: uv sync --extra dev --extra torch --extra transformers --extra torchvision --extra onnxruntime
       - name: "🔬 Running export tests"
-        run: make test TARGETS=export
+        run: uv run make test TARGETS=export
 
