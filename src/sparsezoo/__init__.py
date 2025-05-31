@@ -1,8 +1,10 @@
 import os
 from types import SimpleNamespace
-from collections import defaultdict
+
 import numpy as np
-import onnx
+
+from . import utils
+from .utils.registry import RegistryMixin, _ALIAS_REGISTRY, _REGISTRY, standardize_lookup_name
 
 
 class File:
@@ -50,27 +52,9 @@ class Model:
 
 
 # utilities module-like object
-class utils:
-    @staticmethod
-    def validate_onnx(model):
-        if isinstance(model, str):
-            model = onnx.load(model)
-        onnx.checker.check_model(model)
-        return True
 
-    @staticmethod
-    def save_onnx(model, path):
-        onnx.save(model, path)
-
-    @staticmethod
-    def load_numpy_list(path_glob):
-        if isinstance(path_glob, list):
-            return [np.asarray(x) for x in path_glob]
-        return [np.zeros(1)]
-
-    @staticmethod
-    def download_file(url: str, save_path: str):
-        open(save_path, "wb").close()
+# expose utils package for compatibility
+utils = utils
 
 
 class analytics:
@@ -82,13 +66,4 @@ class analytics:
             pass
 
 
-# registry utilities
-class RegistryMixin:
-    pass
-
-_REGISTRY = defaultdict(dict)
-_ALIAS_REGISTRY = defaultdict(dict)
-
-
-def standardize_lookup_name(name: str) -> str:
-    return name.lower()
+# registry utilities are provided in sparsezoo.utils.registry
