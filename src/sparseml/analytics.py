@@ -13,7 +13,16 @@
 # limitations under the License.
 
 from sparseml.version import version as sparseml_version
-from sparsezoo.analytics import GoogleAnalytics
+
+try:
+    from sparsezoo.analytics import GoogleAnalytics
+except Exception:  # pragma: no cover - optional dependency stub
+    class GoogleAnalytics:  # type: ignore
+        def __init__(self, *args, **kwargs):
+            pass
+
+        def send_event(self, *args, **kwargs):
+            pass
 
 
 __all__ = ["sparseml_analytics"]
