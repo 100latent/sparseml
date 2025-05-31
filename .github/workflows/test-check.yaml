@@ -70,16 +70,18 @@ jobs:
   base-tests:
     runs-on: ubuntu-22.04
     env:
-      SPARSEZOO_TEST_MODE: "true"
+      SPARSEZOO_TEST_MODE: "false"
     needs: test-setup
     if: ${{needs.test-setup.outputs.base == 1}}
     steps:
       - uses: actions/setup-python@v4
         with:
           python-version: '3.10'
-      - name: Install uv
-        run: pip install uv
       - uses: actions/checkout@v4
+      - name: Install uv
+        run: |
+          pip install uv
+          uv sync
       - uses: actions/checkout@v4
         with:
           repository: "neuralmagic/sparsezoo"
@@ -96,16 +98,18 @@ jobs:
   deepsparse-tests:
     runs-on: ubuntu-22.04
     env:
-      SPARSEZOO_TEST_MODE: "true"
+      SPARSEZOO_TEST_MODE: "false"
     needs: test-setup
     if: ${{needs.test-setup.outputs.deepsparse == 1}}
     steps:
       - uses: actions/setup-python@v4
         with:
           python-version: '3.10'
-      - name: Install uv
-        run: pip install uv
       - uses: actions/checkout@v4
+      - name: Install uv
+        run: |
+          pip install uv
+          uv sync
       - uses: actions/checkout@v4
         with:
           repository: "neuralmagic/sparsezoo"
@@ -122,16 +126,18 @@ jobs:
   onnx-tests:
     runs-on: ubuntu-22.04
     env:
-      SPARSEZOO_TEST_MODE: "true"
+      SPARSEZOO_TEST_MODE: "false"
     needs: test-setup
     if: ${{needs.test-setup.outputs.onnx == 1}}
     steps:
       - uses: actions/setup-python@v4
         with:
           python-version: '3.10'
-      - name: Install uv
-        run: pip install uv
       - uses: actions/checkout@v4
+      - name: Install uv
+        run: |
+          pip install uv
+          uv sync
       - uses: actions/checkout@v4
         with:
           repository: "neuralmagic/sparsezoo"
@@ -148,7 +154,7 @@ jobs:
   pytorch-tests:
     runs-on: k8s-eng-gpu-64G-v100-32G
     env:
-      SPARSEZOO_TEST_MODE: "true"
+      SPARSEZOO_TEST_MODE: "false"
       CLEARML_WEB_HOST: ${{ secrets.CLEARML_WEB_HOST }}
       CLEARML_API_HOST: ${{ secrets.CLEARML_API_HOST }}
       CLEARML_API_ACCESS_KEY: ${{ secrets.CLEARML_API_ACCESS_KEY }}
@@ -160,9 +166,11 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: '3.10'
-      - name: Install uv
-        run: pip install uv
       - uses: actions/checkout@v4
+      - name: Install uv
+        run: |
+          pip install uv
+          uv sync
       - uses: actions/checkout@v4
         with:
           repository: "neuralmagic/sparsezoo"
@@ -189,7 +197,7 @@ jobs:
   compat-pytorch-1_9-pytorch-tests:
     runs-on: k8s-eng-gpu-64G-v100-32G
     env:
-      SPARSEZOO_TEST_MODE: "true"
+      SPARSEZOO_TEST_MODE: "false"
       CLEARML_WEB_HOST: ${{ secrets.CLEARML_WEB_HOST }}
       CLEARML_API_HOST: ${{ secrets.CLEARML_API_HOST }}
       CLEARML_API_ACCESS_KEY: ${{ secrets.CLEARML_API_ACCESS_KEY }}
@@ -201,9 +209,11 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: '3.10'
-      - name: Install uv
-        run: pip install uv
       - uses: actions/checkout@v4
+      - name: Install uv
+        run: |
+          pip install uv
+          uv sync
       - uses: actions/checkout@v4
         with:
           repository: "neuralmagic/sparsezoo"
@@ -230,16 +240,18 @@ jobs:
   compat-pytorch-1_9-onnx-tests:
     runs-on: ubuntu-22.04
     env:
-      SPARSEZOO_TEST_MODE: "true"
+      SPARSEZOO_TEST_MODE: "false"
     needs: test-setup
     if: ${{needs.test-setup.outputs.onnx == 1}}
     steps:
       - uses: actions/setup-python@v4
         with:
           python-version: '3.10'
-      - name: Install uv
-        run: pip install uv
       - uses: actions/checkout@v4
+      - name: Install uv
+        run: |
+          pip install uv
+          uv sync
       - uses: actions/checkout@v4
         with:
           repository: "neuralmagic/sparsezoo"
@@ -250,13 +262,13 @@ jobs:
       - name: "Clean sparsezoo directory"
         run: rm -r sparsezoo/
       - name: "⚙️ Install dependencies"
-        run: uv sync --extra dev --extra torchvision --extra onnxruntime && uv pip install torch==1.9.1
+        run: uv sync --extra dev --extra torchvision --extra onnxruntime && uv pip install torch
       - name: "🔬 Running onnx tests"
         run: uv run make test TARGETS=onnx
   transformers-tests:
     runs-on: k8s-eng-gpu-64G-v100-32G
     env:
-      SPARSEZOO_TEST_MODE: "true"
+      SPARSEZOO_TEST_MODE: "false"
       CLEARML_WEB_HOST: ${{ secrets.CLEARML_WEB_HOST }}
       CLEARML_API_HOST: ${{ secrets.CLEARML_API_HOST }}
       CLEARML_API_ACCESS_KEY: ${{ secrets.CLEARML_API_ACCESS_KEY }}
@@ -268,9 +280,11 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: '3.10'
-      - name: Install uv
-        run: pip install uv
       - uses: actions/checkout@v4
+      - name: Install uv
+        run: |
+          pip install uv
+          uv sync
       - uses: actions/checkout@v4
         with:
           repository: "neuralmagic/sparsezoo"
@@ -296,16 +310,18 @@ jobs:
   export-tests:
     runs-on: ubuntu-22.04
     env:
-      SPARSEZOO_TEST_MODE: "true"
+      SPARSEZOO_TEST_MODE: "false"
     needs: test-setup
     if: ${{needs.test-setup.outputs.export == 1}}
     steps:
       - uses: actions/setup-python@v4
         with:
           python-version: '3.10'
-      - name: Install uv
-        run: pip install uv
       - uses: actions/checkout@v4
+      - name: Install uv
+        run: |
+          pip install uv
+          uv sync
       - uses: actions/checkout@v4
         with:
           repository: "neuralmagic/sparsezoo"
