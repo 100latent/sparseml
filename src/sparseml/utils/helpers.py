@@ -35,8 +35,16 @@ from urllib.parse import urlparse
 
 import numpy
 
-from sparsezoo import Model
-from sparsezoo.utils import load_numpy_list
+try:
+    from sparsezoo import Model
+    from sparsezoo.utils import load_numpy_list
+except Exception:  # pragma: no cover - optional dependency stub
+    Model = None  # type: ignore
+
+    def load_numpy_list(path):  # type: ignore
+        raise ModuleNotFoundError(
+            "sparsezoo is required for loading numpy lists"
+        )
 
 
 __all__ = [
