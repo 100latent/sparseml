@@ -29,7 +29,6 @@ from sparseml.core.recipe.args import RecipeArgs
 from sparseml.core.recipe.base import RecipeBase
 from sparseml.core.recipe.metadata import RecipeMetaData
 from sparseml.core.recipe.stage import RecipeStage
-from sparsezoo import Model
 
 
 __all__ = ["Recipe", "RecipeTuple"]
@@ -139,20 +138,14 @@ class Recipe(RecipeBase):
 
         if not os.path.isfile(path_or_modifiers):
             # not a local file
-            if path_or_modifiers.startswith("zoo:"):
-                # download from SparseZoo
-                model = Model(path_or_modifiers)
-                path_or_modifiers = model.recipes.default.path
-                _LOGGER.info(f"Loading recipe from zoo stub {path_or_modifiers}")
-            else:
-                # assume it's a string
-                _LOGGER.warning(
-                    "Could not process input as a file path or zoo stub, "
-                    "attempting to process it as a string."
-                )
-                _LOGGER.debug(f"Input string: {path_or_modifiers}")
-                obj = _load_json_or_yaml_string(path_or_modifiers)
-                return Recipe.model_validate(obj)
+            # assume it's a string
+            _LOGGER.warning(
+                "Could not process input as a file path, " # Removed "or zoo stub"
+                "attempting to process it as a string."
+            )
+            _LOGGER.debug(f"Input string: {path_or_modifiers}")
+            obj = _load_json_or_yaml_string(path_or_modifiers)
+            return Recipe.model_validate(obj)
         else:
             _LOGGER.info(f"Loading recipe from file {path_or_modifiers}")
 
