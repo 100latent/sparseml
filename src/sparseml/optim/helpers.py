@@ -32,7 +32,6 @@ from sparseml.utils import (
     UnknownVariableException,
     restricted_eval,
 )
-from sparsezoo import File, Model
 
 
 __all__ = [
@@ -56,19 +55,11 @@ def load_recipe_yaml_str(
     """
     Loads a YAML recipe file to a string or
     extracts recipe from YAML front matter in a sparsezoo markdown recipe card.
-    Recipes can also be provided as SparseZoo model stubs or Recipe
-    objects.
 
     YAML front matter: https://jekyllrb.com/docs/front-matter/
 
-    :param file_path: file path to recipe YAML file or markdown recipe card or
-        stub to a SparseZoo model whose recipe will be downloaded and loaded.
-        SparseZoo stubs should be preceded by 'zoo:', and can contain an optional
-        '?recipe_type=<type>' parameter or include a `/<type>` subpath. Can also
-        be a SparseZoo File object. i.e. '/path/to/local/recipe.md',
-        'zoo:model/stub/path', 'zoo:model/stub/path?recipe_type=transfer_learn',
-        'zoo:model/stub/path/transfer_learn'. Additionally, a raw
-         yaml str is also supported in place of a file path.
+    :param file_path: file path to recipe YAML file or markdown recipe card.
+        Additionally, a raw yaml str is also supported in place of a file path.
     :param variable_overrides: dict of variable values to replace
         in the loaded yaml string. Default is None
     :return: the recipe YAML configuration loaded as a string
@@ -94,7 +85,7 @@ def load_recipe_yaml_str_no_classes(recipe_yaml_str: str) -> Dict[str, Any]:
 
 
 def load_global_recipe_variables_from_yaml(
-    file_path: Union[str, File]
+    file_path: str
 ) -> Dict[str, Any]:
     """
     :param file_path: path to recipe yaml or markdown or raw recipe yaml str
@@ -389,19 +380,10 @@ def is_eval_string(val: str) -> bool:
     return val.startswith("eval(") and val.endswith(")")
 
 
-def _load_yaml_str_from_file(file_path: Union[str, File]) -> str:
-    # load raw yaml string from yaml file, zoo stub, or markdown frontmatter
-    if isinstance(file_path, File):
-        # download and unwrap Recipe object
-        file_path = file_path.path
-
+def _load_yaml_str_from_file(file_path: str) -> str:
+    # load raw yaml string from yaml file or markdown frontmatter
     if not isinstance(file_path, str):
         raise ValueError(f"file_path must be a str, given {type(file_path)}")
-
-    if file_path.startswith("zoo:"):
-        # download from zoo stub
-        model = Model(file_path)
-        file_path = model.recipes.default.path
 
     # load the yaml string
     if "\n" in file_path or "\r" in file_path:

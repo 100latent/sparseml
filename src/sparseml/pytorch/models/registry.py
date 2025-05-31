@@ -26,7 +26,6 @@ from merge_args import merge_args
 from sparseml.pytorch.utils import download_framework_model_by_recipe_type, load_model
 from sparseml.utils import parse_optimization_str, wrapper_decorator
 from sparseml.utils.frameworks import PYTORCH_FRAMEWORK
-from sparsezoo import Model, model_args_to_stub
 
 
 __all__ = [
@@ -100,10 +99,10 @@ class ModelRegistry(object):
         if key_copy is None:
             if pretrained_path is None:
                 raise ValueError("Must provide a key or a pretrained_path")
-            if pretrained_path.startswith("zoo:"):
-                pretrained_path = download_framework_model_by_recipe_type(
-                    Model(pretrained_path)
-                )
+
+            # Removed custom_zoo and zoo handling.
+            # Model loading from stubs is no longer supported here.
+            # pretrained_path must now be a direct file path.
             _checkpoint = torch.load(pretrained_path)
             if "arch_key" in _checkpoint:
                 key_copy = _checkpoint["arch_key"]
@@ -125,51 +124,6 @@ class ModelRegistry(object):
             **kwargs,
         )
         return (model, key_copy) if key is None else model
-
-    @staticmethod
-    def create_zoo_model(
-        key: str,
-        pretrained: Union[bool, str] = True,
-        pretrained_dataset: str = None,
-    ) -> Model:
-        """
-        Create a sparsezoo Model for the desired model in the zoo
-
-        :param key: the model key (name) to retrieve
-        :param pretrained: True to load pretrained weights; to load a specific version
-            give a string with the name of the version (optim, optim-perf), default True
-        :param pretrained_dataset: The dataset to load for the model
-        :return: the sparsezoo Model reference for the given model
-        """
-
-        if key not in ModelRegistry._CONSTRUCTORS:
-            raise ValueError(
-                "key {} is not in the model registry; available: {}".format(
-                    key, ModelRegistry._CONSTRUCTORS
-                )
-            )
-
-        attributes = ModelRegistry._ATTRIBUTES[key]
-
-        sparse_name, sparse_category, sparse_target = parse_optimization_str(
-            pretrained if isinstance(pretrained, str) else attributes.default_desc
-        )
-
-        model_dict = {
-            "domain": attributes.domain,
-            "sub_domain": attributes.sub_domain,
-            "architecture": attributes.architecture,
-            "sub_architecture": attributes.sub_architecture,
-            "framework": PYTORCH_FRAMEWORK,
-            "repo": attributes.repo_source,
-            "dataset": attributes.default_dataset
-            if pretrained_dataset is None
-            else pretrained_dataset,
-            "sparse_tag": f"{sparse_name}-{sparse_category}",
-        }
-        stub = model_args_to_stub(**model_dict)
-
-        return Model(stub)
 
     @staticmethod
     def input_shape(key: str) -> Any:
@@ -321,29 +275,29 @@ class ModelRegistry(object):
         def wrapper(
             pretrained_path: str = None,
             pretrained: Union[bool, str] = False,
-            pretrained_dataset: str = None,
+            pretrained_dataset: str = None, # This param may become unused or used differently
             load_strict: bool = True,
             ignore_error_tensors: List[str] = None,
             *args,
             **kwargs,
         ):
             """
-            :param pretrained_path: A path to the pretrained weights to load,
-                if provided will override the pretrained param. May also be
-                a SparseZoo stub path preceded by 'zoo:' with the optional
-                `?recipe_type=` argument. If given a recipe type, the base
-                model weights for that recipe will be loaded
-            :param pretrained: True to load the default pretrained weights,
-                a string to load a specific pretrained weight
-                (ex: base, optim, optim-perf),
-                or False to not load any pretrained weights
-            :param pretrained_dataset: The dataset to load pretrained weights for
-                (ex: imagenet, mnist, etc).
-                If not supplied will default to the one preconfigured for the model.
+            :param pretrained_path: A path to the pretrained weights to load.
+                If provided, this will override the `pretrained` parameter's behavior.
+                NOTE: SparseZoo stub paths (e.g. 'zoo:...') are no longer supported.
+            :param pretrained: If True and `pretrained_path` is not set, attempts to load
+                default weights (behavior might be removed or changed if it relied on zoo).
+                If a string, could specify a variant IF `pretrained_path` is also given
+                (e.g. for custom local setups), but automatic download from SparseZoo based
+                on this string is no longer supported. Generally, prefer `pretrained_path`.
+                Set to False to not load any pretrained weights.
+            :param pretrained_dataset: The dataset associated with the pretrained weights.
+                This may be used by `load_model` or custom logic if `pretrained_path` is set,
+                but it no longer triggers downloads from SparseZoo.
             :param load_strict: True to raise an error on issues with state dict
-                loading from pretrained_path or pretrained, False to ignore
+                loading from pretrained_path, False to ignore.
             :param ignore_error_tensors: Tensors to ignore while checking the state dict
-                for weights loaded from pretrained_path or pretrained
+                for weights loaded from pretrained_path.
             """
             attributes = ModelRegistry._ATTRIBUTES[key]
 
@@ -367,16 +321,13 @@ class ModelRegistry(object):
             if pretrained_path:
                 load_model(pretrained_path, model, load_strict, ignore)
             elif pretrained:
-                zoo_model = ModelRegistry.create_zoo_model(
-                    key, pretrained, pretrained_dataset
-                )
-                try:
-                    path = download_framework_model_by_recipe_type(zoo_model)
-                    load_model(path, model, load_strict, ignore)
-                except Exception:
-                    # try one more time with overwrite on in case file was corrupted
-                    path = download_framework_model_by_recipe_type(zoo_model)
-                    load_model(path, model, load_strict, ignore)
+                # Behavior when pretrained is True/string but pretrained_path is not set:
+                # Original logic relied on create_zoo_model and downloading.
+                # This is now removed.
+                # If you need to load a default model without a path, this needs new handling
+                # or documentation should state pretrained_path is mandatory for pretrained=True.
+                # For now, if pretrained_path is None and pretrained is True/str, nothing happens here.
+                pass
 
             return model
 

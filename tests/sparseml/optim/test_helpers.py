@@ -621,20 +621,6 @@ def test_evaluate_recipe_yaml_str_equations_invalid(recipe):
 
 
 @pytest.mark.parametrize(
-    "zoo_path",
-    [
-        (
-            "zoo:cv/classification/resnet_v1-50/pytorch/sparseml/imagenette/"
-            "pruned-conservative"
-        ),
-        ("zoo:bert-base-wikipedia_bookcorpus-pruned90?recipe=transfer_question"),
-    ],
-)
-def test_load_recipe_yaml_str_zoo(zoo_path):
-    assert load_recipe_yaml_str(zoo_path)
-
-
-@pytest.mark.parametrize(
     "base_recipe,override_variables,target_recipe,raises_value_error",
     [
         (
