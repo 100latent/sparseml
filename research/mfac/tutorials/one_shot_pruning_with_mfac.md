@@ -63,8 +63,8 @@ To run both M-FAC and magnitude one-shot pruning, you will need two separate rec
 For this tutorial, the recipes for pruning MNISTNet to 35% sparsity are provided
 in SparseML. They can be viewed with the command line or by following the links below:
 
-* M-FAC: [research/mfac/recipes/pruning-mnistnet-one_shot-mfac.md](https://github.com/neuralmagic/sparseml/blob/main/research/mfac/recipes/pruning-mnistnet-one_shot-mfac.md)
-* Magnitude: [research/mfac/recipes/pruning-mnistnet-one_shot-magnitude.md](https://github.com/neuralmagic/sparseml/blob/main/research/mfac/recipes/pruning-mnistnet-one_shot-magnitude.md)
+* M-FAC: [research/mfac/recipes/pruning-mnistnet-one_shot-mfac.md](https://github.com/100latent/sparseml/blob/main/research/mfac/recipes/pruning-mnistnet-one_shot-mfac.md)
+* Magnitude: [research/mfac/recipes/pruning-mnistnet-one_shot-magnitude.md](https://github.com/100latent/sparseml/blob/main/research/mfac/recipes/pruning-mnistnet-one_shot-magnitude.md)
 
 Notice that the recipes are identical except that the `MFACPruningModifier` and `mfac_options`
 are used in M-FAC pruning.
