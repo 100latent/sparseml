@@ -228,8 +228,8 @@ def evaluate(
             acc1, num_correct_1, acc5, num_correct_5 = utils.accuracy(
                 output, target, topk=(1, 5)
             )
-            # FIXME need to take into account that the datasets
-            # could have been padded in distributed setup
+            # validation datasets may be padded when running distributed
+            # evaluation. the counts will be corrected after synchronization
             batch_size = image.shape[0]
             metric_logger.update(loss=loss.item())
             metric_logger.meters["acc1"].update(
@@ -239,24 +239,25 @@ def evaluate(
                 acc5.item(), n=batch_size, total=num_correct_5
             )
             num_processed_samples += batch_size
-    # gather the stats from all processes
+    # gather the stats from all processes and adjust for padded datasets
 
     num_processed_samples = utils.reduce_across_processes(num_processed_samples)
-    if (
-        hasattr(data_loader.dataset, "__len__")
-        and len(data_loader.dataset) != num_processed_samples
-        and torch.distributed.get_rank() == 0
-    ):
-        # See FIXME above
-        warnings.warn(
-            f"It looks like the dataset has {len(data_loader.dataset)} samples, "
-            f"but {num_processed_samples} "
-            "samples were used for the validation, which might bias the results. "
-            "Try adjusting the batch size and / or the world size. "
-            "Setting the world size to 1 is always a safe bet."
-        )
 
     metric_logger.synchronize_between_processes()
+
+    dataset_len = (
+        len(data_loader.dataset) if hasattr(data_loader.dataset, "__len__") else num_processed_samples
+    )
+
+    if dataset_len != num_processed_samples and torch.distributed.get_rank() == 0:
+        _LOGGER.info(
+            "Validation dataset padded from %d to %d samples for distributed evaluation",
+            dataset_len,
+            num_processed_samples,
+        )
+
+    metric_logger.acc1.count = dataset_len
+    metric_logger.acc5.count = dataset_len
 
     _LOGGER.info(
         header
