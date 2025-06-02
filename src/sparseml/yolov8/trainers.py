@@ -113,6 +113,9 @@ class SparseTrainer(BaseTrainer):
         self.checkpoint_manager: Optional[ScheduledModifierManager] = None
         self.logger_manager: LoggerManager = LoggerManager(log_python=False)
 
+        self.best_pruned_fitness: float = float("-inf")
+        self.best_pruned_quantized_fitness: float = float("-inf")
+
         self.epoch_step: int = 0
         self.steps_per_epoch: int = 0
         self.do_emulated_step: bool = False
@@ -510,6 +513,16 @@ class SparseTrainer(BaseTrainer):
         torch.save(ckpt, self.last)
         if self.best_fitness == self.fitness:
             torch.save(ckpt, self.best)
+
+        phase = None
+        if manager is not None:
+            phase = manager.phase(epoch)
+        if phase == "pruned" and self.fitness > self.best_pruned_fitness:
+            self.best_pruned_fitness = self.fitness
+            torch.save(ckpt, os.path.join(self.save_dir, "best-pruned.pt"))
+        elif phase in ("pruned_quantized", "quantized_pruned") and self.fitness > self.best_pruned_quantized_fitness:
+            self.best_pruned_quantized_fitness = self.fitness
+            torch.save(ckpt, os.path.join(self.save_dir, "best-pruned-quantized.pt"))
         del ckpt
 
     def final_eval(self):
