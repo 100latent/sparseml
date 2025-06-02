@@ -164,7 +164,7 @@ api.upload_folder(
 ```
 
 ## <a name="recipe"> Explaining the TinyLlama Recipe</a>
-A recipe is a set of hyperparameters that provide detailed instructions on how the [one-shot quantization](https://neuralmagic.com/video/pruning-and-quantizing-ml-models-with-one-shot-without-retraining/) should be done. The recipe performs quantization in one shot, meaning that no retraining of the LLM is required. 
+A recipe is a set of hyperparameters that provide detailed instructions on how the one-shot quantization should be done. The recipe performs quantization in one shot, meaning that no retraining of the LLM is required. 
 
 We will now walk through what the different hyperparameters mean and why they are set to those values.
 

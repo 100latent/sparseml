@@ -16,7 +16,6 @@ It is recommended to run Python 3.8 as some of the scripts within the transforme
 Note: Transformers will not immediately install with this command. Instead, a sparsification-compatible version of Transformers will install on the first invocation of the Transformers code in SparseML.
 
 ## Tutorials
-- [Sparse Sentiment Analysis with BERT](https://neuralmagic.com/use-cases/sparse-sentiment-analysis/)
 - [Crypto Sentiment Analysis example](https://github.com/neuralmagic/deepsparse/tree/500d132f27e97547b752c99dd06e17b8e53a1ba8/examples/twitter-nlp) + [accompanying video](https://www.youtube.com/watch?v=7UTKt-PDLvk)
 ## Getting Started
 ### Sparsifying Popular Transformer Models
@@ -36,7 +35,7 @@ sparseml.transformers.text_classification \
 ### Sparse Transfer Learning
 
 Once you sparsify a model using SparseML, you can easily sparse fine-tune it on a new dataset.
-While you are free to use your backbone, we encourage you to leverage one of our [sparse pre-trained models](https://sparsezoo.neuralmagic.com) to boost your productivity!
+While you are free to use your backbone, we encourage you to leverage one of our sparse pre-trained models to boost your productivity!
 
 In the example below, we fetch a pruned, quantized BERT model, pre-trained on Wikipedia and Bookcorpus datasets. We then fine-tune the model to the SST2 dataset. 
 ```bash

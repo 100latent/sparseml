@@ -52,7 +52,7 @@ Whether you’re a newbie, dabbler, or expert, we appreciate you jumping in.
 
 Please search through existing issues and requests first to avoid duplicates. Neural Magic will work with you further to take next steps.
 
-- Go to: [GitHub Issues](https://github.com/neuralmagic/sparseml/issues)
+- Go to: [GitHub Issues](https://github.com/100latent/sparseml/issues)
 
 For bugs, include:
 
@@ -74,10 +74,6 @@ For documentation edits, include:
 - current state, proposed state
 - if applicable, screenshots/casts
 - add the GitHub label "documentation" to your post
-
-## Question or Problem
-
-Sign up or log in to our [**Neural Magic Community Slack**](https://neuralmagic.com/community/). We are growing the community member by member and happy to see you there. Don’t forget to search through existing discussions to avoid duplication! Thanks!
 
 ## Developing SparseML
 

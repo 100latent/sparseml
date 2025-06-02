@@ -94,7 +94,7 @@ Required Parameters:
 
 ## Pruning Modifiers
 
-The pruning modifiers handle [pruning](https://neuralmagic.com/blog/pruning-overview/) 
+The pruning modifiers handle pruning
 the specified layer(s) in a given model.
 
 ### ConstantPruningModifier
@@ -122,7 +122,7 @@ Example:
 
 The `GMPruningModifier` prunes the parameter(s) in a model to a 
 target sparsity (percentage of 0's for a layer's param/variable) 
-using [gradual magnitude pruning.](https://neuralmagic.com/blog/pruning-gmp/)
+using gradual magnitude pruning.
 This is done gradually from an initial to final sparsity (`init_sparsity`, `final_sparsity`)
 over a range of epochs (`start_epoch`, `end_epoch`) and updated at a specific interval defined by the `update_frequency`.
 For example, using the following settings `start_epoch: 0`, `end_epoch: 5`, `update_frequency: 1`, 

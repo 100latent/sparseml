@@ -17,10 +17,6 @@ It is recommended to run Python 3.8 as some of the scripts within the transforme
 
 Note: Transformers will not immediately install with this command. Instead, a sparsification-compatible version of Transformers will install on the first invocation of the Transformers code in SparseML.
 
-## Tutorials
-
-- [Sparse Named Entity Recognition With BERT](https://neuralmagic.com/use-cases/sparse-named-entity-recognition/)
-
 ## Getting Started
 
 ### Sparsifying Popular Transformer Models
