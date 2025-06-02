@@ -15,7 +15,6 @@ We recommend using a [virtualenv] to install dependencies.
 
 ## Tutorials
 
-- [Sparsifying PyTorch Models Using Recipes](https://github.com/neuralmagic/sparseml/blob/main/integrations/old-examples/pytorch/tutorials/sparsifying_pytorch_models_using_recipes.md)
 - [Sparse Transfer Learning for Image Classification](https://github.com/neuralmagic/sparseml/blob/main/integrations/old-examples/pytorch/tutorials/classification_sparse_transfer_learning_tutorial.md)
 
 ## Getting Started
