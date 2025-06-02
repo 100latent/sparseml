@@ -2,8 +2,20 @@ name: Run Nightly Tests
 on:
   workflow_dispatch:
   workflow_call:
+    inputs:
+      run-gpu-tests:
+        description: 'Run GPU tests'
+        required: false
+        default: false # Explicitly boolean false
+        type: boolean
+  schedule:
+    - cron: '0 1 * * *' # Run daily at 1 AM UTC
+
 jobs:
   test-nightly-tests:
+    # Set ACTUAL_RUN_GPU_TESTS: true for scheduled runs, otherwise use the input
+    # The job runs if ACTUAL_RUN_GPU_TESTS is true.
+    if: ${{ env.ACTUAL_RUN_GPU_TESTS == 'true' }}
     runs-on: k8s-mle-gpu-12-vcpu-225GB-ram-2-a6000-48G
     env:
       CADENCE: "nightly"
@@ -12,12 +24,17 @@ jobs:
       CLEARML_API_ACCESS_KEY: ${{ secrets.CLEARML_API_ACCESS_KEY }}
       CLEARML_FILES_HOST:  ${{ secrets.CLEARML_FILES_HOST }}
       CLEARML_API_SECRET_KEY:  ${{ secrets.CLEARML_API_SECRET_KEY }}
+      # Determine if GPU tests should run based on trigger type
+      ACTUAL_RUN_GPU_TESTS: ${{ (github.event_name == 'schedule') || inputs.run-gpu-tests }}
     steps:
+      - name: Set Run Condition
+        run: echo "ACTUAL_RUN_GPU_TESTS=${{ (github.event_name == 'schedule') || inputs.run-gpu-tests }}" >> $GITHUB_ENV
       - uses: actions/checkout@v4
         with:
           repository: "neuralmagic/compressed-tensors"
           path: "compressed-tensors"
-          ref: ${{needs.test-setup.outputs.branch}}
+          # Assuming 'main' is the correct default if test-setup is not a dependency here
+          ref: main
       - name: Install uv
         run: |
           pip install uv

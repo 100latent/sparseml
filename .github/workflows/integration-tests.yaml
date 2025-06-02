@@ -1,0 +1,106 @@
+name: Integrations Testing
+on:
+  push:
+    branches:
+      - main
+      - 'release/*'
+  pull_request:
+    branches:
+      - main
+      - 'release/*'
+
+jobs:
+  test-setup:
+    runs-on: ubuntu-22.04
+    outputs:
+      branch: ${{ steps.get-branch.outputs.branch }}
+      transformers_target: ${{ steps.transformers-check.outputs.output }}
+      yolov5_target: ${{ steps.yolov5-check.outputs.output }}
+      image_classification_target: ${{ steps.image-classification-check.outputs.output }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - run: git branch --show-current
+      - name: Get current branch
+        id: get-branch
+        run: >
+          (git branch --show-current | grep -E "release/")
+          && echo "branch=$(git branch --show-current)" >> $GITHUB_OUTPUT
+          || echo "branch=main" >> $GITHUB_OUTPUT
+      - name: "Checking if sparseml.transformers was changed"
+        id: transformers-check
+        if: github.event_name == 'pull_request'
+        run: >
+          ((git diff --name-only origin/${{ github.base_ref }} HEAD | grep -E "[src/sparseml|tests/integrations]/transformers|setup.py")
+          || (echo $GITHUB_REF | grep -E "refs/heads/[release/|main]"))
+          && echo "output=transformers" >> $GITHUB_OUTPUT || echo "output=" >> $GITHUB_OUTPUT
+      - name: "Checking if sparseml.yolov5 was changed"
+        id: yolov5-check
+        if: github.event_name == 'pull_request'
+        run: >
+          ((git diff --name-only origin/${{ github.base_ref }} HEAD | grep -E "[src/sparseml|tests/integrations]/yolov5|setup.py")
+          || (echo $GITHUB_REF | grep -E "refs/heads/[release/|main]"))
+          && echo "output=yolov5" >> $GITHUB_OUTPUT || echo "output=" >> $GITHUB_OUTPUT
+      - name: "Checking if sparseml.pytorch.image_classification was changed"
+        id: image-classification-check
+        if: github.event_name == 'pull_request'
+        run: >
+          ((git diff --name-only origin/${{ github.base_ref }} HEAD | grep -E "[src/sparseml/pytorch|tests/integrations]/image_classification|setup.py")
+          || (echo $GITHUB_REF | grep -E "refs/heads/[release/|main]"))
+          && echo "output=image_classification" >> $GITHUB_OUTPUT || echo "output=" >> $GITHUB_OUTPUT
+
+  integrations-tests:
+    runs-on: ubuntu-22.04
+    needs: test-setup
+    env:
+      SPARSEZOO_TEST_MODE: "true"
+      SPARSEML_TEST_CADENCE: ${{ github.event_name == 'push' && 'commit' || 'pre-commit' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: "neuralmagic/sparsezoo"
+          path: "sparsezoo"
+          ref: ${{ needs.test-setup.outputs.branch }}
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+      - name: Install uv
+        run: |
+          pip install uv
+          uv sync
+      - name: "⚙️ Install sparsezoo dependencies"
+        run: uv pip install setuptools sparsezoo/
+      - name: "Clean sparsezoo directory"
+        run: rm -r sparsezoo/
+      - uses: actions/checkout@v4
+        with:
+          repository: "neuralmagic/compressed-tensors"
+          path: "compressed-tensors"
+          ref: ${{ needs.test-setup.outputs.branch }}
+      - name: "⚙️ Install compressed-tensors dependencies"
+        run: uv pip install setuptools compressed-tensors/
+      - name: "Clean compressed-tensors directory"
+        run: rm -r compressed-tensors/
+      - name: "⚙️ Install dependencies"
+        run: uv sync --extra dev --extra torchvision --extra deepsparse --extra onnxruntime --extra transformers --extra yolov5
+      - name: "🔬 Running integrations tests"
+        env:
+          TARGETS_PUSH: "yolov5,transformers,image_classification"
+          TARGETS_PULL_REQUEST: "${{ needs.test-setup.outputs.transformers_target }},${{ needs.test-setup.outputs.yolov5_target }},${{ needs.test-setup.outputs.image_classification_target }}"
+        run: |
+          if [ "${{ github.event_name }}" == "push" ]; then
+            echo "Running tests with targets: $TARGETS_PUSH (cadence: ${{ env.SPARSEML_TEST_CADENCE }})"
+            uv run make testinteg TARGETS=$TARGETS_PUSH
+          else
+            # Filter out empty strings from TARGETS_PULL_REQUEST
+            filtered_targets=$(echo $TARGETS_PULL_REQUEST | tr ',' '\n' | grep . | tr '\n' ',' | sed 's/,$//')
+            if [ -z "$filtered_targets" ]; then
+              echo "No specific integration targets changed, skipping tests."
+            else
+              echo "Running tests with targets: $filtered_targets (cadence: ${{ env.SPARSEML_TEST_CADENCE }})"
+              uv run make testinteg TARGETS=$filtered_targets
+            fi
+          fi
