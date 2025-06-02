@@ -129,7 +129,7 @@ def framework_info() -> FrameworkInfo:
             "sparsified models using AVX and VNNI instruction sets"
         ),
         device="cpu",
-        supported_sparsification=SparsificationInfo(),  # TODO: fill in when available
+        supported_sparsification=sparsification_info(),
         available=check_deepsparse_install(raise_on_error=False),
         properties={
             "cpu_architecture": arch,

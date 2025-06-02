@@ -103,7 +103,7 @@ def framework_info() -> FrameworkInfo:
         name="cpu",
         description="Base CPU provider within TensorFlow",
         device="cpu",
-        supported_sparsification=SparsificationInfo(),  # TODO: fill in when available
+        supported_sparsification=sparsification_info(),
         available=check_tensorflow_install(raise_on_error=False),
         properties={},
         warnings=[],
@@ -112,7 +112,7 @@ def framework_info() -> FrameworkInfo:
         name="cuda",
         description="Base GPU CUDA provider within TensorFlow",
         device="gpu",
-        supported_sparsification=SparsificationInfo(),  # TODO: fill in when available
+        supported_sparsification=sparsification_info(),
         available=(
             check_tensorflow_install(raise_on_error=False)
             and get_version("tensorflow_gpu", raise_on_error=False) is not None

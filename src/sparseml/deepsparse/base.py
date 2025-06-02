@@ -17,15 +17,10 @@ import functools
 from typing import Optional
 
 from sparseml.base import check_version
+from sparseml.utils.imports import optional_import
 
 
-try:
-    import deepsparse
-
-    deepsparse_err = None
-except Exception as err:
-    deepsparse = object()  # TODO: populate with fake object for necessary imports
-    deepsparse_err = err
+deepsparse, deepsparse_err = optional_import("deepsparse")
 
 
 __all__ = [

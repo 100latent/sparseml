@@ -16,23 +16,11 @@ import functools
 from typing import Optional
 
 from sparseml.base import check_version
+from sparseml.utils.imports import optional_import
 
 
-try:
-    import torch
-
-    torch_err = None
-except Exception as err:
-    torch = object()  # TODO: populate with fake object for necessary imports
-    torch_err = err
-
-try:
-    import torchvision
-
-    torchvision_err = None
-except Exception as err:
-    torchvision = object()  # TODO: populate with fake object for necessary imports
-    torchvision_err = err
+torch, torch_err = optional_import("torch")
+torchvision, torchvision_err = optional_import("torchvision")
 
 
 __all__ = [
