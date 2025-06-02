@@ -148,4 +148,4 @@ sparseml.yolov5.train \
 
 ```
 ## How to Build Your Own SparseML Image
-To build your own SparseML image [follow these instructions](https://github.com/neuralmagic/sparseml/blob/main/docker/README.md)
+
