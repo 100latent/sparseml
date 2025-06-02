@@ -92,13 +92,3 @@ ideal. If `None` is provided, the full matrix will be computed without blocks.
 `available_gpus` is a list of GPU devices names to perform the WoodFisher computation
 with. If not provided, computation will be done on the CPU.
 
-
-## Tutorials
-
-Tutorials for using M-FAC with SparseML are provided in the directory.  Currently there are tutorials available for
-[one-shot](https://github.com/neuralmagic/sparseml/blob/main/research/mfac/tutorials/one_shot_pruning_with_mfac.md)
-and [gradual](https://github.com/neuralmagic/sparseml/blob/main/research/mfac/tutorials/gradual_pruning_with_mfac.md)
-pruning with M-FAC.
-
-## Need Help?
-For Neural Magic Support, sign up or log in to our [**Neural Magic Community Slack**](https://join.slack.com/t/discuss-neuralmagic/shared_invite/zt-q1a1cnvo-YBoICSIw3L1dmQpjBeDurQ). Bugs, feature requests, or additional questions can also be posted to our [GitHub Issue Queue.](https://github.com/neuralmagic/sparseml/issues)
