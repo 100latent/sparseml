@@ -15,8 +15,6 @@ license = {text = "Apache-2.0"}
 requires-python = ">=3.10,<3.11"
 
 dependencies = [
-    # Base dependencies
-    "sparsezoo>=1.7.0",
     "pyyaml>=5.0.0",
     "numpy>=1.17.0,<2.0",
     "matplotlib>=3.0.0",
@@ -34,21 +32,8 @@ dependencies = [
     "GPUtil>=1.4.0",
     "protobuf>=3.12.2,<=3.20.3",
     "click>=7.1.2,!=8.0.0",
-    
-    # PyTorch dependencies (from transformers deps)
     "torch>=1.7.0",
     "gputils",
-    
-    # Transformers dependencies
-    "transformers>=4.51.3",
-    "datasets>=3.3.0",
-    "dvc",
-    "seqeval",
-    "einops",
-    "evaluate>=0.4.1",
-    "accelerate>=0.24.0",
-    "safetensors>=0.4.1",
-    "compressed-tensors",  # Use compressed-tensors-nightly for nightly builds
 ]
 
 [project.optional-dependencies]
@@ -89,6 +74,17 @@ torchvision = [
 ]
 onnxruntime = ["onnxruntime>=1.0.0"]
 deepsparse = ["deepsparse>=1.7.0"]
+transformers = [
+    "transformers>=4.51.3",
+    "datasets>=3.3.0",
+    "dvc",
+    "seqeval",
+    "einops",
+    "evaluate>=0.4.1",
+    "accelerate>=0.24.0",
+    "safetensors>=0.4.1",
+    "compressed-tensors", 
+]
 
 [project.urls]
 Homepage = "https://github.com/neuralmagic/sparseml"
