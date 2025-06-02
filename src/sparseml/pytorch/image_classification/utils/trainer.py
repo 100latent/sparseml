@@ -113,6 +113,8 @@ class ImageClassificationTrainer(Trainer):
         max_train_steps: int = -1,
         one_shot: bool = False,
         gradient_accum_steps: int = 1,
+        model_ema: Optional[torch.optim.swa_utils.AveragedModel] = None,
+        model_ema_steps: int = 32,
     ):
         """
         Initializes the module_trainer
@@ -135,6 +137,8 @@ class ImageClassificationTrainer(Trainer):
         self.max_train_steps = max_train_steps
         self.one_shot = one_shot
         self._gradient_accum_steps = gradient_accum_steps
+        self.model_ema = model_ema
+        self.model_ema_steps = model_ema_steps
 
         self.val_loss = loss_fn()
         _LOGGER.info(f"created loss for validation: {self.val_loss}")
@@ -288,6 +292,8 @@ class ImageClassificationTrainer(Trainer):
             loggers=self.loggers,
             device_context=self._device_context,
             num_accumulated_batches=self._gradient_accum_steps,
+            model_ema=self.model_ema,
+            model_ema_steps=self.model_ema_steps,
         )
         _LOGGER.info(f"created Module Trainer: {trainer}")
 

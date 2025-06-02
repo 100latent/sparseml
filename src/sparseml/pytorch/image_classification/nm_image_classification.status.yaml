@@ -20,7 +20,7 @@ base_training:
 sparsification:
   recipe: y
   recipe_args: y
-  EMA: n
+  EMA: y
   AMP: y
   distillation: n
 

@@ -205,6 +205,7 @@ from sparseml.pytorch.image_classification.utils import (
 )
 from sparseml.pytorch.utils import default_device, get_prunable_layers, tensor_sparsity
 from sparseml.pytorch.utils.distributed import record
+from sparseml.pytorch.utils.ema import ExponentialMovingAverage
 
 
 CURRENT_TASK = helpers.Tasks.TRAIN
@@ -500,6 +501,24 @@ METADATA_ARGS = [
     show_default=True,
     help="Apply recipe in a one-shot fashion and save the model",
 )
+@click.option(
+    "--model-ema",
+    is_flag=True,
+    default=False,
+    help="enable tracking Exponential Moving Average of model parameters",
+)
+@click.option(
+    "--model-ema-decay",
+    type=float,
+    default=0.9999,
+    help="decay factor for Exponential Moving Average of model parameters",
+)
+@click.option(
+    "--model-ema-steps",
+    type=int,
+    default=32,
+    help="number of iterations between EMA updates",
+)
 @record
 def main(
     train_batch_size: int,
@@ -538,6 +557,9 @@ def main(
     max_train_steps: int = -1,
     max_eval_steps: int = -1,
     one_shot: bool = False,
+    model_ema: bool = False,
+    model_ema_decay: float = 0.9999,
+    model_ema_steps: int = 32,
 ):
     """
     PyTorch training integration with SparseML for image classification models
@@ -572,7 +594,10 @@ def main(
     helpers.set_seeds(local_rank=local_rank)
 
     if not eval_mode:
-        train_dataset, train_loader, = helpers.get_dataset_and_dataloader(
+        (
+            train_dataset,
+            train_loader,
+        ) = helpers.get_dataset_and_dataloader(
             dataset_name=dataset,
             dataset_path=dataset_path,
             batch_size=train_batch_size,
@@ -643,6 +668,12 @@ def main(
         rank=rank,
     )
 
+    model_ema_obj = None
+    if model_ema:
+        model_ema_obj = ExponentialMovingAverage(
+            model, decay=model_ema_decay, device=device
+        )
+
     metadata = helpers.extract_metadata(
         metadata_args=METADATA_ARGS,
         training_args_dict=locals(),
@@ -671,6 +702,8 @@ def main(
         max_train_steps=max_train_steps,
         one_shot=one_shot,
         gradient_accum_steps=gradient_accum_steps,
+        model_ema=model_ema_obj,
+        model_ema_steps=model_ema_steps,
     )
 
     train(
@@ -741,6 +774,19 @@ def train(
                     mode="val",
                     max_steps=max_eval_steps,
                 )
+                if trainer.model_ema is not None:
+                    orig_module = trainer.module_tester._module
+                    trainer.module_tester._module = trainer.model_ema.module
+                    ema_res = trainer.module_tester.run_epoch(
+                        trainer.val_loader,
+                        epoch=trainer.epoch,
+                        max_epochs=trainer.max_epochs,
+                        max_steps=max_eval_steps,
+                    )
+                    trainer.module_tester._module = orig_module
+                    LOGGER.info(
+                        f"\nEpoch {trainer.epoch} EMA validation results: {ema_res}"
+                    )
                 val_metric = val_res.result_mean(trainer.target_metric).item()
 
                 should_save_epoch = trainer.epoch >= save_best_after and (
@@ -807,7 +853,7 @@ def train(
         )
 
         LOGGER.info("layer sparsities:")
-        for (name, layer) in get_prunable_layers(trainer.model):
+        for name, layer in get_prunable_layers(trainer.model):
             LOGGER.info(f"{name}.weight: {tensor_sparsity(layer.weight).item():.4f}")
 
     # close DDP

@@ -25,7 +25,7 @@ Distillation:
 | ---------------- | ------------------ | ------------------ | ------------------ | ------------------ | ------------------ |
 | **recipe**       | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 | **recipe_args**  | :white_check_mark: | :x:                | :white_check_mark: | :white_check_mark: | :white_check_mark: |
-| **EMA**          | :x:                | :x:                | :white_check_mark: | :x:                | :white_check_mark: |
+| **EMA**          | :white_check_mark: | :x:                | :white_check_mark: | :x:                | :white_check_mark: |
 | **AMP**          | :white_check_mark: | :x:                | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 | **distillation** | :x:                | :x:                | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 
