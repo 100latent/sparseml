@@ -172,7 +172,7 @@ More information on the codebase and contained processes can be found in the Spa
 
 ### Learning More
 
-- Documentation: [SparseML,](https://docs.neuralmagic.com/sparseml/) [SparseZoo,](https://docs.neuralmagic.com/sparsezoo/) [Sparsify,](https://docs.neuralmagic.com/sparsify/) [DeepSparse](https://docs.neuralmagic.com/deepsparse/)
+- Documentation: [SparseML,](https://docs.neuralmagic.com/sparseml/) [DeepSparse](https://docs.neuralmagic.com/deepsparse/)
 
 ### Release History
 
