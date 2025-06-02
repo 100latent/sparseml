@@ -298,7 +298,7 @@ def main(
     model_path = None
     model = model_args.model
     # Load tokenizer
-    # distill TODO: support for different tokenizer for teacher?
+    _LOGGER.debug("Teacher tokenizer support not yet implemented")
     tokenizer = model_args.tokenizer
 
     if isinstance(model, str) or isinstance(model, PosixPath):

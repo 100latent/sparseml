@@ -12,12 +12,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import logging
+
+LOGGER = logging.getLogger(__name__)
+
 try:
     from torch.distributed.fsdp import FullyShardedDataParallel
     from torch.distributed.fsdp._common_utils import TrainingState
 
     from accelerate import Accelerator
-except ImportError:
+except ImportError as err:
+    LOGGER.exception("FSDP utilities not available", exc_info=True)
     FullyShardedDataParallel = None
     Accelerator = None
 

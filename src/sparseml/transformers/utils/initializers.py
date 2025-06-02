@@ -156,7 +156,7 @@ def initialize_trainer(
     :param validation_dataset: the validation dataset to use for the trainer
     :return: the initialized trainer
     """
-    # TODO: add here support for v2 trainer
+    _LOGGER.debug("Trainer initialization for v2 API not yet implemented")
     # also add initialize_dataset function that will merge v1 and v2 functions
 
     training_args = TrainingArguments(

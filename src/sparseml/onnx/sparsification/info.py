@@ -36,7 +36,7 @@ def sparsification_info() -> SparsificationInfo:
     :rtype: SparsificationInfo
     """
     _LOGGER.debug("getting sparsification info for onnx")
-    info = SparsificationInfo(modifiers=[])  # TODO: fill in once available
-    _LOGGER.info("retrieved sparsification info for onnx: %s", info)
+    info = SparsificationInfo(modifiers=[])
+    _LOGGER.info("sparsification modifier list incomplete: %s", info)
 
     return info

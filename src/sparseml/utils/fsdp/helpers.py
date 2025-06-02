@@ -24,7 +24,8 @@ try:
         FullyShardedDataParallel,
         StateDictType,
     )
-except ImportError:
+except ImportError as err:
+    _LOGGER.exception("torch.distributed.fsdp not available", exc_info=True)
     FullyShardedDataParallel = None
 
 import torch

@@ -22,8 +22,8 @@ def check_transformers_install():
     try:
         import transformers  # noqa F401
     except ImportError as transformers_err:
-        _LOGGER.warning(
-            "transformers dependency is not installed. "
-            "To install, run `pip sparseml[transformers]`"
+        _LOGGER.exception(
+            "transformers dependency is not installed. To install, run `pip sparseml[transformers]`",
+            exc_info=True,
         )
         raise transformers_err

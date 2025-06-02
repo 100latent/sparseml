@@ -239,7 +239,7 @@ class OpenVINOModelRunner(ModelRunner):
 
     def __init__(
         self,
-        model: str,  # TODO: accept ONNX as input
+        model: str,
         loss: Union[
             Callable[[Dict[str, numpy.ndarray], Dict[str, numpy.ndarray]], Any], None
         ] = None,
@@ -247,6 +247,10 @@ class OpenVINOModelRunner(ModelRunner):
         batch_size: int = 0,
         shape: str = "",
     ):
+        if isinstance(model, ModelProto):
+            _LOGGER.warning(
+                "OpenVINOModelRunner received ONNX object; only file paths are supported"
+            )
         super().__init__(loss)
         self._loss = loss
 
@@ -484,9 +488,11 @@ class ORTModelRunner(ModelRunner):
         )
 
         self._session = onnxruntime.InferenceSession(
-            self._model.SerializeToString()
-            if not isinstance(self._model, str)
-            else self._model,
+            (
+                self._model.SerializeToString()
+                if not isinstance(self._model, str)
+                else self._model
+            ),
             sess_options,
             providers=providers,
         )

@@ -18,6 +18,9 @@ Functionality for working with and sparsifying Models in the PyTorch framework
 
 import os
 import warnings
+import logging
+
+_LOGGER = logging.getLogger(__name__)
 
 from packaging import version
 
@@ -53,7 +56,9 @@ try:
                 "sparseml quantized onnx export does not work "
                 "with torch==1.10.* or 1.11.*"
             )
-except ImportError:
+
+except ImportError as err:
+    _LOGGER.exception("PyTorch not available", exc_info=True)
     pass
 
 # flake8: noqa

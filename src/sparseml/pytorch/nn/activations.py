@@ -21,13 +21,17 @@ from typing import Union
 import torch.nn.functional as TF
 from torch import Tensor, clamp
 from torch.nn import LeakyReLU, Module, PReLU
+import logging
 from torch.nn import ReLU as TReLU
 from torch.nn import ReLU6 as TReLU6
 
 
+_LOGGER = logging.getLogger(__name__)
+
 try:
     from torch.nn import SiLU
-except ImportError:
+except ImportError as err:
+    _LOGGER.exception("SiLU activation not available", exc_info=True)
     SiLU = None
 
 
