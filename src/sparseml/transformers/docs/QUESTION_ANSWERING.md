@@ -145,9 +145,6 @@ inference = qa_pipeline(question="What's my name?", context="My name is Snorlax"
 >> {'score': 0.9947717785835266, 'start': 11, 'end': 18, 'answer': 'Snorlax'}
 ```
 
-
-To learn more, refer to the [appropriate documentation in the DeepSparse repository](https://github.com/neuralmagic/deepsparse/blob/main/src/deepsparse/transformers/README.md).
-
 ## Support
 
 For Neural Magic Support, sign up or log in to our [Deep Sparse Community Slack](https://join.slack.com/t/discuss-neuralmagic/shared_invite/zt-q1a1cnvo-YBoICSIw3L1dmQpjBeDurQ). Bugs, feature requests, or additional questions can also be posted to our [GitHub Issue Queue](https://github.com/neuralmagic/sparseml/issues).
