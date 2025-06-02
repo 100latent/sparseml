@@ -21,22 +21,6 @@ limitations under the License.
 
 <h3>Libraries for applying sparsification recipes to neural networks with a few lines of code, enabling faster and smaller models</h3>
 
-## 🚨 2025 End of Life Announcement: DeepSparse, SparseML, SparseZoo, and Sparsify
-
-Dear Community,
-
-We’re reaching out with heartfelt thanks and important news. Following [Neural Magic’s acquisition by Red Hat in January 2025](https://www.redhat.com/en/about/press-releases/red-hat-completes-acquisition-neural-magic-fuel-optimized-generative-ai-innovation-across-hybrid-cloud), we’re shifting our focus to commercial and open-source offerings built around [vLLM (virtual large language models)](https://www.redhat.com/en/topics/ai/what-is-vllm).
-
-As part of this transition, we have ceased development and will deprecate the community versions of **DeepSparse (including DeepSparse Enterprise), SparseML, SparseZoo, and Sparsify on June 2, 2025**. After that, these tools will no longer receive updates or support.
-
-From day one, our mission was to democratize AI through efficient, accessible tools. We’ve learned so much from your feedback, creativity, and collaboration—watching these tools become vital parts of your ML journeys has meant the world to us.
-
-Though we’re winding down the community editions, we remain committed to our original values. Now as part of Red Hat, we’re excited to evolve our work around vLLM and deliver even more powerful solutions to the ML community.
-
-To learn more about our next chapter, visit [ai.redhat.com](ai.redhat.com). Thank you for being part of this incredible journey.
-
-_With gratitude, The Neural Magic Team (now part of Red Hat)_
-
 ## Overview
 
 SparseML is an open-source model optimization toolkit that enables you to create inference-optimized sparse models using pruning, quantization, and distillation algorithms. Models optimized with SparseML can then be exported to the ONNX and deployed with [DeepSparse](https://github.com/neuralmagic/deepsparse/) for GPU-class performance on CPU hardware.
@@ -189,7 +173,6 @@ More information on the codebase and contained processes can be found in the Spa
 ### Learning More
 
 - Documentation: [SparseML,](https://docs.neuralmagic.com/sparseml/) [SparseZoo,](https://docs.neuralmagic.com/sparsezoo/) [Sparsify,](https://docs.neuralmagic.com/sparsify/) [DeepSparse](https://docs.neuralmagic.com/deepsparse/)
-- Neural Magic: [Blog,](https://www.neuralmagic.com/blog/) [Resources](https://www.neuralmagic.com/resources/)
 
 ### Release History
 
