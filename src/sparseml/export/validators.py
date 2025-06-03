@@ -157,6 +157,9 @@ def validate_correctness(
     try:
         import onnxruntime as ort
     except ImportError as err:
+        _LOGGER.exception(
+            "onnxruntime required for correctness validation", exc_info=True
+        )
         raise ImportError(
             "The onnxruntime package is required for the correctness validation. "
             "Please install it using 'pip install sparseml[onnxruntime]'."

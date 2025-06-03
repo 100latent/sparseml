@@ -141,7 +141,7 @@ class SessionManagerMixIn:
         with summon_full_params_context(self.model, offload_to_cpu=True):
             sparseml.initialize(
                 model=self.model,
-                teacher_model=self.teacher,  # TODO: what about for self/disable?
+                teacher_model=self.teacher,
                 recipe=self.recipe,
                 recipe_stage=stage,
                 recipe_args=self.recipe_args,
@@ -152,6 +152,10 @@ class SessionManagerMixIn:
                 fsdp_active=self.is_fsdp_enabled,
                 metadata=self.metadata,
             )
+        if self.teacher:
+            _LOGGER.debug("Teacher model provided during initialization")
+        else:
+            _LOGGER.debug("No teacher model provided during initialization")
         self.accelerator.wait_for_everyone()
         model = get_session_model()
         self.model_wrapped = self.model = model
@@ -250,7 +254,7 @@ class SessionManagerMixIn:
         :param optimizer: pre-initialized optimizer
         """
 
-        # TODO: we don't currently have a LR scheduler in the new modifier framework
+        _LOGGER.info("LR scheduler not implemented for new modifier framework")
         self._check_super_defined("create_scheduler")
         return super().create_scheduler(num_training_steps, optimizer)
 
@@ -287,7 +291,7 @@ class SessionManagerMixIn:
         """
         self._check_super_defined("compute_loss")
 
-        # TODO: do we need these model signature columns?
+        _LOGGER.debug("Filtering inputs to model signature columns")
         inputs = {k: inputs[k] for k in inputs if k in self._signature_columns}
         loss = super().compute_loss(model, inputs, return_outputs=return_outputs)
 

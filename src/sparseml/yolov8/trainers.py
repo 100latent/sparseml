@@ -19,6 +19,7 @@ import subprocess
 import sys
 import tempfile
 import warnings
+import logging
 from copy import copy, deepcopy
 from datetime import datetime, timedelta
 from functools import partial
@@ -33,6 +34,8 @@ from sparseml.pytorch.sparsification.quantization import skip_onnx_input_quantiz
 from sparseml.pytorch.utils import ModuleExporter
 from sparseml.pytorch.utils.helpers import download_framework_model_by_recipe_type
 from sparseml.pytorch.utils.logger import LoggerManager, PythonLogger, WANDBLogger
+
+LOGGER = logging.getLogger(__name__)
 from sparseml.yolov8.modules import Bottleneck, Conv
 from sparseml.yolov8.utils import (
     check_coco128_segmentation,
@@ -317,7 +320,7 @@ class SparseTrainer(BaseTrainer):
                     init_kwargs["name"] = self.args.name
                 loggers.append(WANDBLogger(init_kwargs=init_kwargs))
             except ImportError:
-                warnings.warn("Unable to import wandb for logging")
+                LOGGER.exception("Unable to import wandb for logging", exc_info=True)
             self.logger_manager = LoggerManager(loggers)
 
         if self.args.recipe is not None:
@@ -493,9 +496,11 @@ class SparseTrainer(BaseTrainer):
             "best_fitness": self.best_fitness,
             "model": deepcopy(model).state_dict(),
             "model_yaml": dict(model.yaml),
-            "ema": deepcopy(self.ema.ema).state_dict()
-            if self.ema and self.ema.enabled
-            else None,
+            "ema": (
+                deepcopy(self.ema.ema).state_dict()
+                if self.ema and self.ema.enabled
+                else None
+            ),
             "updates": self.ema.updates if self.ema and self.ema.enabled else None,
             "optimizer": self.optimizer.state_dict(),
             "train_args": vars(self.args),
@@ -712,14 +717,16 @@ class SparseYOLO(YOLO):
             manager.apply(
                 self.model,
                 # maybe we could check whether OBS pruner is in the manager?
-                grad_sampler=create_grad_sampler(trainer, stride=32, model=self.model)
-                if any(
-                    map(
-                        lambda mod: hasattr(mod, "_grad_sampler"),
-                        manager.pruning_modifiers,
+                grad_sampler=(
+                    create_grad_sampler(trainer, stride=32, model=self.model)
+                    if any(
+                        map(
+                            lambda mod: hasattr(mod, "_grad_sampler"),
+                            manager.pruning_modifiers,
+                        )
                     )
-                )
-                else None,
+                    else None
+                ),
             )
             recipe = (
                 ScheduledModifierManager.compose_staged(recipe, manager)
@@ -772,9 +779,11 @@ class SparseYOLO(YOLO):
             convert_qat=True,
             # ultralytics-specific argument
             do_constant_folding=True,
-            output_names=["output0", "output1"]
-            if isinstance(self.model, SegmentationModel)
-            else ["output0"],
+            output_names=(
+                ["output0", "output1"]
+                if isinstance(self.model, SegmentationModel)
+                else ["output0"]
+            ),
             dynamic_axes=dynamic_axes,
         )
 

@@ -14,9 +14,13 @@
 
 
 import functools
+import logging
 from typing import Optional
 
 from sparseml.base import check_version
+
+
+_LOGGER = logging.getLogger(__name__)
 
 
 try:
@@ -24,7 +28,8 @@ try:
 
     onnx_err = None
 except Exception as err:
-    onnx = object()  # TODO: populate with fake object for necessary imports
+    _LOGGER.exception("Failed to import onnx, using placeholder", exc_info=True)
+    onnx = object()
     onnx_err = err
 
 try:
@@ -33,7 +38,8 @@ try:
     onnxruntime_err = None
 
 except Exception as error:
-    onnxruntime = object()  # TODO: populate with fake object for necessary imports
+    _LOGGER.exception("Failed to import onnxruntime, using placeholder", exc_info=True)
+    onnxruntime = object()
     onnxruntime_err = error
 
 __all__ = [

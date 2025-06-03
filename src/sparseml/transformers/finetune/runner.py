@@ -279,7 +279,8 @@ class StageRunner:
                 self.trainer.accelerator.wait_for_everyone()
                 continue
 
-            # setup checkpoint dir, TODO: this should be optional
+            # setup checkpoint dir
+            _LOGGER.info("Creating stage checkpoint directory; make optional in future")
             self._output_dir = os.path.join(
                 self.parent_output_dir, "stage_" + stage_name
             )

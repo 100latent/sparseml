@@ -15,6 +15,7 @@
 from enum import Enum
 from pathlib import Path
 from typing import Any, Callable, Dict, Generator, List, Optional, Tuple, Union
+import logging
 
 from pydantic import BaseModel, Field
 
@@ -24,6 +25,8 @@ from sparsezoo.utils.registry import RegistryMixin
 
 
 __all__ = ["IntegrationHelperFunctions", "resolve_integration"]
+
+_LOGGER = logging.getLogger(__name__)
 
 
 class Integrations(Enum):
@@ -95,7 +98,7 @@ def remove_past_key_value_support_from_config(config):
 
 
 def _infer_integration_from_source_path(
-    source_path: Union[Path, str, None] = None
+    source_path: Union[Path, str, None] = None,
 ) -> Optional[str]:
     """
     Infer the integration to use from the source_path.
@@ -110,14 +113,16 @@ def _infer_integration_from_source_path(
         from sparseml.pytorch.image_classification.utils.helpers import (
             is_image_classification_model,
         )
-    except ImportError:
-        # unable to import integration, always return False
+    except ImportError as err:
+        _LOGGER.exception(
+            "Unable to import image classification helpers", exc_info=True
+        )
         is_image_classification_model = _null_is_model
 
     try:
         from sparseml.transformers.utils.helpers import is_transformer_model
-    except ImportError:
-        # unable to import integration, always return False
+    except ImportError as err:
+        _LOGGER.exception("Unable to import transformer helpers", exc_info=True)
         is_transformer_model = _null_is_model
 
     if is_image_classification_model(source_path):

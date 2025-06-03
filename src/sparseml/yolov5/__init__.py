@@ -27,8 +27,11 @@ try:
     import torchvision as _torchvision
 
     import yolov5 as _yolov5
-except ImportError:
-    raise ImportError("Please install sparseml[yolov5] to use this pathway")
+except ImportError as err:
+    _LOGGER.exception(
+        "Please install sparseml[yolov5] to use this pathway", exc_info=True
+    )
+    raise ImportError("Please install sparseml[yolov5] to use this pathway") from err
 
 _analytics.send_event("python__yolov5__init")
 

@@ -25,6 +25,9 @@ try:
     from torch.nn import CrossEntropyLoss
     from tqdm import tqdm
 except ImportError as err:
+    _LOGGER.exception(
+        "Required packages for perplexity evaluation are missing", exc_info=True
+    )
     raise ImportError(
         "perplexity evaluation requires the following packages to be installed: "
         "datasets, numpy, torch, tqdm, transformers kindly install these packages "

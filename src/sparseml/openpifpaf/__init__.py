@@ -12,15 +12,23 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import logging
 from sparseml.analytics import sparseml_analytics as _analytics
 
+
+_LOGGER = logging.getLogger(__name__)
 
 try:
     import cv2 as _cv2  # noqa: F401
 
     import openpifpaf as _openpifpaf  # noqa: F401
-except ImportError:
-    raise ImportError("Please install sparseml[openpifpaf] to use this pathway")
+except ImportError as err:
+    _LOGGER.exception(
+        "Please install sparseml[openpifpaf] to use this pathway", exc_info=True
+    )
+    raise ImportError(
+        "Please install sparseml[openpifpaf] to use this pathway"
+    ) from err
 
 
 _analytics.send_event("python__openpifpaf__init")

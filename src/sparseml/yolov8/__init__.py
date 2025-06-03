@@ -12,14 +12,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import logging
 import ultralytics
 from sparseml.analytics import sparseml_analytics as _analytics
+
+_LOGGER = logging.getLogger(__name__)
 
 
 try:
     import ultralytics as _ultralytics  # noqa: F401
-except ImportError:
-    raise ImportError("Please install sparseml[yolov8] to use this pathway")
+except ImportError as err:
+    _LOGGER.exception(
+        "Please install sparseml[yolov8] to use this pathway", exc_info=True
+    )
+    raise ImportError("Please install sparseml[yolov8] to use this pathway") from err
 
 
 _analytics.send_event("python__yolov8__init")

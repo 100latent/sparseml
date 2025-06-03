@@ -24,6 +24,12 @@ try:
     from lm_eval.models.huggingface import HFLM
 except ImportError as import_error:
     HFLM = object
+    _LOGGER.exception(
+        "package `lm_eval` not found. Please install it via "
+        "`pip install lm-eval==0.4.1;pip uninstall transformers &&"
+        " pip install sparseml[transformers,torch]`",
+        exc_info=True,
+    )
     raise ImportError(
         "package `lm_eval` not found. Please install it via "
         "`pip install lm-eval==0.4.1;pip uninstall transformers &&"
@@ -38,6 +44,7 @@ try:
         SparseAutoModelForCausalLM,
     )
 except ImportError as import_error:
+    _LOGGER.exception("Failed to import transformers dependencies", exc_info=True)
     raise import_error
 
 __all__ = ["lm_eval_harness", "SparseMLLM"]
