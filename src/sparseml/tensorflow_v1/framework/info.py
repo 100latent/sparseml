@@ -22,9 +22,12 @@ from typing import Any
 
 from sparseml.base import Framework, get_version
 from sparseml.framework import FrameworkInferenceProviderInfo, FrameworkInfo
-from sparseml.sparsification import SparsificationInfo
+from sparseml.sparsification import (
+    ModifierInfo,
+    ModifierType,
+    SparsificationInfo,
+)
 from sparseml.tensorflow_v1.base import check_tensorflow_install, tf_compat
-from sparseml.tensorflow_v1.sparsification import sparsification_info
 
 
 __all__ = ["is_supported", "detect_framework", "framework_info"]
@@ -99,11 +102,26 @@ def framework_info() -> FrameworkInfo:
     :return: The framework info for tensorflow
     :rtype: FrameworkInfo
     """
+    supported_spars = SparsificationInfo(
+        modifiers=[
+            ModifierInfo(
+                name="GMPruningModifier",
+                description="Gradual magnitude pruning",
+                type_=ModifierType.pruning,
+            ),
+            ModifierInfo(
+                name="QuantizationModifier",
+                description="Quantization aware training",
+                type_=ModifierType.quantization,
+            ),
+        ]
+    )
+
     cpu_provider = FrameworkInferenceProviderInfo(
         name="cpu",
         description="Base CPU provider within TensorFlow",
         device="cpu",
-        supported_sparsification=SparsificationInfo(),  # TODO: fill in when available
+        supported_sparsification=supported_spars,
         available=check_tensorflow_install(raise_on_error=False),
         properties={},
         warnings=[],
@@ -112,7 +130,7 @@ def framework_info() -> FrameworkInfo:
         name="cuda",
         description="Base GPU CUDA provider within TensorFlow",
         device="gpu",
-        supported_sparsification=SparsificationInfo(),  # TODO: fill in when available
+        supported_sparsification=supported_spars,
         available=(
             check_tensorflow_install(raise_on_error=False)
             and get_version("tensorflow_gpu", raise_on_error=False) is not None
@@ -142,7 +160,7 @@ def framework_info() -> FrameworkInfo:
                 alternate_package_names=["sparseml-nightly"],
             ),
         },
-        sparsification=sparsification_info(),
+        sparsification=supported_spars,
         inference_providers=[cpu_provider, gpu_provider],
         properties={},
         training_available=True,

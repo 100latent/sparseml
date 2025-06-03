@@ -22,9 +22,17 @@ from typing import Any
 
 from sparseml.base import Framework, get_version
 from sparseml.framework import FrameworkInferenceProviderInfo, FrameworkInfo
-from sparseml.keras.base import check_keras_install, is_native_keras, keras, tensorflow
-from sparseml.keras.sparsification import sparsification_info
-from sparseml.sparsification import SparsificationInfo
+from sparseml.keras.base import (
+    check_keras_install,
+    is_native_keras,
+    keras,
+    tensorflow,
+)
+from sparseml.sparsification import (
+    ModifierInfo,
+    ModifierType,
+    SparsificationInfo,
+)
 
 
 __all__ = ["is_supported", "detect_framework", "framework_info"]
@@ -99,11 +107,26 @@ def framework_info() -> FrameworkInfo:
     :return: The framework info for keras
     :rtype: FrameworkInfo
     """
+    supported_spars = SparsificationInfo(
+        modifiers=[
+            ModifierInfo(
+                name="GMPruningModifier",
+                description="Gradual magnitude pruning",
+                type_=ModifierType.pruning,
+            ),
+            ModifierInfo(
+                name="QuantizationModifier",
+                description="Quantization aware training",
+                type_=ModifierType.quantization,
+            ),
+        ]
+    )
+
     cpu_provider = FrameworkInferenceProviderInfo(
         name="cpu",
         description="Base CPU provider within Keras",
         device="cpu",
-        supported_sparsification=SparsificationInfo(),  # TODO: fill in when available
+        supported_sparsification=supported_spars,
         available=check_keras_install(raise_on_error=False),
         properties={},
         warnings=[],
@@ -112,7 +135,7 @@ def framework_info() -> FrameworkInfo:
         name="cuda",
         description="Base GPU CUDA provider within Keras",
         device="gpu",
-        supported_sparsification=SparsificationInfo(),  # TODO: fill in when available
+        supported_sparsification=supported_spars,
         available=(
             check_keras_install(raise_on_error=False)
             and tensorflow.test.is_gpu_available()
@@ -144,7 +167,7 @@ def framework_info() -> FrameworkInfo:
                 alternate_package_names=["sparseml-nightly"],
             ),
         },
-        sparsification=sparsification_info(),
+        sparsification=supported_spars,
         inference_providers=[cpu_provider, gpu_provider],
         properties={
             "is_native_keras": is_native_keras,

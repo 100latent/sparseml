@@ -24,7 +24,9 @@ try:
 
     deepsparse_err = None
 except Exception as err:
-    deepsparse = object()  # TODO: populate with fake object for necessary imports
+    from types import ModuleType
+
+    deepsparse = ModuleType("deepsparse")
     deepsparse_err = err
 
 

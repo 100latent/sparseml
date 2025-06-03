@@ -24,7 +24,9 @@ try:
 
     onnx_err = None
 except Exception as err:
-    onnx = object()  # TODO: populate with fake object for necessary imports
+    from types import ModuleType
+
+    onnx = ModuleType("onnx")
     onnx_err = err
 
 try:
@@ -33,7 +35,9 @@ try:
     onnxruntime_err = None
 
 except Exception as error:
-    onnxruntime = object()  # TODO: populate with fake object for necessary imports
+    from types import ModuleType
+
+    onnxruntime = ModuleType("onnxruntime")
     onnxruntime_err = error
 
 __all__ = [

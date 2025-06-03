@@ -22,9 +22,12 @@ from typing import Any
 
 from sparseml.base import Framework, get_version
 from sparseml.deepsparse.base import check_deepsparse_install
-from sparseml.deepsparse.sparsification import sparsification_info
 from sparseml.framework import FrameworkInferenceProviderInfo, FrameworkInfo
-from sparseml.sparsification import SparsificationInfo
+from sparseml.sparsification import (
+    ModifierInfo,
+    ModifierType,
+    SparsificationInfo,
+)
 from sparsezoo import File, Model
 
 
@@ -122,6 +125,21 @@ def framework_info() -> FrameworkInfo:
             "quantized inference performance will be limited"
         )
 
+    supported_spars = SparsificationInfo(
+        modifiers=[
+            ModifierInfo(
+                name="GMPruningModifier",
+                description="Gradual magnitude pruning",
+                type_=ModifierType.pruning,
+            ),
+            ModifierInfo(
+                name="QuantizationModifier",
+                description="Quantization aware training",
+                type_=ModifierType.quantization,
+            ),
+        ]
+    )
+
     cpu_provider = FrameworkInferenceProviderInfo(
         name="cpu",
         description=(
@@ -129,7 +147,7 @@ def framework_info() -> FrameworkInfo:
             "sparsified models using AVX and VNNI instruction sets"
         ),
         device="cpu",
-        supported_sparsification=SparsificationInfo(),  # TODO: fill in when available
+        supported_sparsification=supported_spars,
         available=check_deepsparse_install(raise_on_error=False),
         properties={
             "cpu_architecture": arch,
@@ -156,7 +174,7 @@ def framework_info() -> FrameworkInfo:
                 alternate_package_names=["sparseml-nightly"],
             ),
         },
-        sparsification=sparsification_info(),
+        sparsification=supported_spars,
         inference_providers=[cpu_provider],
         training_available=False,
         sparsification_available=False,
