@@ -51,6 +51,7 @@ from sparseml.pytorch.optim import ScheduledModifierManager
 from sparseml.pytorch.optim.analyzer_module import ModuleAnalyzer
 from sparseml.pytorch.torchvision import presets, transforms, utils
 from sparseml.pytorch.torchvision.sampler import RASampler
+from sparseml.pytorch.utils import ModuleSparsificationInfo
 from sparseml.pytorch.utils.helpers import (
     default_device,
     download_framework_model_by_recipe_type,
@@ -475,9 +476,9 @@ def main(args):
         model,
         args.weight_decay,
         norm_weight_decay=args.norm_weight_decay,
-        custom_keys_weight_decay=custom_keys_weight_decay
-        if len(custom_keys_weight_decay) > 0
-        else None,
+        custom_keys_weight_decay=(
+            custom_keys_weight_decay if len(custom_keys_weight_decay) > 0 else None
+        ),
     )
 
     opt_name = args.opt.lower()
@@ -706,6 +707,8 @@ def main(args):
         model_without_ddp = model.module
 
     best_top1_acc = -math.inf
+    best_pruned_acc = -math.inf
+    best_pruned_quant_acc = -math.inf
 
     _LOGGER.info("Start training")
 
@@ -756,9 +759,31 @@ def main(args):
             )
             log_metrics("Test/EMA", ema_eval_metrics, epoch, steps_per_epoch)
 
+        spars_info = ModuleSparsificationInfo(model_without_ddp)
+        model_pruned = spars_info.params_prunable_sparse_percent > 0
+        model_quant = spars_info.params_quantized_percent > 0
+
         is_new_best = epoch >= args.save_best_after and top1_acc > best_top1_acc
         if is_new_best:
             best_top1_acc = top1_acc
+
+        is_new_best_pruned = (
+            model_pruned
+            and not model_quant
+            and epoch >= args.save_best_after
+            and top1_acc > best_pruned_acc
+        )
+        if is_new_best_pruned:
+            best_pruned_acc = top1_acc
+
+        is_new_best_pruned_quant = (
+            model_pruned
+            and model_quant
+            and epoch >= args.save_best_after
+            and top1_acc > best_pruned_quant_acc
+        )
+        if is_new_best_pruned_quant:
+            best_pruned_quant_acc = top1_acc
         if args.output_dir:
             checkpoint = {
                 "state_dict": model_without_ddp.state_dict(),
@@ -790,6 +815,10 @@ def main(args):
             file_names = ["checkpoint.pth"]
             if is_new_best:
                 file_names.append("checkpoint-best.pth")
+            if is_new_best_pruned:
+                file_names.append("checkpoint-best-pruned.pth")
+            if is_new_best_pruned_quant:
+                file_names.append("checkpoint-best-pruned-quantized.pth")
             _save_checkpoints(
                 epoch,
                 args.output_dir,
