@@ -49,9 +49,9 @@ Features related to checkpoints. Notes:
 | **original_integration_checkpoints** | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 | **sparsezoo_checkpoints**            | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 | **best_checkpoint**                  | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
-| **best_pruned_checkpoint**           | :x:                | :x:                | :question:         | :x:                | :x:                |
-| **best_pruned_quantized_checkpoint** | :x:                | :x:                | :question:         | :x:                | :x:                |
-| **recipe_saved_to_checkpoint**       | :x:                | :x:                | :question:         | :x:                | :x:                |
+| **best_pruned_checkpoint**           | :white_check_mark: | :x:                | :question:         | :x:                | :white_check_mark: |
+| **best_pruned_quantized_checkpoint** | :white_check_mark: | :x:                | :question:         | :x:                | :white_check_mark: |
+| **recipe_saved_to_checkpoint**       | :white_check_mark: | :x:                | :question:         | :x:                | :white_check_mark: |
 | **update_architecture_from_recipe**  | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 | **staged_recipes**                   | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 

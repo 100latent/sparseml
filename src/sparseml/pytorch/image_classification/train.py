@@ -203,7 +203,12 @@ from sparseml.pytorch.image_classification.utils import (
     cli_helpers,
     helpers,
 )
-from sparseml.pytorch.utils import default_device, get_prunable_layers, tensor_sparsity
+from sparseml.pytorch.utils import (
+    ModuleSparsificationInfo,
+    default_device,
+    get_prunable_layers,
+    tensor_sparsity,
+)
 from sparseml.pytorch.utils.distributed import record
 
 
@@ -572,7 +577,10 @@ def main(
     helpers.set_seeds(local_rank=local_rank)
 
     if not eval_mode:
-        train_dataset, train_loader, = helpers.get_dataset_and_dataloader(
+        (
+            train_dataset,
+            train_loader,
+        ) = helpers.get_dataset_and_dataloader(
             dataset_name=dataset,
             dataset_path=dataset_path,
             batch_size=train_batch_size,
@@ -728,6 +736,8 @@ def train(
         LOGGER.info(f"Starting training from epoch {trainer.epoch}")
 
         val_metric = best_metric = None
+        best_pruned_metric = None
+        best_pruned_quant_metric = None
 
         while trainer.epoch < trainer.max_epochs:
             train_res = trainer.run_one_epoch(
@@ -742,6 +752,9 @@ def train(
                     max_steps=max_eval_steps,
                 )
                 val_metric = val_res.result_mean(trainer.target_metric).item()
+                spars_info = ModuleSparsificationInfo(trainer.model)
+                model_pruned = spars_info.params_prunable_sparse_percent > 0
+                model_quant = spars_info.params_quantized_percent > 0
 
                 should_save_epoch = trainer.epoch >= save_best_after and (
                     best_metric is None
@@ -765,6 +778,52 @@ def train(
                     )
                     # Best metric is based on validation results
                     best_metric = val_metric
+
+                if model_pruned and not model_quant:
+                    should_save_pruned = trainer.epoch >= save_best_after and (
+                        best_pruned_metric is None
+                        or (
+                            val_metric <= best_pruned_metric
+                            if trainer.target_metric != "top1acc"
+                            else val_metric >= best_pruned_metric
+                        )
+                    )
+                    if should_save_pruned:
+                        helpers.save_model_training(
+                            model=trainer.model,
+                            optim=trainer.optim,
+                            manager=trainer.manager,
+                            checkpoint_manager=trainer.checkpoint_manager,
+                            save_name="checkpoint-best-pruned",
+                            save_dir=save_dir,
+                            epoch=trainer.epoch,
+                            val_res=val_res,
+                            arch_key=trainer.key,
+                        )
+                        best_pruned_metric = val_metric
+
+                if model_pruned and model_quant:
+                    should_save_pruned_quant = trainer.epoch >= save_best_after and (
+                        best_pruned_quant_metric is None
+                        or (
+                            val_metric <= best_pruned_quant_metric
+                            if trainer.target_metric != "top1acc"
+                            else val_metric >= best_pruned_quant_metric
+                        )
+                    )
+                    if should_save_pruned_quant:
+                        helpers.save_model_training(
+                            model=trainer.model,
+                            optim=trainer.optim,
+                            manager=trainer.manager,
+                            checkpoint_manager=trainer.checkpoint_manager,
+                            save_name="checkpoint-best-pruned-quantized",
+                            save_dir=save_dir,
+                            epoch=trainer.epoch,
+                            val_res=val_res,
+                            arch_key=trainer.key,
+                        )
+                        best_pruned_quant_metric = val_metric
 
             # save checkpoints
             should_save_epoch = (
@@ -807,7 +866,7 @@ def train(
         )
 
         LOGGER.info("layer sparsities:")
-        for (name, layer) in get_prunable_layers(trainer.model):
+        for name, layer in get_prunable_layers(trainer.model):
             LOGGER.info(f"{name}.weight: {tensor_sparsity(layer.weight).item():.4f}")
 
     # close DDP

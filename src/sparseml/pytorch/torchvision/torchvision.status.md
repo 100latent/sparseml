@@ -35,7 +35,7 @@ Features related to checkpoints. Notes:
 
 | original_integration_checkpoints | sparsezoo_checkpoints | best_checkpoint    | best_pruned_checkpoint | best_pruned_quantized_checkpoint | recipe_saved_to_checkpoint | update_architecture_from_recipe | staged_recipes     |
 | -------------------------------- | --------------------- | ------------------ | ---------------------- | -------------------------------- | -------------------------- | ------------------------------- | ------------------ |
-| :white_check_mark:               | :white_check_mark:    | :white_check_mark: | :x:                    | :x:                              | :x:                        | :white_check_mark:              | :white_check_mark: |
+| :white_check_mark:               | :white_check_mark:    | :white_check_mark: | :white_check_mark:     | :white_check_mark:               | :white_check_mark:                        | :white_check_mark:              | :white_check_mark: |
 
 ## Logging
 Logging units for x axis in logging should be number of optimizer steps. Notably: `num_optimizer_steps = num_batches / gradient_accum_steps`. So when gradient_accumuluation is not used, the x axis will be number of batches trained on.
