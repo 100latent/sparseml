@@ -315,7 +315,7 @@ setup(
     name=_PACKAGE_NAME,
     version=version,
     author="Neuralmagic, Inc.",
-    author_email="support@neuralmagic.com",
+    author_email="support@100latent.com",
     description=(
         "Libraries for applying sparsification recipes to neural networks with a "
         "few lines of code, enabling faster and smaller models"
@@ -328,7 +328,7 @@ setup(
         "deep learning libraries, onnx, quantization, automl"
     ),
     license="Apache",
-    url="https://github.com/neuralmagic/sparseml",
+    url="https://github.com/100latent/sparseml",
     include_package_data=True,
     package_dir=_setup_package_dir(),
     packages=_setup_packages(),

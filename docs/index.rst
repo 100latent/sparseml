@@ -34,7 +34,7 @@
     :maxdepth: 3
     :caption: Connect Online
 
-    Bugs, Feature Requests <https://github.com/neuralmagic/sparseml/issues>
+    Bugs, Feature Requests <https://github.com/100latent/sparseml/issues>
     Deep Sparse Community Slack <https://join.slack.com/t/discuss-neuralmagic/shared_invite/zt-q1a1cnvo-YBoICSIw3L1dmQpjBeDurQ>
-    Neural Magic GitHub <https://github.com/neuralmagic>
-    Neural Magic Docs <https://docs.neuralmagic.com>
+    Neural Magic GitHub <https://github.com/100latent>
+    Neural Magic Docs

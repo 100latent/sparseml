@@ -27,7 +27,7 @@ _analytics.send_event("python__yolact__init")
 
 _LOGGER = _logging.getLogger(__name__)
 _NM_YOLACT_LINK_TEMPLATE = (
-    "https://github.com/neuralmagic/yolact/releases/download/"
+    "https://github.com/100latent/yolact/releases/download/"
     "{version}/yolact-0.0.1-py3-none-any.whl"
 )
 

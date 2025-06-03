@@ -14,16 +14,13 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<h1 style="display: flex; align-items: center;" >
-     <img width="100" height="100" alt="tool icon" src="https://neuralmagic.com/wp-content/uploads/2024/03/icon_SparseML-002.svg" />
-      <span>&nbsp;&nbsp;SparseML</span>
-  </h1>
+<h1>SparseML</h1>
 
 <h3>Libraries for applying sparsification recipes to neural networks with a few lines of code, enabling faster and smaller models</h3>
 
 ## Overview
 
-SparseML is an open-source model optimization toolkit that enables you to create inference-optimized sparse models using pruning, quantization, and distillation algorithms. Models optimized with SparseML can then be exported to the ONNX and deployed with [DeepSparse](https://github.com/neuralmagic/deepsparse/) for GPU-class performance on CPU hardware.
+SparseML is an open-source model optimization toolkit that enables you to create inference-optimized sparse models using pruning, quantization, and distillation algorithms. Models optimized with SparseML can then be exported to the ONNX and deployed with DeepSparse for GPU-class performance on CPU hardware.
 
 <p align="center">
    <img alt="SparseML Flow" src="docs/images/sparseml-workflow.png" width="60%" />
@@ -35,36 +32,31 @@ Neural Magic is excited to preview one-shot LLM compression workflows using the 
 
 To prune and quantize a TinyLlama Chat model it is just a few steps to install dependencies, download a recipe, and apply it to the model:
 ```
-git clone https://github.com/neuralmagic/sparseml
+git clone https://github.com/100latent/sparseml
 pip install -e "sparseml[transformers]"
 wget https://huggingface.co/neuralmagic/TinyLlama-1.1B-Chat-v0.4-pruned50-quant-ds/raw/main/recipe.yaml
 sparseml.transformers.text_generation.oneshot --model_name TinyLlama/TinyLlama-1.1B-Chat-v1.0 --dataset_name open_platypus --recipe recipe.yaml --output_dir ./obcq_deployment --precision float16
 ```
 
-The README at [`src/sparseml/transformers/sparsification/obcq`](https://github.com/neuralmagic/sparseml/tree/main/src/sparseml/transformers/sparsification/obcq) has a detailed walkthrough.
+The README at [`src/sparseml/transformers/sparsification/obcq`](https://github.com/100latent/sparseml/tree/main/src/sparseml/transformers/sparsification/obcq) has a detailed walkthrough.
 
 ## Workflows
 
 SparseML enables you to create a sparse model trained on your dataset in two ways:
-- **Sparse Transfer Learning** enables you to fine-tune a pre-sparsified model from [SparseZoo](https://sparsezoo.neuralmagic.com/) (an open-source repository of sparse models such as BERT, YOLOv5, and ResNet-50) onto your dataset, while maintaining sparsity. This pathway works just like typical fine-tuning you are used to in training CV and NLP models, and is strongly preferred for if your model architecture is available in SparseZoo.
+- **Sparse Transfer Learning** enables you to fine-tune a pre-sparsified model from SparseZoo (an open-source repository of sparse models such as BERT, YOLOv5, and ResNet-50) onto your dataset, while maintaining sparsity. This pathway works just like typical fine-tuning you are used to in training CV and NLP models, and is strongly preferred for if your model architecture is available in SparseZoo.
 
 - **Sparsification from Scratch** enables you to apply state-of-the-art pruning (like gradual magnitude pruning or OBS pruning) and quantization (like quantization aware training) algorithms to arbitrary PyTorch and Hugging Face models. This pathway requires more experimentation, but allows you to create a sparse version of any model. 
 
 ## Integrations
 
 <p>
-    <a href="integrations/torchvision">
-        <img src="https://docs.neuralmagic.com/docs/source/highlights/sparseml/pytorch-torchvision.png" width="136px" />
-    </a>
-    <a href="integrations/ultralytics-yolov5">
-        <img src="https://docs.neuralmagic.com/docs/source/highlights/sparseml/ultralytics-yolov5.png" width="136px" />
-    </a>
-    <a href="integrations/ultralytics-yolov8">
-        <img src="docs/images/ultralytics-yolov8.png" width="136px" />
-    </a>
-    <a href="integrations/huggingface-transformers">
-        <img src="https://docs.neuralmagic.com/docs/source/highlights/sparseml/huggingface-transformers.png" width="136px" />
-    </a>
+    <a href="integrations/torchvision">Torchvision</a>
+    |
+    <a href="integrations/ultralytics-yolov5">YOLOv5</a>
+    |
+    <a href="integrations/ultralytics-yolov8">YOLOv8</a>
+    |
+    <a href="integrations/huggingface-transformers">Hugging Face Transformers</a>
 </p>
 
 ## Tutorials
@@ -106,7 +98,7 @@ Install with pip using:
 pip install sparseml
 ```
 
-More information on installation such as optional dependencies and requirements can be found [here](https://docs.neuralmagic.com/get-started/install/sparseml).
+More information on installation such as optional dependencies and requirements can be found in the documentation.
 
 ## Quick Tour
 
@@ -164,15 +156,15 @@ sparseml.yolov5.train \
 
 More information on the codebase and contained processes can be found in the SparseML docs:
 - [Examples and Tutorials](integrations)
-- [Sparsification Code](https://docs.neuralmagic.com/get-started/sparsify-a-model)
-- [Sparsification Recipes](https://docs.neuralmagic.com/user-guides/recipes)
-- [Exporting to ONNX](https://docs.neuralmagic.com/user-guides/onnx-export)
+- [Sparsification Code](integrations)
+- [Sparsification Recipes](integrations)
+- [Exporting to ONNX](integrations)
 
 ## Resources
 
 ### Learning More
 
-- Documentation: [SparseML,](https://docs.neuralmagic.com/sparseml/) [DeepSparse](https://docs.neuralmagic.com/deepsparse/)
+- Documentation: SparseML and DeepSparse
 
 ### Release History
 
@@ -181,11 +173,11 @@ Official builds are hosted on PyPI
 - stable: [sparseml](https://pypi.org/project/sparseml/)
 - nightly (dev): [sparseml-nightly](https://pypi.org/project/sparseml-nightly/)
 
-Additionally, more information can be found via [GitHub Releases.](https://github.com/neuralmagic/sparseml/releases)
+Additionally, more information can be found via [GitHub Releases.](https://github.com/100latent/sparseml/releases)
 
 ### License
 
-The project is licensed under the [Apache License Version 2.0.](https://github.com/neuralmagic/sparseml/blob/main/LICENSE)
+The project is licensed under the [Apache License Version 2.0.](https://github.com/100latent/sparseml/blob/main/LICENSE)
 
 ## Cite
 Find this project useful in your research or other communications? Please consider citing:

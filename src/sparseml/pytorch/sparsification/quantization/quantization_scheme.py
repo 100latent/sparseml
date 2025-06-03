@@ -333,7 +333,7 @@ def get_observer(
     https://github.com/pytorch/pytorch/blob/v1.12.1/torch/ao/quantization/observer.py#L293
 
     **we want to ensure that the zero point is 128**
-    see https://github.com/neuralmagic/sparseml/pull/604
+    see https://github.com/100latent/sparseml/pull/604
     """
     if is_custom_qrange:
         # for both versions we need to include the custom min/max values in kwargs

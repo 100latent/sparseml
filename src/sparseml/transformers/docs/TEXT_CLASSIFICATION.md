@@ -7,7 +7,7 @@ After training, the model can be deployed with Neural Magic's DeepSparse Engine.
 
 This integration enables spinning up one of the following end-to-end functionalities:
 - **Sparsification of Popular Transformer Models** - easily sparsify any popular Hugging Face Transformer model. 
-- **Sparse Transfer Learning** - fine-tune a sparse backbone model (or use one of our [sparse pre-trained models](https://sparsezoo.neuralmagic.com/?domain=nlp&sub_domain=text_classification)) on your own private dataset.
+- **Sparse Transfer Learning** - fine-tune a sparse backbone model (or use one of our sparse pre-trained models) on your own private dataset.
 
 ## Installation
 
@@ -16,10 +16,10 @@ It is recommended to run Python 3.8 as some of the scripts within the transforme
 Note: Transformers will not immediately install with this command. Instead, a sparsification-compatible version of Transformers will install on the first invocation of the Transformers code in SparseML.
 
 ## Tutorials
-- [Crypto Sentiment Analysis example](https://github.com/neuralmagic/deepsparse/tree/500d132f27e97547b752c99dd06e17b8e53a1ba8/examples/twitter-nlp) + [accompanying video](https://www.youtube.com/watch?v=7UTKt-PDLvk)
+- [Crypto Sentiment Analysis example](https://github.com/100latent/deepsparse/tree/500d132f27e97547b752c99dd06e17b8e53a1ba8/examples/twitter-nlp) + [accompanying video](https://www.youtube.com/watch?v=7UTKt-PDLvk)
 ## Getting Started
 ### Sparsifying Popular Transformer Models
-In the example below, a dense BERT model is trained on the MNLI dataset. By passing the recipe `zoo:nlp/text_classification/bert-base/pytorch/huggingface/mnli/12layer_pruned90-none ` (located in [SparseZoo](https://sparsezoo.neuralmagic.com/models/nlp%2Ftext_classification%2Fbert-base%2Fpytorch%2Fhuggingface%2Fmnli%2F12layer_pruned90-none)) we modify (sparsify) the training process and/or the model.
+In the example below, a dense BERT model is trained on the MNLI dataset. By passing the recipe `zoo:nlp/text_classification/bert-base/pytorch/huggingface/mnli/12layer_pruned90-none ` (located in SparseZoo) we modify (sparsify) the training process and/or the model.
 ```bash
 sparseml.transformers.text_classification \
   --model_name_or_path bert-base-uncased \
@@ -90,7 +90,7 @@ output:
   --cache_dir CACHE_DIR
                         Where to store the pretrained data from huggingface.co (default: None)
   --recipe RECIPE       
-                        Path to a SparseML sparsification recipe, see https://github.com/neuralmagic/sparseml for more information (default: None)
+                        Path to a SparseML sparsification recipe, see https://github.com/100latent/sparseml for more information (default: None)
   --task_name TASK_NAME
                         The name of the task to train on: cola, mnli, mrpc, qnli, qqp, rte, sst2, stsb, wnli (default: None)
 ...
@@ -142,4 +142,4 @@ inference = tc_pipeline("Snorlax hates pineapple pizza!")
 
 ## Support
 
-For Neural Magic Support, sign up or log in to our [Deep Sparse Community Slack](https://join.slack.com/t/discuss-neuralmagic/shared_invite/zt-q1a1cnvo-YBoICSIw3L1dmQpjBeDurQ). Bugs, feature requests, or additional questions can also be posted to our [GitHub Issue Queue](https://github.com/neuralmagic/sparseml/issues).
+For Neural Magic Support, sign up or log in to our [Deep Sparse Community Slack](https://join.slack.com/t/discuss-neuralmagic/shared_invite/zt-q1a1cnvo-YBoICSIw3L1dmQpjBeDurQ). Bugs, feature requests, or additional questions can also be posted to our [GitHub Issue Queue](https://github.com/100latent/sparseml/issues).

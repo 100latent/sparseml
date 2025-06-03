@@ -24,7 +24,7 @@ Sparse Transfer Learning is quite similiar to typical NLP transfer learning, whe
 
 SparseZoo contains pre-sparsified checkpoints of common NLP models like BERT and RoBERTa. These models can be used as the starting checkpoint for the sparse transfer learning workflow.
 
-[Check out the full list of pre-sparsified models](https://sparsezoo.neuralmagic.com/?domain=nlp&sub_domain=masked_language_modeling&page=1)
+Check out the full list of pre-sparsified models
 
 ## **Installation**
 
@@ -41,7 +41,7 @@ dataset, with each sentence labeled with a 0 or 1 representing negative or posit
 
 ### **Step 1: Download Pre-Sparsified Checkpoint**
 
-We will fine-tune a [90% pruned BERT-base](https://sparsezoo.neuralmagic.com/models/nlp%2Fmasked_language_modeling%2Fobert-base%2Fpytorch%2Fhuggingface%2Fwikipedia_bookcorpus%2Fpruned90-none), identified by the following stub:
+We will fine-tune a 90% pruned BERT-base, identified by the following stub:
 ```bash
 zoo:nlp/masked_language_modeling/obert-base/pytorch/huggingface/wikipedia_bookcorpus/pruned90-none
 ```
@@ -56,7 +56,7 @@ model_path = zoo_model.training.path
 
 Additionally, SparseML allows you to apply model distillation from a dense teacher model during the fine-tuning process. This is an optional step, but it can help increase accuracy.
 
-For SST2, there is a [dense BERT-base](https://sparsezoo.neuralmagic.com/models/nlp%2Fsentiment_analysis%2Fobert-base%2Fpytorch%2Fhuggingface%2Fsst2%2Fbase-none) trained on SST2, identified by the following stub:
+For SST2, there is a dense BERT-base trained on SST2, identified by the following stub:
 
 ```bash
 zoo:nlp/sentiment_analysis/obert-base/pytorch/huggingface/sst2/base-none
@@ -135,7 +135,7 @@ tokenized_dataset = dataset.map(preprocess_fn, batched=True)
 
 To run sparse transfer learning, we first need to create/select a sparsification recipe. For sparse transfer, we need a recipe that instructs SparseML to maintain sparsity during training and to quantize the model over the final epochs.
 
-For the SST2 dataset, there is a [transfer learning recipe available in SparseZoo](https://sparsezoo.neuralmagic.com/models/nlp%2Fsentiment_analysis%2Fobert-base%2Fpytorch%2Fhuggingface%2Fsst2%2Fpruned90_quant-none), identified by the following stub:
+For the SST2 dataset, there is a transfer learning recipe available in SparseZoo, identified by the following stub:
 ```
 zoo:nlp/sentiment_analysis/obert-base/pytorch/huggingface/sst2/pruned90_quant-none
 ```

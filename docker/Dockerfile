@@ -59,7 +59,7 @@ RUN \
     echo Will install from pypi based on mode and version ; \
   else  \
     echo cloning from "${BRANCH}" &&  \
-    git clone https://github.com/neuralmagic/sparseml.git --depth 1 -b "${BRANCH}" ; \
+    git clone https://github.com/100latent/sparseml.git --depth 1 -b "${BRANCH}" ; \
   fi;
 
 
@@ -131,7 +131,7 @@ RUN \
       $VENV/bin/pip install -e  "./sparseml[dev]"; \
     else \
       echo Installing from main  with editable mode && \
-      git clone https://github.com/neuralmagic/sparseml.git --depth 1 -b main && \
+      git clone https://github.com/100latent/sparseml.git --depth 1 -b main && \
       $VENV/bin/pip install -e "./sparseml[dev]"; \
     fi;
 

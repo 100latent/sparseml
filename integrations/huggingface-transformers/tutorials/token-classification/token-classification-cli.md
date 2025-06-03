@@ -26,8 +26,8 @@ Sparse Transfer Learning is very similiar to the typical transfer learing proces
 
 SparseZoo, Neural Magic's open source repository of pre-sparsified models, contains a 90% pruned version of BERT, which has been sparsified on the upstream Wikipedia and BookCorpus datasets with the masked language modeling objective.  We will use this model as the starting point for the transfer learning process.
 
-- [Check out 90% pruned BERT model card](https://sparsezoo.neuralmagic.com/models/nlp%2Fmasked_language_modeling%2Fobert-base%2Fpytorch%2Fhuggingface%2Fwikipedia_bookcorpus%2Fpruned90-none)
-- [Check out the full list of pre-sparsified NLP models](https://sparsezoo.neuralmagic.com/?domain=nlp&sub_domain=masked_language_modeling&page=1)
+- Check out 90% pruned BERT model card
+- Check out the full list of pre-sparsified NLP models
 
 ### Table of Contents
 
@@ -61,7 +61,7 @@ To launch a Sparse Transfer Learning run, we first need to create a Sparse Trans
 
 Recipes are YAML files that specify sparsity related algorithms and hyper-parameters. SparseML parses the recipes and updates the training loops to apply the specified sparsification algorithms to the model.
 
-In the case of Conll2003, there is a [premade recipe from the SparseZoo](https://sparsezoo.neuralmagic.com/models/nlp%2Ftoken_classification%2Fobert-base%2Fpytorch%2Fhuggingface%2Fconll2003%2Fpruned90_quant-none):
+In the case of Conll2003, there is a premade recipe from the SparseZoo:
 
 ```yaml
 version: 1.1.0

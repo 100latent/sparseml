@@ -39,6 +39,8 @@ jobs:
     needs: set-outputs
     if: ${{ needs.set-outputs.outputs.dev  == 'false' && needs.set-outputs.outputs.release  == 'false'}}
     uses: ./.github/workflows/test-nightly.yml
+    with:
+      run-gpu-tests: false
 
   build-wheel-and-push:
     needs: [set-outputs, test-nightly]
@@ -67,6 +69,9 @@ jobs:
     secrets: inherit
 
   build-container-and-push:
+    # Note: This job uses a GPU runner (k8s-eng-gpu-16G-t4-32G).
+    # This might be necessary if building images with CUDA support.
+    # Investigate further if a non-GPU runner could be used.
     needs: [test-wheel-and-publish, set-outputs]
     if: ${{ always() && !cancelled() && needs.test-wheel-and-publish.result == 'success' }}
     uses: ./.github/workflows/build-container.yml

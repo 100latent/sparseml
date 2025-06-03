@@ -1,5 +1,5 @@
 name: Test Checks
-on: 
+on:
   push:
     branches:
       - main
@@ -8,6 +8,16 @@ on:
     branches:
       - main
       - 'release/*'
+  workflow_dispatch:
+    inputs:
+      run-gpu-tests:
+        description: 'Run GPU tests'
+        required: false
+        default: 'false'
+        type: boolean
+
+env:
+  RUN_GPU_TESTS: ${{ (github.event_name == 'workflow_dispatch' && github.event.inputs.run-gpu-tests == 'true') || 'false' }}
 
 jobs:
   test-setup:
@@ -27,46 +37,43 @@ jobs:
       - run: git branch --show-current
       - name: Get current branch
         id: get-branch
-        run: >
-          (git branch --show-current | grep -E "release/")
-          && echo "::set-output name=branch::$(git branch --show-current)"
-          || echo "::set-output name=branch::main"
+        run: |
+          BRANCH_NAME=$(git branch --show-current)
+          if [[ $BRANCH_NAME =~ release/ ]]; then
+            echo "branch=$BRANCH_NAME" >> $GITHUB_OUTPUT
+          else
+            echo "branch=main" >> $GITHUB_OUTPUT
+          fi
       - name: "Checking if sparseml was changed"
         id: base-check
-        run: >
-          ((git diff --name-only origin/main HEAD | grep -E "[src|tests]/sparseml|setup.py|.github")
-          || (echo $GITHUB_REF | grep -E "refs/heads/[release/|main]"))
-          && echo "::set-output name=output::1" || echo "::set-output name=output::0"
+        run: |
+          echo "output=$(((git diff --name-only origin/${{ github.base_ref || 'main' }} HEAD | grep -E "[src|tests]/sparseml|setup.py|.github") || \
+          (echo $GITHUB_REF | grep -E "refs/heads/(release/|main)"))) && echo 1 || echo 0)" >> $GITHUB_OUTPUT
       - name: "Checking if sparseml.deepsparse was changed"
         id: deepsparse-check
-        run: >
-          ((git diff --name-only origin/main HEAD | grep -E "[src|tests]/sparseml/deepsparse|setup.py|.github")
-          || (echo $GITHUB_REF | grep -E "refs/heads/[release/|main]"))
-          && echo "::set-output name=output::1" || echo "::set-output name=output::0"
+        run: |
+          echo "output=$(((git diff --name-only origin/${{ github.base_ref || 'main' }} HEAD | grep -E "[src|tests]/sparseml/deepsparse|setup.py|.github") || \
+          (echo $GITHUB_REF | grep -E "refs/heads/(release/|main)"))) && echo 1 || echo 0)" >> $GITHUB_OUTPUT
       - name: "Checking if sparseml.onnx was changed"
         id: onnx-check
-        run: >
-          ((git diff --name-only origin/main HEAD | grep -E "[src|tests]/sparseml/onnx|setup.py|.github")
-          || (echo $GITHUB_REF | grep -E "refs/heads/[release/|main]"))
-          && echo "::set-output name=output::1" || echo "::set-output name=output::0"
+        run: |
+          echo "output=$(((git diff --name-only origin/${{ github.base_ref || 'main' }} HEAD | grep -E "[src|tests]/sparseml/onnx|setup.py|.github") || \
+          (echo $GITHUB_REF | grep -E "refs/heads/(release/|main)"))) && echo 1 || echo 0)" >> $GITHUB_OUTPUT
       - name: "Checking if sparseml.pytorch was changed"
         id: pytorch-check
-        run: >
-          ((git diff --name-only origin/main HEAD | grep -E "[src|tests]/sparseml/modifiers|pytorch|setup.py|.github")
-          || (echo $GITHUB_REF | grep -E "refs/heads/[release/|main]"))
-          && echo "::set-output name=output::1" || echo "::set-output name=output::0"
+        run: |
+          echo "output=$(((git diff --name-only origin/${{ github.base_ref || 'main' }} HEAD | grep -E "[src|tests]/sparseml/modifiers|pytorch|setup.py|.github") || \
+          (echo $GITHUB_REF | grep -E "refs/heads/(release/|main)"))) && echo 1 || echo 0)" >> $GITHUB_OUTPUT
       - name: "Checking if sparseml.export was changed"
         id: export-check
-        run: >
-          ((git diff --name-only origin/main HEAD | grep -E "[src|tests]/sparseml/export|setup.py|.github")
-          || (echo $GITHUB_REF | grep -E "refs/heads/[release/|main]"))
-          && echo "::set-output name=output::1" || echo "::set-output name=output::0"
+        run: |
+          echo "output=$(((git diff --name-only origin/${{ github.base_ref || 'main' }} HEAD | grep -E "[src|tests]/sparseml/export|setup.py|.github") || \
+          (echo $GITHUB_REF | grep -E "refs/heads/(release/|main)"))) && echo 1 || echo 0)" >> $GITHUB_OUTPUT
       - name: "Checking if sparseml.transformers was changed"
         id: transformers-check
-        run: >
-          ((git diff --name-only origin/main HEAD | grep -E "[src|tests]/sparseml/transformers|setup.py|.github")
-          || (echo $GITHUB_REF | grep -E "refs/heads/[release/|main]"))
-          && echo "::set-output name=output::1" || echo "::set-output name=output::0"
+        run: |
+          echo "output=$(((git diff --name-only origin/${{ github.base_ref || 'main' }} HEAD | grep -E "[src|tests]/sparseml/transformers|setup.py|.github") || \
+          (echo $GITHUB_REF | grep -E "refs/heads/(release/|main)"))) && echo 1 || echo 0)" >> $GITHUB_OUTPUT
   base-tests:
     runs-on: ubuntu-22.04
     env:
@@ -161,7 +168,8 @@ jobs:
       CLEARML_FILES_HOST:  ${{ secrets.CLEARML_FILES_HOST }}
       CLEARML_API_SECRET_KEY:  ${{ secrets.CLEARML_API_SECRET_KEY }}
     needs: test-setup
-    if: ${{needs.test-setup.outputs.pytorch == 1}}
+    # Run if pytorch files changed AND (RUN_GPU_TESTS is true for push/pull_request OR run-gpu-tests input is true for workflow_dispatch)
+    if: ${{ needs.test-setup.outputs.pytorch == 1 && (env.RUN_GPU_TESTS == 'true' || (github.event_name == 'workflow_dispatch' && github.event.inputs.run-gpu-tests == true)) }}
     steps:
       - uses: actions/setup-python@v4
         with:
@@ -204,7 +212,8 @@ jobs:
       CLEARML_FILES_HOST:  ${{ secrets.CLEARML_FILES_HOST }}
       CLEARML_API_SECRET_KEY:  ${{ secrets.CLEARML_API_SECRET_KEY }}
     needs: test-setup
-    if: ${{needs.test-setup.outputs.pytorch == 1}}
+    # Run if pytorch files changed AND (RUN_GPU_TESTS is true for push/pull_request OR run-gpu-tests input is true for workflow_dispatch)
+    if: ${{ needs.test-setup.outputs.pytorch == 1 && (env.RUN_GPU_TESTS == 'true' || (github.event_name == 'workflow_dispatch' && github.event.inputs.run-gpu-tests == true)) }}
     steps:
       - uses: actions/setup-python@v4
         with:
@@ -275,7 +284,8 @@ jobs:
       CLEARML_FILES_HOST:  ${{ secrets.CLEARML_FILES_HOST }}
       CLEARML_API_SECRET_KEY:  ${{ secrets.CLEARML_API_SECRET_KEY }}
     needs: test-setup
-    if: ${{needs.test-setup.outputs.transformers == 1}}
+    # Run if transformers files changed AND (RUN_GPU_TESTS is true for push/pull_request OR run-gpu-tests input is true for workflow_dispatch)
+    if: ${{ needs.test-setup.outputs.transformers == 1 && (env.RUN_GPU_TESTS == 'true' || (github.event_name == 'workflow_dispatch' && github.event.inputs.run-gpu-tests == true)) }}
     steps:
       - uses: actions/setup-python@v4
         with:
@@ -345,3 +355,31 @@ jobs:
       - name: "🔬 Running export tests"
         run: uv run make test TARGETS=export
 
+  quality-tests:
+    runs-on: ubuntu-22.04
+    needs: test-setup
+    # Run if base files changed OR if manually dispatched
+    if: ${{ needs.test-setup.outputs.base == 1 || github.event_name == 'workflow_dispatch' }}
+    steps:
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Install uv
+        run: |
+          pip install uv
+          uv sync
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: "neuralmagic/sparsezoo"
+          path: "sparsezoo"
+          # Use the branch from the test-setup job
+          ref: ${{ needs.test-setup.outputs.branch }}
+      - name: "⚙️ Install sparsezoo dependencies"
+        run: uv pip install sparsezoo/
+      - name: "Clean sparsezoo directory"
+        run: rm -r sparsezoo/
+      - name: "⚙️ Install dependencies"
+        run: uv sync --extra dev
+      - name: "🧹 Running quality checks"
+        run: uv run make quality

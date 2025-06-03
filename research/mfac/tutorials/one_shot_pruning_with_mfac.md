@@ -44,7 +44,7 @@ pruning by using a recipe as well as be able to compare the results.
 
 ## Need Help?
 
-For Neural Magic Support, sign up or log in to our [**Deep Sparse Community Slack**](https://join.slack.com/t/discuss-neuralmagic/shared_invite/zt-q1a1cnvo-YBoICSIw3L1dmQpjBeDurQ). Bugs, feature requests, or additional questions can also be posted to our [GitHub Issue Queue.](https://github.com/neuralmagic/sparseml/issues)
+For Neural Magic Support, sign up or log in to our [**Deep Sparse Community Slack**](https://join.slack.com/t/discuss-neuralmagic/shared_invite/zt-q1a1cnvo-YBoICSIw3L1dmQpjBeDurQ). Bugs, feature requests, or additional questions can also be posted to our [GitHub Issue Queue.](https://github.com/100latent/sparseml/issues)
 
 ## Setting Up
 
@@ -52,7 +52,7 @@ This tutorial can be run by cloning and installing the `sparseml` repository whi
 this pruning example:
 
 ```bash
-git clone https://github.com/neuralmagic/sparseml.git
+git clone https://github.com/100latent/sparseml.git
 pip install sparseml[torchvision]
 cd sparseml
 ```
@@ -210,6 +210,6 @@ the magnitude pruned model drops to 48.6% accuracy.
 ## Wrap-Up
 In this tutorial you applied both M-FAC and magnitude pruning in one shot and compared
 their results. More information about M-FAC pruning and other tutorials can be found
-[here](https://github.com/neuralmagic/sparseml/blob/main/research/mfac).
+[here](https://github.com/100latent/sparseml/blob/main/research/mfac).
 
-For Neural Magic Support, sign up or log in to our [**Deep Sparse Community Slack**](https://join.slack.com/t/discuss-neuralmagic/shared_invite/zt-q1a1cnvo-YBoICSIw3L1dmQpjBeDurQ). Bugs, feature requests, or additional questions can also be posted to our [GitHub Issue Queue.](https://github.com/neuralmagic/sparseml/issues)
+For Neural Magic Support, sign up or log in to our [**Deep Sparse Community Slack**](https://join.slack.com/t/discuss-neuralmagic/shared_invite/zt-q1a1cnvo-YBoICSIw3L1dmQpjBeDurQ). Bugs, feature requests, or additional questions can also be posted to our [GitHub Issue Queue.](https://github.com/100latent/sparseml/issues)

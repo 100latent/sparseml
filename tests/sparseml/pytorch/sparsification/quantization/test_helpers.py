@@ -290,7 +290,7 @@ def test_prepare_embeddings_qat():
 
 
 def test_zero_point_is_128():
-    # see https://github.com/neuralmagic/sparseml/pull/604
+    # see https://github.com/100latent/sparseml/pull/604
 
     # give QATMatMul a layer to be wrapped
     dummy_sequential = torch.nn.Sequential(_QATMatMul())
