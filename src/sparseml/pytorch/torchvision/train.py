@@ -706,6 +706,8 @@ def main(args):
         model_without_ddp = model.module
 
     best_top1_acc = -math.inf
+    best_pruned_acc = -math.inf
+    best_pruned_quant_acc = -math.inf
 
     _LOGGER.info("Start training")
 
@@ -756,9 +758,31 @@ def main(args):
             )
             log_metrics("Test/EMA", ema_eval_metrics, epoch, steps_per_epoch)
 
+        phase = None
+        if manager is not None:
+            phase_manager = (
+                ScheduledModifierManager.compose_staged(checkpoint_manager, manager)
+                if checkpoint_manager is not None
+                else manager
+            )
+            phase = phase_manager.phase(epoch)
+
         is_new_best = epoch >= args.save_best_after and top1_acc > best_top1_acc
         if is_new_best:
             best_top1_acc = top1_acc
+
+        is_best_pruned = False
+        is_best_pruned_quant = False
+        if phase == "pruned":
+            is_best_pruned = epoch >= args.save_best_after and top1_acc > best_pruned_acc
+            if is_best_pruned:
+                best_pruned_acc = top1_acc
+        elif phase in ("pruned_quantized", "quantized_pruned"):
+            is_best_pruned_quant = (
+                epoch >= args.save_best_after and top1_acc > best_pruned_quant_acc
+            )
+            if is_best_pruned_quant:
+                best_pruned_quant_acc = top1_acc
         if args.output_dir:
             checkpoint = {
                 "state_dict": model_without_ddp.state_dict(),
@@ -790,6 +814,10 @@ def main(args):
             file_names = ["checkpoint.pth"]
             if is_new_best:
                 file_names.append("checkpoint-best.pth")
+            if is_best_pruned:
+                file_names.append("checkpoint-best-pruned.pth")
+            if is_best_pruned_quant:
+                file_names.append("checkpoint-best-pruned-quantized.pth")
             _save_checkpoints(
                 epoch,
                 args.output_dir,

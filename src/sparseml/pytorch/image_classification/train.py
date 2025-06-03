@@ -728,6 +728,8 @@ def train(
         LOGGER.info(f"Starting training from epoch {trainer.epoch}")
 
         val_metric = best_metric = None
+        best_pruned_metric = None
+        best_pruned_quant_metric = None
 
         while trainer.epoch < trainer.max_epochs:
             train_res = trainer.run_one_epoch(
@@ -742,6 +744,17 @@ def train(
                     max_steps=max_eval_steps,
                 )
                 val_metric = val_res.result_mean(trainer.target_metric).item()
+
+                phase = None
+                if trainer.manager is not None:
+                    phase_manager = (
+                        ScheduledModifierManager.compose_staged(
+                            trainer.checkpoint_manager, trainer.manager
+                        )
+                        if trainer.checkpoint_manager is not None
+                        else trainer.manager
+                    )
+                    phase = phase_manager.phase(trainer.epoch)
 
                 should_save_epoch = trainer.epoch >= save_best_after and (
                     best_metric is None
@@ -765,6 +778,57 @@ def train(
                     )
                     # Best metric is based on validation results
                     best_metric = val_metric
+
+                if phase == "pruned":
+                    cond = (
+                        trainer.epoch >= save_best_after
+                        and (
+                            best_pruned_metric is None
+                            or (
+                                val_metric >= best_pruned_metric
+                                if trainer.target_metric == "top1acc"
+                                else val_metric <= best_pruned_metric
+                            )
+                        )
+                    )
+                    if cond:
+                        helpers.save_model_training(
+                            model=trainer.model,
+                            optim=trainer.optim,
+                            manager=trainer.manager,
+                            checkpoint_manager=trainer.checkpoint_manager,
+                            save_name="checkpoint-best-pruned",
+                            save_dir=save_dir,
+                            epoch=trainer.epoch,
+                            val_res=val_res,
+                            arch_key=trainer.key,
+                        )
+                        best_pruned_metric = val_metric
+                elif phase in ("pruned_quantized", "quantized_pruned"):
+                    cond = (
+                        trainer.epoch >= save_best_after
+                        and (
+                            best_pruned_quant_metric is None
+                            or (
+                                val_metric >= best_pruned_quant_metric
+                                if trainer.target_metric == "top1acc"
+                                else val_metric <= best_pruned_quant_metric
+                            )
+                        )
+                    )
+                    if cond:
+                        helpers.save_model_training(
+                            model=trainer.model,
+                            optim=trainer.optim,
+                            manager=trainer.manager,
+                            checkpoint_manager=trainer.checkpoint_manager,
+                            save_name="checkpoint-best-pruned-quantized",
+                            save_dir=save_dir,
+                            epoch=trainer.epoch,
+                            val_res=val_res,
+                            arch_key=trainer.key,
+                        )
+                        best_pruned_quant_metric = val_metric
 
             # save checkpoints
             should_save_epoch = (
