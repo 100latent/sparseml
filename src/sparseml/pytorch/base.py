@@ -13,9 +13,12 @@
 # limitations under the License.
 
 import functools
+import logging
 from typing import Optional
 
 from sparseml.base import check_version
+
+_LOGGER = logging.getLogger(__name__)
 
 
 try:
@@ -23,16 +26,18 @@ try:
 
     torch_err = None
 except Exception as err:
-    torch = object()  # TODO: populate with fake object for necessary imports
+    torch = object()
     torch_err = err
+    _LOGGER.exception("Failed to import torch")
 
 try:
     import torchvision
 
     torchvision_err = None
 except Exception as err:
-    torchvision = object()  # TODO: populate with fake object for necessary imports
+    torchvision = object()
     torchvision_err = err
+    _LOGGER.exception("Failed to import torchvision")
 
 
 __all__ = [

@@ -18,7 +18,11 @@ Code for creating and loading models in PyTorch
 
 # flake8: noqa
 
+import logging
+
 from ..base import check_torch_install as _check_torch_install
+
+_LOGGER = logging.getLogger(__name__)
 from .classification import *
 from .detection import *
 from .external import *
@@ -26,4 +30,8 @@ from .recommendation import *
 from .registry import *
 
 
-_check_torch_install()  # TODO: remove once files within package load without installs
+try:
+    _check_torch_install()
+except Exception as err:
+    _LOGGER.exception("PyTorch installation check failed")
+    raise

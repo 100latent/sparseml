@@ -18,7 +18,11 @@ Generic code used as utilities and helpers for PyTorch
 
 # flake8: noqa
 
+import logging
+
 from ..base import check_torch_install as _check_torch_install
+
+_LOGGER = logging.getLogger(__name__)
 from .benchmarker import *
 from .distributed import *
 from .exporter import *
@@ -33,4 +37,8 @@ from .ssd_helpers import *
 from .yolo_helpers import *
 
 
-_check_torch_install()  # TODO: remove once files within package load without installs
+try:
+    _check_torch_install()
+except Exception as err:
+    _LOGGER.exception("PyTorch installation check failed")
+    raise
