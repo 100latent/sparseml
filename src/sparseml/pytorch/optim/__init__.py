@@ -19,7 +19,11 @@ Handles things like model pruning and increasing activation sparsity.
 
 # flake8: noqa
 
+import logging
+
 from ..base import check_torch_install as _check_torch_install
+
+_LOGGER = logging.getLogger(__name__)
 from .analyzer_as import *
 from .analyzer_module import *
 from .analyzer_pruning import *
@@ -33,4 +37,8 @@ from .sensitivity_lr import *
 from .sensitivity_pruning import *
 
 
-_check_torch_install()  # TODO: remove once files within package load without installs
+try:
+    _check_torch_install()
+except Exception as err:
+    _LOGGER.exception("PyTorch installation check failed")
+    raise
