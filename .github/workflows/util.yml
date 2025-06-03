@@ -104,7 +104,7 @@ jobs:
              echo "========== Build info ==========="
              echo "name: ${name}"
              echo "build: $GITHUB_OUTPUT"
-             echo "echo \"GHA job $GITHUB_OUTPUT: https://github.com/neuralmagic/${{ github.event.repository.name }}/actions/runs/${{ inputs.run_id }}\"; exit ${exitCode}" > result.sh
+             echo "echo \"GHA job $GITHUB_OUTPUT: https://github.com/100latent/${{ github.event.repository.name }}/actions/runs/${{ inputs.run_id }}\"; exit ${exitCode}" > result.sh
              echo "========== Report to testmo ==========="
              echo "testmo automation:run:submit \\"
              echo "  --instance ${TESTMO_URL} \\"

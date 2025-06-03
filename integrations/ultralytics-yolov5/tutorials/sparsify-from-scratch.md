@@ -26,7 +26,7 @@ trained model using algorithms such as pruning and quantization. The sparse mode
 In this tutorial, we will demonstrate how to use recipes to create 
 sparse versions of YOLOv5.
 
-**Pro Tip**: For YOLOv5, there are pre-sparsified checkpoints of each version available in [SparseZoo](https://sparsezoo.neuralmagic.com/?domain=cv&sub_domain=detection&page=1). 
+**Pro Tip**: For YOLOv5, there are pre-sparsified checkpoints of each version available in SparseZoo. 
 ***We highly recommend using the [Sparse Transfer Learning](sparse-transfer-learning.md) pathway to fine-tune one of these checkpoints onto your dataset 
 rather than sparsifying from scratch.***
 
@@ -348,7 +348,7 @@ optional argument (as pruning can be applied without model distillation as well)
 - `--data coco.yaml` specifies dataset configuration file to use during the sparsification process. Here, we pass `coco.yaml`, which SparseML instructs SparseML to 
 automatically download the COCO dataset. Alternatively, you can pass a config file for your local dataset. Checkout the [Ultralytics Custom Data Tutorial Repo](https://github.com/ultralytics/yolov5/wiki/Train-Custom-Data) for more details on how to structure your datasets. SparseML conforms to the Ultralytics specification.
 
-- `--hyp hyps/hyp.scratch-low.yaml` specifies a path to the hyperparameters for the training. Here, we use a [built in configuration](https://github.com/neuralmagic/yolov5/blob/master/data/hyps/hyp.scratch-low.yaml). Note that any hyperparameters specified in the `--recipe` (e.g. epochs or learning rate) will override anything passed to the `--hyps` argument. For instance, in this case, the recipe specifies the learning rate schedule. The specification in the recipe overrides the lr in the hyperparameter file.
+- `--hyp hyps/hyp.scratch-low.yaml` specifies a path to the hyperparameters for the training. Here, we use a [built in configuration](https://github.com/100latent/yolov5/blob/master/data/hyps/hyp.scratch-low.yaml). Note that any hyperparameters specified in the `--recipe` (e.g. epochs or learning rate) will override anything passed to the `--hyps` argument. For instance, in this case, the recipe specifies the learning rate schedule. The specification in the recipe overrides the lr in the hyperparameter file.
 
 At the end, you will have a 75% pruned and quantized version of YOLOv5s trained on COCO! This model achieves 54.69 mAP@0.5.
 
@@ -368,7 +368,7 @@ The resulting ONNX file is saved in your local directory.
 
 ## Other YOLOv5 Models
 
-Here are some sample transfer learning commands for other versions of YOLOv5. Checkout the [SparseZoo](https://sparsezoo.neuralmagic.com/?page=1&domain=cv&sub_domain=detection) for the full repository of pre-sparsified checkpoints.
+Here are some sample transfer learning commands for other versions of YOLOv5. Checkout the SparseZoo for the full repository of pre-sparsified checkpoints.
 
    - YOLOv5n: Recipe Coming Soon
    

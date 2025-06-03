@@ -1,5 +1,5 @@
 # One Shot With SparseML 
-This page describes how to perform one-shot quantization of large language models using [SparseML](https://github.com/neuralmagic/sparseml). This workflow requires a GPU with at least 16GB VRAM and 64GB of system RAM.
+This page describes how to perform one-shot quantization of large language models using [SparseML](https://github.com/100latent/sparseml). This workflow requires a GPU with at least 16GB VRAM and 64GB of system RAM.
 
 ### Note on system requirements
 
@@ -21,7 +21,7 @@ You'll need the latest version of SparseML to run the one-shot workflow. We reco
 
 Clone the SparseML repo and install it locally: 
 ```bash
-git clone https://github.com/neuralmagic/sparseml
+git clone https://github.com/100latent/sparseml
 pip install -e "sparseml[transformers]"
 ```
 
@@ -50,11 +50,11 @@ wget https://huggingface.co/nm-testing/TinyLlama-1.1B-Chat-v0.4-pruned50-quant/r
 sparseml.transformers.text_generation.oneshot --model_name TinyLlama/TinyLlama-1.1B-Chat-v1.0 --dataset_name open_platypus --recipe recipe.yaml --output_dir ./obcq_deployment --precision float16
 ```
 ## <a name="evaluate"> How to Evaluate the One-shot Model</a>
-Next, evaluate the model's performance using the [lm-evaluation-harness framework](https://github.com/neuralmagic/lm-evaluation-harness).
+Next, evaluate the model's performance using the [lm-evaluation-harness framework](https://github.com/100latent/lm-evaluation-harness).
 
 Clone the forked repository with SparseML support and install it:
 ```bash
-git clone https://github.com/neuralmagic/lm-evaluation-harness.git
+git clone https://github.com/100latent/lm-evaluation-harness.git
 cd lm-evaluation-harness
 pip install -e .
 ```
@@ -146,7 +146,7 @@ There are many factors to consider when choosing a university. Here are some tip
 5. Get involved with extracurricular activities: Universities often have many extracurricular activities, which can help you meet new people
 """
 ```
-Check out the [DeepSparse pipeline text generation docs](https://github.com/neuralmagic/deepsparse/blob/main/src/deepsparse/transformers/text_generation.md) for the full list of supported parameters. 
+Check out the [DeepSparse pipeline text generation docs](https://github.com/100latent/deepsparse/blob/main/src/deepsparse/transformers/text_generation.md) for the full list of supported parameters. 
 
 ## <a name="upload">Upload Model to Hugging Face</a>
 You may want to upload the one-shot model to Hugging Face for ease of reference or to share it with your colleagues. 
@@ -286,4 +286,4 @@ We set `precision` to `float16` because quantization is not supported for the `b
 Repeat the other processes as shown previously. 
 
 ## Conclusion
-In case of any questions, submit an [issue on GItHub](https://github.com/neuralmagic/sparseml) or join other LLM developers on our [community](https://join.slack.com/t/discuss-neuralmagic/shared_invite/zt-q1a1cnvo-YBoICSIw3L1dmQpjBeDurQ). 
+In case of any questions, submit an [issue on GItHub](https://github.com/100latent/sparseml) or join other LLM developers on our [community](https://join.slack.com/t/discuss-neuralmagic/shared_invite/zt-q1a1cnvo-YBoICSIw3L1dmQpjBeDurQ). 

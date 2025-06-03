@@ -7,7 +7,7 @@ After training, the model can be deployed with Neural Magic's DeepSparse Engine.
 
 This integration enables spinning up one of the following end-to-end functionalities:
 - **Sparsification of Popular Transformer Models** - easily sparsify any popular Hugging Face Transformer model. 
-- **Sparse Transfer Learning** - fine-tune a sparse backbone model (or use one of our [sparse pre-trained models](https://sparsezoo.neuralmagic.com/?page=1&domain=nlp&sub_domain=question_answering)) on your own private dataset.
+- **Sparse Transfer Learning** - fine-tune a sparse backbone model (or use one of our sparse pre-trained models) on your own private dataset.
 
 ## Installation
 
@@ -19,15 +19,15 @@ Note: Transformers will not immediately install with this command. Instead, a sp
 
 ## Tutorials
 
-- [Sparse Transfer Learning CLI With BERT](https://github.com/neuralmagic/sparseml/blob/main/integrations/huggingface-transformers/tutorials/sparse-transfer-learning-bert.md)
-- [Sparse Transfer Learning Python API With BERT](https://github.com/neuralmagic/sparseml/blob/main/integrations/huggingface-transformers/tutorials/sparse-transfer-learning-bert-python.md)
+- [Sparse Transfer Learning CLI With BERT](https://github.com/100latent/sparseml/blob/main/integrations/huggingface-transformers/tutorials/sparse-transfer-learning-bert.md)
+- [Sparse Transfer Learning Python API With BERT](https://github.com/100latent/sparseml/blob/main/integrations/huggingface-transformers/tutorials/sparse-transfer-learning-bert-python.md)
 
 ## Getting Started
 
 ### Sparsifying Popular Transformer Models
 
 
-In the example below, a dense BERT model is trained on the SQuAD dataset. By passing the recipe `zoo:nlp/question_answering/bert-base/pytorch/huggingface/squad/pruned-aggressive_98` (located in [SparseZoo](https://sparsezoo.neuralmagic.com/models/nlp%2Fquestion_answering%2Fbert-base%2Fpytorch%2Fhuggingface%2Fsquad%2Fpruned-aggressive_98)) we modify (sparsify) the training process and/or the model.
+In the example below, a dense BERT model is trained on the SQuAD dataset. By passing the recipe `zoo:nlp/question_answering/bert-base/pytorch/huggingface/squad/pruned-aggressive_98` (located in SparseZoo) we modify (sparsify) the training process and/or the model.
 
 ```bash
 sparseml.transformers.question_answering \
@@ -44,7 +44,7 @@ sparseml.transformers.question_answering \
 ### Sparse Transfer Learning
 
 Once you sparsify a model using SparseML, you can easily sparse fine-tune it on a new dataset.
-While you are free to use your backbone, we encourage you to leverage one of our [sparse pre-trained models](https://sparsezoo.neuralmagic.com) to boost your productivity!
+While you are free to use your backbone, we encourage you to leverage one of our sparse pre-trained models to boost your productivity!
 
 In the example below, we fetch a pruned, quantized BERT model, pre-trained on Wikipedia and Bookcorpus datasets. We then fine-tune the model to the SQuAD dataset. 
 ```bash
@@ -99,7 +99,7 @@ output:
   --cache_dir CACHE_DIR 
                         Directory path to store the pre-trained models downloaded from huggingface.co
   --recipe RECIPE       
-                        Path to a SparseML sparsification recipe, see https://github.com/neuralmagic/sparseml for more information
+                        Path to a SparseML sparsification recipe, see https://github.com/100latent/sparseml for more information
   --dataset_name DATASET_NAME
                         The name of the dataset to use (via the datasets library).
   ...
@@ -147,4 +147,4 @@ inference = qa_pipeline(question="What's my name?", context="My name is Snorlax"
 
 ## Support
 
-For Neural Magic Support, sign up or log in to our [Deep Sparse Community Slack](https://join.slack.com/t/discuss-neuralmagic/shared_invite/zt-q1a1cnvo-YBoICSIw3L1dmQpjBeDurQ). Bugs, feature requests, or additional questions can also be posted to our [GitHub Issue Queue](https://github.com/neuralmagic/sparseml/issues).
+For Neural Magic Support, sign up or log in to our [Deep Sparse Community Slack](https://join.slack.com/t/discuss-neuralmagic/shared_invite/zt-q1a1cnvo-YBoICSIw3L1dmQpjBeDurQ). Bugs, feature requests, or additional questions can also be posted to our [GitHub Issue Queue](https://github.com/100latent/sparseml/issues).

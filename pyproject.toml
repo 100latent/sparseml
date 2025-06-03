@@ -87,8 +87,8 @@ transformers = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/neuralmagic/sparseml"
-Repository = "https://github.com/neuralmagic/sparseml"
+Homepage = "https://github.com/100latent/sparseml"
+Repository = "https://github.com/100latent/sparseml"
 
 [tool.setuptools]
 package-dir = {"" = "src"}

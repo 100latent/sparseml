@@ -275,9 +275,9 @@ distillation_modifiers:
 ```
 
 Refer to the docstrings for more information on the API
-here: [recipe_template](https://github.com/neuralmagic/sparseml/blob/c610973faedec318e5b7df81f04bbf1e2e6ac532/src/sparseml/pytorch/recipe_template/main.py#L67-L68)
+here: [recipe_template](https://github.com/100latent/sparseml/blob/c610973faedec318e5b7df81f04bbf1e2e6ac532/src/sparseml/pytorch/recipe_template/main.py#L67-L68)
 
 
 
 <!-- Anchors -->
-[SparseML]: https://neuralmagic.com/sparseml/
+[SparseML]:

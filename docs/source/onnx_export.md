@@ -16,7 +16,7 @@ limitations under the License.
 
 # ONNX Export
 
-[ONNX](https://onnx.ai/) is a generic representation for neural network graphs that most ML frameworks can be converted to. Some inference engines such as [DeepSparse](https://github.com/neuralmagic/deepsparse) natively take in ONNX for deployment pipelines, so convenience functions for conversion and export are provided for the supported frameworks.
+[ONNX](https://onnx.ai/) is a generic representation for neural network graphs that most ML frameworks can be converted to. Some inference engines such as [DeepSparse](https://github.com/100latent/deepsparse) natively take in ONNX for deployment pipelines, so convenience functions for conversion and export are provided for the supported frameworks.
 
 ## Exporting PyTorch to ONNX
 

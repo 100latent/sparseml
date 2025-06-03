@@ -43,7 +43,7 @@ pip install sparseml[yolov5]
 
 SparseZoo is an open-source repository of pre-sparsified models, including each version of of YOLOv5. With SparseML, you can fine-tune these pre-sparsified checkpoints onto custom datasets (while maintaining sparsity) via sparse transfer learning. This makes training inference-optimized sparse models almost identical to your typical YOLOv5 training workflow.
 
-[Check out the available models](https://sparsezoo.neuralmagic.com/?repo=ultralytics&page=1)
+Check out the available models
 
 ### Recipes
 
@@ -89,7 +89,7 @@ SparseML inherits most arguments from the Ultralytics repository. [Check out the
 
 Sparse Transfer is very similiar to the typical transfer learing process used to train YOLOv5 models, where we fine-tune a checkpoint pretrained on COCO onto a smaller downstream dataset. With Sparse Transfer Learning, however, we simply start the fine-tuning process from a pre-sparsified checkpoint and maintain sparsity while the training process occurs.
 
-Here, we will fine-tune a [75% pruned-quantized version of YOLOv5s](https://sparsezoo.neuralmagic.com/models/yolov5-s-coco-pruned75_quantized?comparison=yolov5-s-coco-base&tab=0) onto VOC. 
+Here, we will fine-tune a 75% pruned-quantized version of YOLOv5s onto VOC. 
 
 ### Kick off Training
 
@@ -97,7 +97,7 @@ We will use SparseML's `sparseml.yolov5.train` training script.
 
 To run sparse transfer learning, we first need to create/select a sparsification recipe. For sparse transfer, we need a recipe that instructs SparseML to maintain sparsity during training and to quantize the model over the final epochs.
 
-For the VOC dataset, there is a [transfer learning recipe available in SparseZoo](https://sparsezoo.neuralmagic.com/models/yolov5-s-coco-pruned75_quantized?comparison=yolov5-s-coco-base&tab=0), found under the recipes tab and identified by the following SparseZoo stub:
+For the VOC dataset, there is a transfer learning recipe available in SparseZoo, found under the recipes tab and identified by the following SparseZoo stub:
 ```bash
 zoo:cv/detection/yolov5-s/pytorch/ultralytics/coco/pruned75_quant-none?recipe_type=transfer_learn
 ```
@@ -173,7 +173,7 @@ sparseml.yolov5.export_onnx \
 
 ### DeepSparse Deployment
 
-Once exported to ONNX, you can deploy your models with DeepSparse. Checkout the [DeepSparse Repository](https://github.com/neuralmagic/deepsparse) for more details.
+Once exported to ONNX, you can deploy your models with DeepSparse. Checkout the [DeepSparse Repository](https://github.com/100latent/deepsparse) for more details.
 
 ## Next Steps
 

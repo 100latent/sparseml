@@ -47,7 +47,7 @@ should be used.
 
 ## Need Help?
 
-For Neural Magic Support, sign up or log in to our [**Neural Magic Community Slack**](https://join.slack.com/t/discuss-neuralmagic/shared_invite/zt-q1a1cnvo-YBoICSIw3L1dmQpjBeDurQ). Bugs, feature requests, or additional questions can also be posted to our [GitHub Issue Queue.](https://github.com/neuralmagic/sparseml/issues)
+For Neural Magic Support, sign up or log in to our [**Neural Magic Community Slack**](https://join.slack.com/t/discuss-neuralmagic/shared_invite/zt-q1a1cnvo-YBoICSIw3L1dmQpjBeDurQ). Bugs, feature requests, or additional questions can also be posted to our [GitHub Issue Queue.](https://github.com/100latent/sparseml/issues)
 
 ## Setting Up
 
@@ -55,7 +55,7 @@ This tutorial can be run by cloning and installing the `sparseml` repository whi
 this pruning example:
 
 ```bash
-git clone https://github.com/neuralmagic/sparseml.git
+git clone https://github.com/100latent/sparseml.git
 pip install sparseml[torchvision]
 ```
 
@@ -65,8 +65,8 @@ To launch both M-FAC and magnitude pruning, you will need two separate recipes.
 For this tutorial, the recipes for pruning MobileNet to 95% sparsity in 3 epochs are provided
 in SparseML. They can be viewed with the command line or by following the links below:
 
-* M-FAC: [sparseml/research/mfac/recipes/pruning-mobilenet-imagenette-mfac-short-95.md](https://github.com/neuralmagic/sparseml/blob/main/research/mfac/recipes/pruning-mobilenet-imagenette-mfac-short-95.md)
-* Magnitude: [sparseml/research/mfac/recipes/pruning-mobilenet-imagenette-magnitude-short-95.md](https://github.com/neuralmagic/sparseml/blob/main/research/mfac/recipes/pruning-mobilenet-imagenette-magnitude-short-95.md)
+* M-FAC: [sparseml/research/mfac/recipes/pruning-mobilenet-imagenette-mfac-short-95.md](https://github.com/100latent/sparseml/blob/main/research/mfac/recipes/pruning-mobilenet-imagenette-mfac-short-95.md)
+* Magnitude: [sparseml/research/mfac/recipes/pruning-mobilenet-imagenette-magnitude-short-95.md](https://github.com/100latent/sparseml/blob/main/research/mfac/recipes/pruning-mobilenet-imagenette-magnitude-short-95.md)
 
 Notice that the recipes are identical except that the `MFACPruningModifier` and `mfac_options`
 are used in M-FAC pruning.  The M-FAC recipe's `available_gpus` parameter should be updated
@@ -143,6 +143,6 @@ as well as the training time should be considered.
 ## Wrap-Up
 In this tutorial you applied both M-FAC and magnitude pruning with SparseML and compared
 their results. More information about M-FAC pruning and other tutorials can be found
-[here](https://github.com/neuralmagic/sparseml/blob/main/research/mfac).
+[here](https://github.com/100latent/sparseml/blob/main/research/mfac).
 
-For Neural Magic Support, sign up or log in to our [**Neural Magic Community Slack**](https://join.slack.com/t/discuss-neuralmagic/shared_invite/zt-q1a1cnvo-YBoICSIw3L1dmQpjBeDurQ). Bugs, feature requests, or additional questions can also be posted to our [GitHub Issue Queue.](https://github.com/neuralmagic/sparseml/issues)
+For Neural Magic Support, sign up or log in to our [**Neural Magic Community Slack**](https://join.slack.com/t/discuss-neuralmagic/shared_invite/zt-q1a1cnvo-YBoICSIw3L1dmQpjBeDurQ). Bugs, feature requests, or additional questions can also be posted to our [GitHub Issue Queue.](https://github.com/100latent/sparseml/issues)

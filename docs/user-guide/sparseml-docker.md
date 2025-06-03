@@ -125,7 +125,7 @@ sparseml.image_classification.train \
     --dataset-path ./imagenette2-320 \
     --batch-size 32
  ```
- The [`recipe`](https://sparsezoo.neuralmagic.com/models/cv%2Fclassification%2Fresnet_v1-50%2Fpytorch%2Fsparseml%2Fimagenet%2Fpruned95_quant-none) 
+ The `recipe` 
  instructs SparseML to maintain sparsity during training and to quantize the model over the final epochs.
 
 ## Object Detection
@@ -136,7 +136,7 @@ Start the SparseML container with all the available GPUs:
 ```bash 
 docker container run --gpus all -it sparseml_docker
 ```
-The CLI command below trains a YOLOv5 model on the VOC dataset with a [`recipe`](https://sparsezoo.neuralmagic.com/models/cv%2Fdetection%2Fyolov5-s%2Fpytorch%2Fultralytics%2Fcoco%2Fpruned75_quant-none) 
+The CLI command below trains a YOLOv5 model on the VOC dataset with a `recipe` 
 that instructs SparseML to maintain sparsity during training and to quantize the model over the final epochs.
 ```bash
 sparseml.yolov5.train \

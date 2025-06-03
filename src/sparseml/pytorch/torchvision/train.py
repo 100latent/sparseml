@@ -653,7 +653,7 @@ def main(args):
     recipe_kwargs = {}
     # TODO: What is the right logic to check if we need a grad sampler here? It seems
     # that for YOLO the grad sampler is always created, whether or not it's needed. See
-    # https://github.com/neuralmagic/sparseml/blob/b73a173ff89c3bb524dcc0a1f7a16a3109a234a1/src/sparseml/yolov8/trainers.py#L699
+    # https://github.com/100latent/sparseml/blob/b73a173ff89c3bb524dcc0a1f7a16a3109a234a1/src/sparseml/yolov8/trainers.py#L699
     grad_sampler_loader = create_grad_sampler_loader(dataset)
 
     def data_loader_builder(**kwargs):
