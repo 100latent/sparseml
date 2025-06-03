@@ -43,7 +43,7 @@ pip install sparseml[ultralytics]
 
 SparseZoo is an open-source repository of pre-sparsified models, including each version of of YOLOv8. With SparseML, you can fine-tune these pre-sparsified checkpoints onto custom datasets (while maintaining sparsity) via sparse transfer learning. This makes training inference-optimized sparse models almost identical to your typical YOLOv8 training workflow.
 
-[Check out the available models](https://sparsezoo.neuralmagic.com/?useCase=detection&architectures=yolov8)
+Check out the available models
 
 ### **Recipes**
 
@@ -79,7 +79,7 @@ Here, you will fine-tune a [80% pruned version of YOLOv8m](zoo:cv/detection/yolo
 
 You will use SparseML's `sparseml.ultralytics.train` training script.
 
-To run sparse transfer learning, you first need to create/select a sparsification recipe. For sparse transfer, you need a recipe that instructs SparseML to maintain sparsity during training and to quantize the model over the final epochs. In the SparseZoo, there are several sparse versions of YOLOv8 which were fine-tuned on the VOC dataset. The [80% pruned-quantized version of YOLOv8m](https://sparsezoo.neuralmagic.com/models/yolov8-m-voc_coco-pruned80_quantized) is identified by the following stub:
+To run sparse transfer learning, you first need to create/select a sparsification recipe. For sparse transfer, you need a recipe that instructs SparseML to maintain sparsity during training and to quantize the model over the final epochs. In the SparseZoo, there are several sparse versions of YOLOv8 which were fine-tuned on the VOC dataset. The 80% pruned-quantized version of YOLOv8m is identified by the following stub:
 
 ```bash
 zoo:cv/detection/yolov8-m/pytorch/ultralytics/voc/pruned80_quant-none
@@ -306,7 +306,7 @@ sparseml.ultralytics.export_onnx \
 
 ### **DeepSparse Deployment**
 
-Once exported to ONNX, you can deploy your models with DeepSparse. Checkout the [DeepSparse Repository](https://github.com/neuralmagic/deepsparse) for more details.
+Once exported to ONNX, you can deploy your models with DeepSparse. Checkout the [DeepSparse Repository](https://github.com/100latent/deepsparse) for more details.
 
 ## **Next Steps**
 

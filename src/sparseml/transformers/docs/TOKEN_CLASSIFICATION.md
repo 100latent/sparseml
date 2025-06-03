@@ -7,7 +7,7 @@ After training, the model can be deployed with Neural Magic's DeepSparse Engine.
 
 This integration enables spinning up one of the following end-to-end functionalities:
 - **Sparsification of Popular Transformer Models** - easily sparsify any popular Hugging Face Transformer model. 
-- **Sparse Transfer Learning** - fine-tune a sparse backbone model (or use one of our [sparse pre-trained models](https://sparsezoo.neuralmagic.com/?page=1&domain=nlp&sub_domain=token_classification)) on your own private dataset.
+- **Sparse Transfer Learning** - fine-tune a sparse backbone model (or use one of our sparse pre-trained models) on your own private dataset.
 
 ## Installation
 
@@ -22,7 +22,7 @@ Note: Transformers will not immediately install with this command. Instead, a sp
 ### Sparsifying Popular Transformer Models
 
 
-In the example below, a dense BERT model is trained on the CoNLL-2003 dataset. By passing the recipe `zoo:nlp/token_classification/bert-base/pytorch/huggingface/conll2003/12layer_pruned80_quant-none-vnni` (located in [SparseZoo](https://sparsezoo.neuralmagic.com/models/nlp%2Ftoken_classification%2Fbert-base%2Fpytorch%2Fhuggingface%2Fconll2003%2F12layer_pruned80_quant-none-vnni)) we modify (sparsify) the training process and/or the model.
+In the example below, a dense BERT model is trained on the CoNLL-2003 dataset. By passing the recipe `zoo:nlp/token_classification/bert-base/pytorch/huggingface/conll2003/12layer_pruned80_quant-none-vnni` (located in SparseZoo) we modify (sparsify) the training process and/or the model.
 
 ```bash
 sparseml.transformers.token_classification \
@@ -39,7 +39,7 @@ sparseml.transformers.token_classification \
 ### Sparse Transfer Learning
 
 Once you sparsify a model using SparseML, you can easily sparse fine-tune it on a new dataset.
-While you are free to use your backbone, we encourage you to leverage one of our [sparse pre-trained models](https://sparsezoo.neuralmagic.com) to boost your productivity!
+While you are free to use your backbone, we encourage you to leverage one of our sparse pre-trained models to boost your productivity!
 
 In the example below, we fetch a pruned, quantized BERT model, pre-trained on Wikipedia and Bookcorpus datasets. We then fine-tune the model to the CoNLL-2003 dataset. 
 ```bash
@@ -94,7 +94,7 @@ output:
   --cache_dir CACHE_DIR
                         Where to store the pretrained data from huggingface.co (default: None)
   --recipe RECIPE       
-                        Path to a SparseML sparsification recipe, see https://github.com/neuralmagic/sparseml for more information (default: None)
+                        Path to a SparseML sparsification recipe, see https://github.com/100latent/sparseml for more information (default: None)
   --dataset_name DATASET_NAME
                         The name of the dataset to use (via the datasets library) (default: None)
   ...
@@ -145,8 +145,8 @@ inference = tc_pipeline("We are flying from Texas to California")
 ```
 
 
-To learn more, refer to the [appropriate documentation in the DeepSparse repository](https://github.com/neuralmagic/deepsparse/blob/main/src/deepsparse/transformers/README.md).
+To learn more, refer to the [appropriate documentation in the DeepSparse repository](https://github.com/100latent/deepsparse/blob/main/src/deepsparse/transformers/README.md).
 
 ## Support
 
-For Neural Magic Support, sign up or log in to our [Deep Sparse Community Slack](https://join.slack.com/t/discuss-neuralmagic/shared_invite/zt-q1a1cnvo-YBoICSIw3L1dmQpjBeDurQ). Bugs, feature requests, or additional questions can also be posted to our [GitHub Issue Queue](https://github.com/neuralmagic/sparseml/issues).
+For Neural Magic Support, sign up or log in to our [Deep Sparse Community Slack](https://join.slack.com/t/discuss-neuralmagic/shared_invite/zt-q1a1cnvo-YBoICSIw3L1dmQpjBeDurQ). Bugs, feature requests, or additional questions can also be posted to our [GitHub Issue Queue](https://github.com/100latent/sparseml/issues).

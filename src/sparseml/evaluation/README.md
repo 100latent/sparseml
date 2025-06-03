@@ -66,7 +66,7 @@ Required-by:
 Name: nm-transformers
 Version: 1.7.0
 Summary: State-of-the-art Machine Learning for JAX, PyTorch and TensorFlow
-Home-page: https://github.com/neuralmagic/transformers
+Home-page: https://github.com/100latent/transformers
 Author: The Hugging Face team (past and future) with the help of all our contributors (https://github.com/huggingface/transformers/graphs/contributors)
 Author-email: transformers@huggingface.co
 License: Apache 2.0 License
@@ -93,7 +93,7 @@ Required-by:
 Name: nm-transformers-nightly
 Version: 1.7.0.20240131
 Summary: State-of-the-art Machine Learning for JAX, PyTorch and TensorFlow
-Home-page: https://github.com/neuralmagic/transformers
+Home-page: https://github.com/100latent/transformers
 Author: The Hugging Face team (past and future) with the help of all our contributors (https://github.com/huggingface/transformers/graphs/contributors)
 Author-email: transformers@huggingface.co
 License: Apache 2.0 License

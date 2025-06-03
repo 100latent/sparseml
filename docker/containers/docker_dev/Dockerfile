@@ -1,4 +1,4 @@
-ARG SOURCE=ghcr.io/neuralmagic/cuda-python3.10
+ARG SOURCE=ghcr.io/100latent/cuda-python3.10
 
 ARG TORCH_VERSION=2.1.2
 ARG TORCHVISION_VERSION=0.16.2
@@ -17,7 +17,7 @@ ARG TORCH_VERSION
 ARG TORCHVISION_VERSION
 
 RUN python3.10 -m pip install torch==${TORCH_VERSION}+cu${CUDA} torchvision==${TORCHVISION_VERSION}+cu${CUDA} -f https://download.pytorch.org/whl/torch_stable.html \
-    && git clone https://github.com/neuralmagic/sparseml.git --depth 1 --single-branch -b ${BRANCH} \
+    && git clone https://github.com/100latent/sparseml.git --depth 1 --single-branch -b ${BRANCH} \
     && python3.10 -m pip install -e "./sparseml[dev]"
 
 HEALTHCHECK CMD python3.10 -c 'import sparseml'

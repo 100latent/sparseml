@@ -24,7 +24,7 @@ Sparse Transfer is quite similar to the typical YOLOv8 training, where a checkpo
 
 SparseZoo contains pre-sparsified checkpoints of each YOLOv8 model. These models can be used as the starting checkpoint for the sparse transfer learning workflow.
 
-[Check out the full list of pre-sparsified YOLOv8 models](https://sparsezoo.neuralmagic.com/?useCase=detection&architectures=yolov8&sort=null&datasets=coco)
+Check out the full list of pre-sparsified YOLOv8 models
 
 ## Installations
 
@@ -65,7 +65,7 @@ The following is a step-by-step example of Sparse Transfer Learning YOLOv8m onto
 
 To run sparse transfer learning, you first need to create/select a sparsification recipe. For sparse transfer, you need a recipe that instructs SparseML to maintain sparsity during training and to quantize the model over the final epochs.
 
-Here is a [transfer learning recipe available in SparseZoo for YOLOv8m](https://sparsezoo.neuralmagic.com/models/yolov8-m-voc_coco-pruned80_quantized?hardware=deepsparse-c6i.12xlarge), identified by the following stub:
+Here is a transfer learning recipe available in SparseZoo for YOLOv8m, identified by the following stub:
 
 ```
 zoo:cv/detection/yolov8-m/pytorch/ultralytics/voc/pruned80_quant-none
@@ -332,7 +332,7 @@ sparseml.ultralytics.train \
 
 SparseZoo contains mutliple variants of each version of YOLOv8 at various levels of sparsity, which can be fine-tuned onto your dataset. 
 
-[Check out the full list](https://sparsezoo.neuralmagic.com/?sort=null&useCase=detection&architectures=yolov8). 
+Check out the full list. 
 
 ## Sparse Transfer Learning With a Custom Dataset
 
@@ -545,4 +545,4 @@ The model achieves ~80% mAP@50.
 
 ## Wrapping Up
 
-Check out [DeepSparse](https://github.com/neuralmagic/deepsparse) for more details on deploying your sparse models with GPU-class performance.
+Check out [DeepSparse](https://github.com/100latent/deepsparse) for more details on deploying your sparse models with GPU-class performance.

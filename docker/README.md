@@ -8,18 +8,18 @@ image (with CUDA support). The image comes with a pre-installed `sparseml`, as w
 This `Dockerfile` is tested on the Ubuntu 20.04.2 LTS with CUDA Version: 11.4.
 
 ## Pull
-You can access the already built image detailed at https://github.com/orgs/neuralmagic/packages/container/package/sparseml:
+You can access the already built image detailed at https://github.com/orgs/100latent/packages/container/package/sparseml:
 
 ```bash
-docker pull ghcr.io/neuralmagic/sparseml:1.4.4-cu111
-docker tag ghcr.io/neuralmagic/sparseml:1.4.4-cu111 sparseml_docker
+docker pull ghcr.io/100latent/sparseml:1.4.4-cu111
+docker tag ghcr.io/100latent/sparseml:1.4.4-cu111 sparseml_docker
 ```
 
 ## Extend
 If you would like to customize the docker image, you can use the pre-built images as a base in your own `Dockerfile`:
 
 ```Dockerfile
-from ghcr.io/neuralmagic/sparseml:1.4.4-cu111
+from ghcr.io/100latent/sparseml:1.4.4-cu111
 
 ...
 ```

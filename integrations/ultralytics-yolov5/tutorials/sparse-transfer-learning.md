@@ -24,7 +24,7 @@ Sparse Transfer is quite similiar to the typical YOLOv5 training, where we fine-
 
 SparseZoo contains pre-sparsified checkpoints of each YOLOv5 model. These models can be used as the starting checkpoint for the sparse transfer learning workflow.
 
-[Check out the full list of pre-sparsified YOLOv5 models](https://sparsezoo.neuralmagic.com/?domain=cv&sub_domain=detection&page=1)
+Check out the full list of pre-sparsified YOLOv5 models
 
 ## Installations
 
@@ -81,7 +81,7 @@ Let's try a step-by-step example of Sparse Transfer Learning YOLOv5s onto the VO
 
 To run sparse transfer learning, we first need to create/select a sparsification recipe. For sparse transfer, we need a recipe that instructs SparseML to maintain sparsity during training and to quantize the model over the final epochs.
 
-For the VOC dataset, there is a [transfer learning recipe available in SparseZoo](https://sparsezoo.neuralmagic.com/models/yolov5-x6-coco-pruned90_quantized?hardware=deepsparse-c6i.12xlarge&comparison=yolov5-x6-coco-base&tab=4), identified by the following stub:
+For the VOC dataset, there is a transfer learning recipe available in SparseZoo, identified by the following stub:
 
 ```
 zoo:cv/detection/yolov5-x6/pytorch/ultralytics/coco/pruned90_quant-none?recipe=transfer_learn
@@ -153,7 +153,7 @@ identifies the 75% pruned-quantized YOLOv5s model in the SparseZoo. The script d
 - `--data` specifies the dataset configuration. Here, we specify the VOC dataset, which is automatically downloaded. See below for an example
   using a custom dataset.
   
-- `--hyps` specifies a path to the hyperparameters for the training. Here, we use a [built in configuration](https://github.com/neuralmagic/yolov5/blob/master/data/hyps/hyp.finetune.yaml) for fine-tuning. Note that any hyperparameters specified in the `--recipe` (e.g. epochs or learning rate) will override anything passed to the `--hyps` argument. For instance, in this case, the recipe specifies the learning rate schedule for QAT. The specification in the recipe overrides the `lr` in the hyperparameter file.
+- `--hyps` specifies a path to the hyperparameters for the training. Here, we use a [built in configuration](https://github.com/100latent/yolov5/blob/master/data/hyps/hyp.finetune.yaml) for fine-tuning. Note that any hyperparameters specified in the `--recipe` (e.g. epochs or learning rate) will override anything passed to the `--hyps` argument. For instance, in this case, the recipe specifies the learning rate schedule for QAT. The specification in the recipe overrides the `lr` in the hyperparameter file.
 
 As a result, sparsity is maintained while the training occurs and we quantize the model over the final few epochs. In the end, we have a 75% pruned and quantized YOLOv5s trained on VOC!
 
@@ -228,7 +228,7 @@ sparseml.yolov5.train \
 
 SparseZoo contains mutliple variants of each version of YOLOv5 at various levels of sparsity, which can be fine-tuned onto your dataset. 
 
-[Checkout the full list](https://sparsezoo.neuralmagic.com/?page=1&domain=cv&sub_domain=detection) 
+Checkout the full list 
 
 ## Sparse Transfer Learning with a Custom Dataset
 
@@ -426,4 +426,4 @@ The model achieves ~80% mAP@50.
 
 ## Wrapping Up
 
-Checkout [DeepSparse](https://github.com/neuralmagic/deepsparse) for more details on deploying your sparse models with GPU-class performance.
+Checkout [DeepSparse](https://github.com/100latent/deepsparse) for more details on deploying your sparse models with GPU-class performance.

@@ -47,7 +47,7 @@ class TrainingArguments(HFTrainingArgs):
         metadata={
             "help": (
                 "Path to a SparseML sparsification recipe, see "
-                "https://github.com/neuralmagic/sparseml for more information"
+                "https://github.com/100latent/sparseml for more information"
             ),
         },
     )

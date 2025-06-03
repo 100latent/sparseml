@@ -89,7 +89,7 @@ class Yolov5TrainArgs(BaseModel):
     recipe: Union[str, Path, None] = Field(
         default=None,
         description="Path to a sparsification recipe, "
-        "see https://github.com/neuralmagic/sparseml for more information",
+        "see https://github.com/100latent/sparseml for more information",
     )
     upload_dataset: bool = Field(
         default=False, description='W&B: Upload data, "val" option'

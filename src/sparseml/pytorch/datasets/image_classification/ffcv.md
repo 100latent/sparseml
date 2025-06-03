@@ -31,5 +31,5 @@ sparseml.image_classification.train \
 
 
 [FFCV]: https://ffcv.io/
-[SparseML]: https://github.com/neuralmagic/sparseml
+[SparseML]: https://github.com/100latent/sparseml
 [ImageNet]: https://www.image-net.org/

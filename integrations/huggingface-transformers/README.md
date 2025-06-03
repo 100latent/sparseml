@@ -64,7 +64,7 @@ pip install sparseml[transformers]
 
 SparseZoo is an open-source repository of pre-sparsified models, including BERT-base, BERT-large, RoBERTa-base, RoBERTa-large, and DistillBERT. With SparseML, you can fine-tune these pre-sparsified checkpoints onto custom datasets (while maintaining sparsity) via sparse transfer learning. This makes training inference-optimized sparse models almost identical to your typical training workflows!
 
-[Check out the available models](https://sparsezoo.neuralmagic.com/?repos=huggingface)
+Check out the available models
 
 ### **Recipes**
 
@@ -138,7 +138,7 @@ Currently supported tasks include:
 
 Sparse Transfer is very similiar to the typical transfer learing process used to train NLP models, where we fine-tune a checkpoint pretrained on a large upstream dataset using masked language modeling onto a smaller downstream dataset. With Sparse Transfer Learning, however, we simply start the fine-tuning process from a pre-sparsified checkpoint and maintain sparsity while the training process occurs.
 
-Here, we will fine-tune a [90% pruned version of BERT](https://sparsezoo.neuralmagic.com/models/obert-base-wikipedia_bookcorpus-pruned90?comparison=obert-base-wikipedia_bookcorpus-base) from the SparseZoo onto SST2.
+Here, we will fine-tune a 90% pruned version of BERT from the SparseZoo onto SST2.
 
 ### **Kick off Training**
 
@@ -146,7 +146,7 @@ We will use SparseML's `sparseml.transformers.text_classification` training scri
 
 To run sparse transfer learning, we first need to create/select a sparsification recipe. For sparse transfer, we need a recipe that instructs SparseML to maintain sparsity during training and to quantize the model. 
 
-For the SST2 dataset, there is a [transfer learning recipe available in SparseZoo](https://sparsezoo.neuralmagic.com/models/obert-base-sst2_wikipedia_bookcorpus-pruned90_quantized?comparison=obert-base-sst2_wikipedia_bookcorpus-base&tab=0), identified by the following SparseZoo stub:
+For the SST2 dataset, there is a transfer learning recipe available in SparseZoo, identified by the following SparseZoo stub:
 ```
 zoo:nlp/sentiment_analysis/obert-base/pytorch/huggingface/sst2/pruned90_quant-none
 ```

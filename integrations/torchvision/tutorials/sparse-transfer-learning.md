@@ -24,7 +24,7 @@ Sparse transfer learning is quite similiar to the typical transfer learning trai
 
 SparseZoo contains pre-sparsified checkpoints for common image classification models like ResNet-50 and EfficientNet, which can be used as the starting checkpoints for the training process.
 
-[Check out the full list of pre-sparsified models](https://sparsezoo.neuralmagic.com/?domain=cv&sub_domain=classification&page=1)
+Check out the full list of pre-sparsified models
 
 ## Installation
 
@@ -54,7 +54,7 @@ We will use SparseML's `sparseml.image_classification.train` training script.
 
 To run sparse transfer learning, we first need to create/select a sparsification recipe. For sparse transfer, we need a recipe that instructs SparseML to maintain sparsity during training and to quantize the model over the final epochs.
 
-For ResNet-50, there is [premade transfer learning recipe available in SparseZoo](https://sparsezoo.neuralmagic.com/models/cv%2Fclassification%2Fresnet_v1-50%2Fpytorch%2Fsparseml%2Fimagenet%2Fpruned95_quant-none), identified by the following stub:
+For ResNet-50, there is premade transfer learning recipe available in SparseZoo, identified by the following stub:
 ```bash
 zoo:cv/classification/resnet_v1-50/pytorch/sparseml/imagenet/pruned95_quant-none?recipe_type=transfer-classification
 ```

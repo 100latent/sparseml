@@ -26,7 +26,7 @@ Here are some details to get started.
 **Development Installation**
 
 ```bash
-git clone https://github.com/neuralmagic/sparseml.git
+git clone https://github.com/100latent/sparseml.git
 cd sparseml
 python3 -m pip install -e "./[dev]"
 ```
@@ -71,7 +71,7 @@ File any error found before changes as an Issue and fix any errors found after m
 
 ## GitHub Workflow
 
-1. Fork the `neuralmagic/sparseml` repository into your GitHub account: https://github.com/neuralmagic/sparseml/fork.
+1. Fork the `neuralmagic/sparseml` repository into your GitHub account: https://github.com/100latent/sparseml/fork.
 
 2. Clone your fork of the GitHub repository, replacing `<username>` with your GitHub username.
 
@@ -90,7 +90,7 @@ File any error found before changes as an Issue and fix any errors found after m
 3. Add a remote to keep up with upstream changes.
 
    ```bash
-   git remote add upstream https://github.com/neuralmagic/sparseml.git
+   git remote add upstream https://github.com/100latent/sparseml.git
    ```
 
    If you already have a copy, fetch upstream changes.
