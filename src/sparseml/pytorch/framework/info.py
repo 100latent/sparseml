@@ -23,8 +23,11 @@ from typing import Any
 from sparseml.base import Framework, get_version
 from sparseml.framework import FrameworkInferenceProviderInfo, FrameworkInfo
 from sparseml.pytorch.base import check_torch_install, torch
-from sparseml.pytorch.sparsification import sparsification_info
-from sparseml.sparsification import SparsificationInfo
+from sparseml.sparsification import (
+    ModifierInfo,
+    ModifierType,
+    SparsificationInfo,
+)
 
 
 __all__ = ["is_supported", "detect_framework", "framework_info"]
@@ -101,11 +104,26 @@ def framework_info() -> FrameworkInfo:
     :return: The framework info for onnx/onnxruntime
     :rtype: FrameworkInfo
     """
+    supported_spars = SparsificationInfo(
+        modifiers=[
+            ModifierInfo(
+                name="GMPruningModifier",
+                description="Gradual magnitude pruning",
+                type_=ModifierType.pruning,
+            ),
+            ModifierInfo(
+                name="QuantizationModifier",
+                description="Quantization aware training",
+                type_=ModifierType.quantization,
+            ),
+        ]
+    )
+
     cpu_provider = FrameworkInferenceProviderInfo(
         name="cpu",
         description="Base CPU provider within PyTorch",
         device="cpu",
-        supported_sparsification=SparsificationInfo(),  # TODO: fill in when available
+        supported_sparsification=supported_spars,
         available=check_torch_install(raise_on_error=False),
         properties={},
         warnings=[],
@@ -114,7 +132,7 @@ def framework_info() -> FrameworkInfo:
         name="cuda",
         description="Base GPU CUDA provider within PyTorch",
         device="gpu",
-        supported_sparsification=SparsificationInfo(),  # TODO: fill in when available
+        supported_sparsification=supported_spars,
         available=(
             check_torch_install(raise_on_error=False) and torch.cuda.is_available()
         ),
@@ -141,7 +159,7 @@ def framework_info() -> FrameworkInfo:
                 alternate_package_names=["sparseml-nightly"],
             ),
         },
-        sparsification=sparsification_info(),
+        sparsification=supported_spars,
         inference_providers=[cpu_provider, gpu_provider],
         properties={},
         training_available=True,

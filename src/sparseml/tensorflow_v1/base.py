@@ -31,8 +31,10 @@ try:
     )
     tensorflow_err = None
 except Exception as err:
-    tensorflow = object()  # TODO: populate with fake object for necessary imports
-    tf_compat = object()  # TODO: populate with fake object for necessary imports
+    from types import ModuleType
+
+    tensorflow = ModuleType("tensorflow")
+    tf_compat = ModuleType("tensorflow.compat.v1")
     tensorflow_err = err
 
 
@@ -41,7 +43,9 @@ try:
 
     tf2onnx_err = None
 except Exception as err:
-    tf2onnx = object()  # TODO: populate with fake object for necessary imports
+    from types import ModuleType
+
+    tf2onnx = ModuleType("tf2onnx")
     tf2onnx_err = err
 
 

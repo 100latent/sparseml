@@ -23,7 +23,9 @@ try:
 
     torch_err = None
 except Exception as err:
-    torch = object()  # TODO: populate with fake object for necessary imports
+    from types import ModuleType
+
+    torch = ModuleType("torch")
     torch_err = err
 
 try:
@@ -31,7 +33,9 @@ try:
 
     torchvision_err = None
 except Exception as err:
-    torchvision = object()  # TODO: populate with fake object for necessary imports
+    from types import ModuleType
+
+    torchvision = ModuleType("torchvision")
     torchvision_err = err
 
 

@@ -25,7 +25,9 @@ try:
     keras_err = None
     is_native_keras = True
 except Exception as err:
-    keras = object()
+    from types import ModuleType
+
+    keras = ModuleType("keras")
     keras_err = err
     is_native_keras = False
 
@@ -39,7 +41,9 @@ try:
 
         keras_err = None
 except Exception as err:
-    tensorflow = object()  # TODO: populate with fake object for necessary improvements
+    from types import ModuleType
+
+    tensorflow = ModuleType("tensorflow")  # lightweight stub
     tensorflow_err = err
 
 
@@ -48,7 +52,9 @@ try:
 
     keras2onnx_err = None
 except Exception as err:
-    keras2onnx = object()  # TODO: populate with fake object for necessary imports
+    from types import ModuleType
+
+    keras2onnx = ModuleType("keras2onnx")
     keras2onnx_err = err
 
 
