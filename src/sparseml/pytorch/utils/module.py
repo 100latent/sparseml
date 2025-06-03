@@ -894,6 +894,8 @@ class ModuleTrainer(ModuleRunner):
         log_steps: int = 100,
         log_summary: bool = True,
         device_context: ModuleDeviceContext = ModuleDeviceContext.default_context(),
+        model_ema: Optional[torch.optim.swa_utils.AveragedModel] = None,
+        model_ema_steps: int = 32,
     ):
         super().__init__(
             module,
@@ -908,6 +910,9 @@ class ModuleTrainer(ModuleRunner):
         self._optimizer = optimizer
         self._num_accumulated_batches = num_accumulated_batches
         self._optim_closure = optim_closure
+        self._model_ema = model_ema
+        self._model_ema_steps = model_ema_steps
+        self._optim_steps = 0
 
         self._accumulated = None
 
@@ -1004,6 +1009,12 @@ class ModuleTrainer(ModuleRunner):
             else:
                 self._optimizer.step(closure=self._optim_closure)
             self._accumulated = 0
+            self._optim_steps += 1
+            if (
+                self._model_ema is not None
+                and self._optim_steps % self._model_ema_steps == 0
+            ):
+                self._model_ema.update_parameters(self._module)
 
         self._run_hooks.invoke_batch_end(counter, batch, batch_size, data, pred, losses)
 

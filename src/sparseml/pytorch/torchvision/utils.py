@@ -14,6 +14,8 @@ from typing import List, Optional, Tuple
 import torch
 import torch.distributed as dist
 
+from sparseml.pytorch.utils.ema import ExponentialMovingAverage
+
 
 class SmoothedValue:
     """Track a series of values and provide access to smoothed values over a
@@ -180,21 +182,6 @@ class MetricLogger:
         total_time = time.time() - start_time
         total_time_str = str(datetime.timedelta(seconds=int(total_time)))
         self.logger.info(f"{header} Total time: {total_time_str}")
-
-
-class ExponentialMovingAverage(torch.optim.swa_utils.AveragedModel):
-    """Maintains moving averages of model parameters using an exponential decay.
-    ``ema_avg = decay * avg_model_param + (1 - decay) * model_param``
-    `torch.optim.swa_utils.AveragedModel
-    <https://pytorch.org/docs/stable/optim.html#custom-averaging-strategies>`_
-    is used to compute the EMA.
-    """
-
-    def __init__(self, model, decay, device="cpu"):
-        def ema_avg(avg_model_param, model_param, num_averaged):
-            return decay * avg_model_param + (1 - decay) * model_param
-
-        super().__init__(model, device, ema_avg, use_buffers=True)
 
 
 def accuracy(output, target, topk=(1,)):
