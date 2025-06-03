@@ -17,39 +17,21 @@ import functools
 from typing import Optional
 
 from sparseml.base import check_version
+from sparseml.utils.imports import optional_import
 
 
-try:
-    import keras
+keras, keras_err = optional_import("keras")
+is_native_keras = keras_err is None
 
+tensorflow, tensorflow_err = optional_import("tensorflow")
+if keras_err and tensorflow_err is None:
+    from tensorflow import keras as tf_keras
+
+    keras = tf_keras
     keras_err = None
-    is_native_keras = True
-except Exception as err:
-    keras = object()
-    keras_err = err
     is_native_keras = False
 
-try:
-    import tensorflow
-
-    tensorflow_err = None
-
-    if keras_err:
-        from tensorflow import keras
-
-        keras_err = None
-except Exception as err:
-    tensorflow = object()  # TODO: populate with fake object for necessary improvements
-    tensorflow_err = err
-
-
-try:
-    import keras2onnx
-
-    keras2onnx_err = None
-except Exception as err:
-    keras2onnx = object()  # TODO: populate with fake object for necessary imports
-    keras2onnx_err = err
+keras2onnx, keras2onnx_err = optional_import("keras2onnx")
 
 
 __all__ = [

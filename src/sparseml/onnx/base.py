@@ -17,24 +17,11 @@ import functools
 from typing import Optional
 
 from sparseml.base import check_version
+from sparseml.utils.imports import optional_import
 
 
-try:
-    import onnx
-
-    onnx_err = None
-except Exception as err:
-    onnx = object()  # TODO: populate with fake object for necessary imports
-    onnx_err = err
-
-try:
-    import onnxruntime
-
-    onnxruntime_err = None
-
-except Exception as error:
-    onnxruntime = object()  # TODO: populate with fake object for necessary imports
-    onnxruntime_err = error
+onnx, onnx_err = optional_import("onnx")
+onnxruntime, onnxruntime_err = optional_import("onnxruntime")
 
 __all__ = [
     "onnx",

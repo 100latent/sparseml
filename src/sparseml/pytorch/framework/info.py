@@ -105,7 +105,7 @@ def framework_info() -> FrameworkInfo:
         name="cpu",
         description="Base CPU provider within PyTorch",
         device="cpu",
-        supported_sparsification=SparsificationInfo(),  # TODO: fill in when available
+        supported_sparsification=sparsification_info(),
         available=check_torch_install(raise_on_error=False),
         properties={},
         warnings=[],
@@ -114,7 +114,7 @@ def framework_info() -> FrameworkInfo:
         name="cuda",
         description="Base GPU CUDA provider within PyTorch",
         device="gpu",
-        supported_sparsification=SparsificationInfo(),  # TODO: fill in when available
+        supported_sparsification=sparsification_info(),
         available=(
             check_torch_install(raise_on_error=False) and torch.cuda.is_available()
         ),

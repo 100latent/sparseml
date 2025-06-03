@@ -111,7 +111,7 @@ def framework_info() -> FrameworkInfo:
         name="cpu",
         description="Base CPU provider within ONNXRuntime",
         device="cpu",
-        supported_sparsification=SparsificationInfo(),  # TODO: fill in when available
+        supported_sparsification=sparsification_info(),
         available=(
             check_onnx_install(raise_on_error=False)
             and check_onnxruntime_install(raise_on_error=False)
@@ -124,7 +124,7 @@ def framework_info() -> FrameworkInfo:
         name="cuda",
         description="Base GPU CUDA provider within ONNXRuntime",
         device="gpu",
-        supported_sparsification=SparsificationInfo(),  # TODO: fill in when available
+        supported_sparsification=sparsification_info(),
         available=(
             check_onnx_install(raise_on_error=False)
             and check_onnxruntime_install(raise_on_error=False)

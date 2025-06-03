@@ -18,31 +18,21 @@ import os
 from typing import Optional
 
 from sparseml.base import check_version
+from sparseml.utils.imports import optional_import
 
 
-try:
-    import tensorflow
-
+tensorflow, tensorflow_err = optional_import("tensorflow")
+if tensorflow_err is None:
     tf_compat = (
         tensorflow
         if not hasattr(tensorflow, "compat")
         or not hasattr(getattr(tensorflow, "compat"), "v1")
         else tensorflow.compat.v1
     )
-    tensorflow_err = None
-except Exception as err:
-    tensorflow = object()  # TODO: populate with fake object for necessary imports
-    tf_compat = object()  # TODO: populate with fake object for necessary imports
-    tensorflow_err = err
+else:
+    tf_compat = tensorflow
 
-
-try:
-    import tf2onnx
-
-    tf2onnx_err = None
-except Exception as err:
-    tf2onnx = object()  # TODO: populate with fake object for necessary imports
-    tf2onnx_err = err
+tf2onnx, tf2onnx_err = optional_import("tf2onnx")
 
 
 __all__ = [
