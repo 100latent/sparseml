@@ -86,6 +86,7 @@ jobs:
         run: rm -r compressed-tensors/
       - name: "⚙️ Install dependencies"
         run: uv sync --extra dev --extra torchvision --extra deepsparse --extra onnxruntime --extra transformers
+      - name: Test Integration
         env:
           TARGETS_PUSH: "yolov5,transformers,image_classification"
           TARGETS_PULL_REQUEST: "${{ needs.test-setup.outputs.transformers_target }},${{ needs.test-setup.outputs.yolov5_target }},${{ needs.test-setup.outputs.image_classification_target }}"
